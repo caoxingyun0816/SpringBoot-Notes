@@ -1,0 +1,276 @@
+logback是一套日志框架，由log4j的优化版，由同一个作者开发，在速度和性能上都超过其他日志框架，再结合slf4j，已成为当前最流行的日志框架。
+
+Logback最常用就是在classpath定义一个lockback.xml配置文件，从而对日志进行配置输出。
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false" scan="true" scanPeriod="1 seconds">
+
+    <contextName>logback</contextName>
+
+    <property name="log.path" value="F:\\logback.log" />
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- <filter class="com.example.logback.filter.MyFilter" /> -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+              <level>ERROR</level>
+        </filter>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="file"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}.%d{yyyy-MM-dd}.zip</fileNamePattern>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%date %level [%thread] %logger{36} [%file : %line] %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <root level="debug">
+        <appender-ref ref="console" />
+        <appender-ref ref="file" />
+    </root>
+
+    <logger name="com.example.logback" level="warn" />
+
+</configuration>
+
+
+根节点configuration，有以下属性
+
+a. scan,当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true。
+
+b. scanPeriod,设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。默认的时间间隔为1分钟。
+
+c. debug,当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。
+
+contextName ，设置日志上下文名称，可以通过%contextName来打印日志上下文名称
+
+property可以用来设置变量，可以通过${name}来访问，有以下的属性
+
+a. name，用于${name}访问的key
+
+b. value，用于${name}访问的value
+
+c. file ，用于指定配置文件的路径，他的作用在于，如果你有多个配置信息的话，可以直接写在配置文件中，然后通过file引入
+
+<property file="src/main/java/chapters/configuration/variables.properties" />
+variables.properties如下
+
+log.path=F:\\demo
+log.name=mylog.log
+
+然后就直接通过${log.path}就可以访问其值
+
+d.resource作用和file一样，但是，它是可以直接从classpath路径下引入配置文件
+
+<property resource="resource.properties" />
+appender格式化日志输出节点，有俩个属性name和class，class用来指定哪种输出策略，常用就是控制台输出策略和文件输出策略。appender有以下子节点：
+
+a. filter，日志输出拦截器，可以自定义拦截器也可以用系统一些定义好的拦截器
+
+/**
+* 日志输出拦截器
+* @author liuxg
+* @date 2016年4月28日 下午3:36:23
+*/
+public class MyFilter extends Filter<ILoggingEvent> {
+
+@Override
+public FilterReply decide(ILoggingEvent event) {
+
+    if (event.getMessage().contains("sample")) {
+        return FilterReply.ACCEPT; //允许输入串
+    } else {
+        return FilterReply.DENY; //不允许输出
+    }
+
+它可以提供最大的自定义输出，如果需要用到系统定义的拦截器，例如我们用ThresholdFilter来过滤掉ERROR级别以下的日志不输出到文件中
+
+<filter   class="ch.qos.logback.classic.filter.ThresholdFilter">
+<level>ERROR</level>
+</filter>
+1
+2
+3
+b. encoder和pattern节点组合用于具体输出的日志格式
+
+c. file节点用来指明日志文件的输出位置，可以是绝对路径也可以是相对路径
+
+d. rollingPolicy日志回滚策略，在这里我们用了TimeBasedRollingPolicy，基于时间的回滚策略,有以下子节点
+
+fileNamePattern，必要节点，可以用来设置指定时间的日志归档，例如我们上面的例子是每天将日志归档成一个zip包
+
+maxHistory ,可选节点，控制保留的归档文件的最大数量，超出数量就删除旧文件,，例如设置为30的话，则30天之后，旧的日志就会被删除
+
+totalSizeCap，可选节点，用来指定日志文件的上限大小，例如设置为3GB的话，那么到了这个值，就会删除旧的日志
+
+除了用TimeBasedRollingPolicy策略，我们还可以用SizeAndTimeBasedRollingPolicy，配置子节点的maxFileSize来指定单个日志文件的大小
+
+<appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+<file>mylog.txt</file>
+<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+  <!-- 每天一归档 -->
+  <fileNamePattern>mylog-%d{yyyy-MM-dd}.%i.txt</fileNamePattern>
+   <!-- 单个日志文件最多 100MB, 60天的日志周期，最大不能超过20GB -->
+   <maxFileSize>100MB</maxFileSize>    
+   <maxHistory>60</maxHistory>
+   <totalSizeCap>20GB</totalSizeCap>
+</rollingPolicy>
+<encoder>
+  <pattern>%msg%n</pattern>
+</encoder>
+</appender>
+
+root节点，必选节点，用来指定最基础的日志输出级别，他有俩个自己点可以用来应用appender，格式化日志输出
+
+<root level="debug">
+<appender-ref ref="console" />
+<appender-ref ref="file" />
+</root>
+logger节点，可选节点，用来具体指明包的日志输出级别，它将会覆盖root的输出级别
+
+<logger name="com.example.logback" level="warn" />
+
+
+  <!--分环境部署？-->
+        <!--<springProfile name="dev">-->
+            <!--<fileNamePattern>/logs/dev/myconfig.%d{yyyy-MM-dd}.log</fileNamePattern>-->
+        <!--</springProfile>-->
+        <!--<springProfile name="prod">-->
+            <!--<fileNamePattern>/logs/prod/myconfig.%d{yyyy-MM-dd}.log</fileNamePattern>-->
+        <!--</springProfile>-->
+
+
+<configuration>      
+    <!-- %m输出的信息,%p日志级别,%t线程名,%d日期,%c类的全名,%i索引【从数字0开始递增】,,, -->      
+    <!-- appender是configuration的子节点，是负责写日志的组件。 -->  
+    <!-- ConsoleAppender：把日志输出到控制台 -->  
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">      
+        <encoder>      
+            <pattern>%d %p (%file:%line\)- %m%n</pattern>    
+            <!-- 控制台也要使用UTF-8，不要使用GBK，否则会中文乱码 -->  
+            <charset>UTF-8</charset>     
+        </encoder>      
+    </appender>      
+    <!-- RollingFileAppender：滚动记录文件，先将日志记录到指定文件，当符合某个条件时，将日志记录到其他文件 -->  
+    <!-- 以下的大概意思是：1.先按日期存日志，日期变了，将前一天的日志文件名重命名为XXX%日期%索引，新的日志仍然是sys.log -->  
+    <!--             2.如果日期没有发生变化，但是当前日志的文件大小超过1KB时，对当前日志进行分割 重命名-->  
+    <appender name="syslog"      
+        class="ch.qos.logback.core.rolling.RollingFileAppender">      
+        <File>log/sys.log</File>      
+        <!-- rollingPolicy:当发生滚动时，决定 RollingFileAppender 的行为，涉及文件移动和重命名。 -->  
+        <!-- TimeBasedRollingPolicy： 最常用的滚动策略，它根据时间来制定滚动策略，既负责滚动也负责出发滚动 -->  
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">      
+            <!-- 活动文件的名字会根据fileNamePattern的值，每隔一段时间改变一次 -->  
+            <!-- 文件名：log/sys.2017-12-05.0.log -->  
+            <fileNamePattern>log/sys.%d.%i.log</fileNamePattern>   
+            <!-- 每产生一个日志文件，该日志文件的保存期限为30天 -->   
+            <maxHistory>30</maxHistory>     
+            <timeBasedFileNamingAndTriggeringPolicy  class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">      
+                <!-- maxFileSize:这是活动文件的大小，默认值是10MB,本篇设置为1KB，只是为了演示 -->    
+                <maxFileSize>1KB</maxFileSize>      
+            </timeBasedFileNamingAndTriggeringPolicy>      
+        </rollingPolicy>      
+        <encoder>      
+            <!-- pattern节点，用来设置日志的输入格式 -->  
+            <pattern>      
+                %d %p (%file:%line\)- %m%n    
+            </pattern>      
+            <!-- 记录日志的编码 -->  
+            <charset>UTF-8</charset> <!-- 此处设置字符集 -->     
+        </encoder>      
+    </appender>      
+    <!-- 控制台输出日志级别 -->  
+    <root level="info">      
+        <appender-ref ref="STDOUT" />      
+    </root>      
+    <!-- 指定项目中某个包，当有日志操作行为时的日志记录级别 -->  
+    <!-- com.appley为根包，也就是只要是发生在这个根包下面的所有日志操作行为的权限都是DEBUG -->  
+    <!-- 级别依次为【从高到低】：FATAL > ERROR > WARN > INFO > DEBUG > TRACE  -->  
+    <logger name="com.appleyk" level="DEBUG">      
+        <appender-ref ref="syslog" />      
+    </logger>      
+</configuration>    
+
+
+
+
+
+多环境日志输出
+据不同环境（prod:生产环境，test:测试环境，dev:开发环境）来定义不同的日志输出，在 logback-spring.xml中使用 springProfile 节点来定义，方法如下：
+
+文件名称不是logback.xml，想使用spring扩展profile支持，要以logback-spring.xml命名
+
+<!-- 测试环境+开发环境. 多个使用逗号隔开. -->
+<springProfile name="test,dev">
+    <logger name="com.dudu.controller" level="info" />
+</springProfile>
+<!-- 生产环境. -->
+<springProfile name="prod">
+    <logger name="com.dudu.controller" level="ERROR" />
+</springProfile>
+可以启动服务的时候指定 profile （如不指定使用默认），如指定prod 的方式为： 
+java -jar xxx.jar –spring.profiles.active=prod 
+关于多环境配置可以参考 
+
+为什么Spring Boot推荐使用logback-spring.xml来替代logback.xml来配置logback日志的问题分析
+
+logback.xml加载早于application.properties，所以如果你在logback.xml使用了变量时，而恰好这个变量是写在application.properties时，那么就会获取不到，只要改成logback-spring.xml就可以解决。
+
+将spring-boot-starter-logging的包在spring-boot-starter中直接排除掉，从spring boot整体上进行替换，就可以解决这个问题：
+
+    <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+这个提示信息里面，明确了告知logging有多个绑定，logback、log4j2两种实现；目前使用的是logback的绑定，这个提示信息竟然忽略了…….
+
+其实这个提示信息已经明确告知了问题出现的根源，只是当时被无意或者有意的忽略了…..
+
+
+
+文件输出
+默认情况下，Spring Boot将日志输出到控制台，不会写到日志文件。如果要编写除控制台输出之外的日志文件，则需在application.properties中设置logging.file或logging.path属性。
+
+logging.file，设置文件，可以是绝对路径，也可以是相对路径。如：logging.file=my.log
+logging.path，设置目录，会在该目录下创建spring.log文件，并写入日志内容，如：logging.path=/var/log
+如果只配置 logging.file，会在项目的当前路径下生成一个 xxx.log 日志文件。
+如果只配置 logging.path，在 /var/log文件夹生成一个日志文件为 spring.log
+
+注：二者不能同时使用，如若同时使用，则只有logging.file生效
+
+
+自定义日志配置
+由于日志服务一般都在ApplicationContext创建前就初始化了，它并不是必须通过Spring的配置文件控制。因此通过系统属性和传统的Spring Boot外部配置文件依然可以很好的支持日志控制和管理。
+
+根据不同的日志系统，你可以按如下规则组织配置文件名，就能被正确加载：
+
+Logback：logback-spring.xml, logback-spring.groovy, logback.xml, logback.groovy
+Log4j：log4j-spring.properties, log4j-spring.xml, log4j.properties, log4j.xml
+Log4j2：log4j2-spring.xml, log4j2.xml
+JDK (Java Util Logging)：logging.properties
+Spring Boot官方推荐优先使用带有-spring的文件名作为你的日志配置（如使用logback-spring.xml，而不是logback.xml），命名为logback-spring.xml的日志配置文件，spring boot可以为它添加一些spring boot特有的配置项（下面会提到）。
+
+上面是默认的命名规则，并且放在src/main/resources下面即可。
+
+如果你即想完全掌控日志配置，但又不想用logback.xml作为Logback配置的名字，可以在application.properties配置文件里面通过logging.config属性指定自定义的名字：
+
+logging.config=classpath:logging-config.xml
+
+

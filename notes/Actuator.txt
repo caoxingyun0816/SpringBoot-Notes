@@ -1,0 +1,216 @@
+http://www.ityouknow.com/springboot/2018/02/06/spring-boot-actuator.html
+Spring Boot的Actuator。它提供了很多生产级的特性，比如监控和度量Spring Boot应用程序。Actuator的这些特性可以通过众多REST端点、远程shell和JMX获得。
+
+1揭秘Actuator的端点
+Spring Boot Actuator的关键特性是在应用程序里提供众多Web端点，通过它们了解应用程序
+运行时的内部状况。
+HTTP方法	路 径		描 述
+GET  /autoconfig		提供了一份自动配置报告，记录哪些自动配置条件通过了，哪些没通过
+GET  /configprops		描述配置属性（包含默认值）如何注入Bean 
+GET  /beans			描述应用程序上下文里全部的Bean，以及它们的关系
+GET  /dump			获取线程活动的快照
+GET  /env			获取全部环境属性
+GET  /env/{name}		 根据名称获取特定的环境属性值
+GET  /health			报告应用程序的健康指标，这些值由HealthIndicator的实现类提供
+GET  /info			获取应用程序的定制信息，这些信息由info打头的属性提供
+GET  /mappings			 描述全部的URI路径，以及它们和控制器（包含Actuator端点）的映射关系
+GET  /metrics			报告各种应用程序度量信息，比如内存用量和HTTP请求计数
+GET  /metrics/{name}		报告指定名称的应用程序度量值
+POST  /shutdown			关闭应用程序，要求endpoints.shutdown.enabled设置为true
+GET  /trace			提供基本的HTTP请求跟踪信息（时间戳、HTTP头等）
+
+
+/bean  获取bean
+{ 
+"bean": "readingListController",     //beanId
+"dependencies": [                       //Bean作用域
+"readingListRepository", 
+"amazonProperties" 
+], 
+"resource": "URL [jar:file:/../readinglist-0.0.1-SNAPSHOT.jar!    //依赖
+/readinglist/ReadingListController.class]", 
+"scope": "singleton",				//作用域
+"type": "readinglist.ReadingListController"    //类型
+}, 
+
+bean：Spring应用程序上下文中的Bean名称或ID。
+ resource：.class文件的物理位置，通常是一个URL，指向构建出的JAR文件。这会随着
+应用程序的构建和运行方式发生变化。
+ dependencies：当前Bean注入的Bean ID列表。
+ scope：Bean的作用域（通常是单例，这也是默认作用域）。
+ type：Bean的Java类型。
+
+
+
+/autoconfig端点能告
+诉你为什么会有这个Bean，或者为什么没有这个Bean。
+
+{ 
+"positiveMatches": { 
+... 
+"DataSourceAutoConfiguration.JdbcTemplateConfiguration 
+#jdbcTemplate": [ 
+{ 
+"condition": "OnBeanCondition",
+"message": "@ConditionalOnMissingBean (types: 
+org.springframework.jdbc.core.JdbcOperations; 
+SearchStrategy: all) found no beans" 
+} 
+], 
+... 
+}, 
+"negativeMatches": { 
+"ActiveMQAutoConfiguration": [ 
+{ 
+"condition": "OnClassCondition", 
+"message": "required @ConditionalOnClass classes not found: 
+javax.jms.ConnectionFactory,org.apache.activemq 
+.ActiveMQConnectionFactory" 
+} 
+], 
+... 
+} 
+} 
+
+在positiveMatches里，你会看到一个条件，决定Spring Boot是否自动配置JdbcTemplate
+Bean。匹配到的名 字是DataSourceAutoConfiguration.JdbcTemplateConfiguration#
+jdbcTemplate，这是运用了条件的具体配置类。条件类型是OnBeanCondition，意味着条件
+的输出是由某个Bean的存在与否来决定的。在本例中，message属性已经清晰地表明了该条件是
+检查是否有JdbcOperations类型（JbdcTemplate实现了该接口）的Bean存在。如果没有配置
+这种Bean，则条件成立，创建一个JdbcTemplateBean。
+
+/env端点会生成应用程序可用的所有环境属性的列表
+无论这些属性是否用到。这其中包括
+环境变量、JVM属性、命令行参数，以及applicaition.properties或application.yml文件提供的
+
+{ 
+"applicationConfig: [classpath:/application.yml]": { 
+"amazon.associate_id": "habuma-20", 
+"error.whitelabel.enabled": false, 
+"logging.level.root": "INFO" 
+}, 
+"profiles": [], 
+"servletContextInitParams": {}, 
+"systemEnvironment": {  
+JVM系统属性
+Amazon配置
+服务器配置
+"BOOK_HOME": "/Users/habuma/Projects/BookProjects/walls6", 
+"GRADLE_HOME": "/Users/habuma/.sdkman/gradle/current", 
+"GRAILS_HOME": "/Users/habuma/.sdkman/grails/current", 
+"GROOVY_HOME": "/Users/habuma/.sdkman/groovy/current", 
+... 
+}, 
+"systemProperties": { 
+"PID": "682", 
+"file.encoding": "UTF-8", 
+"file.encoding.pkg": "sun.io", 
+"file.separator": "/", 
+... 
+} 
+} 
+
+
+/mappings端点
+提供mapping 的列表
+
+
+运行中的应用程序有诸多计数器和度量器，/metric
+
+分 类  前 缀  报告内容
+垃圾收集器  gc.*  已经发生过的垃圾收集次数，以及垃圾收集所耗费的时间，适用于标记-清理
+垃圾收集器和并行垃圾收集器（数据源自java.lang.management. 
+GarbageCollectorMXBean）
+内存  mem.*  分配给应用程序的内存数量和空闲的内存数量（数据源自java.lang. 
+Runtime）
+堆  heap.*  当前内存用量（数据源自java.lang.management.MemoryUsage）
+类加载器  classes.*  JVM类加载器加载与卸载的类的数量（数据源自java.lang. management. 
+ClassLoadingMXBean）
+系统  processors、uptime 
+instance.uptime、
+systemload.average
+系统信息，例如处理器数量（数据源自java.lang.Runtime）、运行时间（数
+据源自java.lang.management.RuntimeMXBean）、平均负载（数据源自
+java.lang.management.OperatingSystemMXBean）
+线程池  threads.*  线程、守护线程的数量，以及JVM启动后的线程数量峰值（数据源自
+java.lang .management.ThreadMXBean）
+数据源  datasource.*  数据源连接的数量（源自数据源的元数据，仅当Spring应用程序上下文里存
+在DataSourceBean的时候才会有这个信息）
+Tomcat会话  httpsessions.*
+Tomcat的活跃会话数和最大会话数（数据源自嵌入式Tomcat的Bean，仅在使
+用嵌入式Tomcat服务器运行应用程序时才有这个信息）
+HTTP  counter.status.*、
+gauge.response.*
+多种应用程序服务HTTP请求的度量值与计数器。
+
+
+
+连接Actuator的远程shell 
+Actuator通过REST端点提供了不少非常有用的信息。另一个深入运行中应用程序内部的方
+是使用远程shell。Spring Boot集成了CRaSH，一种能嵌入任意Java应用程序的shell。Spring 
+还扩展了CRaSH，添加了不少Spring Boot特有的命令，提供了与Actuator端点类似的功能。
+
+要使用远程shell，只需加入远程shell的起步依赖即可.
+
+<dependency> 
+<groupId>org.springframework.boot</groupId> 
+<artifactId>spring-boot-starter-remote-shell</artifactId> 
+</dependency> 
+
+
+命 令  描 述
+autoconfig
+生成自动配置说明报告，和/autoconfig端点输出的内容类似，只是把JSON换成了纯文本
+beans  列出Spring应用程序上下文里的Bean，与/beans端点输出的内容类似
+endpoint  调用Actuator端点
+metrics  显示Spring Boot的度量信息，与/metrics端点类似，但显示的是实时更新的数据
+
+
+
+定制Actuator
+实际上，Actuator有多种定制方式，包括以下五项。
+ 重命名端点。
+ 启用和禁用端点。
+ 自定义度量信息。
+ 创建自定义仓库来存储跟踪数据。
+ 插入自定义的健康指示器。
+
+修改端点ID
+
+每个Actuator端点都有一个ID用来决定端点的路径，比方说，/beans端点的默认ID就是beans。
+
+用/shutdown端点
+它会响应发往/shutdown的POST请求
+假设改为 /kill的POST请
+
+配置中改为
+
+endpoints: 
+shutdown: 
+id: kill 
+
+
+启用和禁用端点
+虽然Actuator的端点都很有用，但你不一定需要全部这些端点。默认情况下，所有端点（除
+了/shutdown）都启用
+
+
+添加自定义度量信息
+
+如果你只想打开一两个端点，那就先禁用全部端点，然后启用那几个你要的，这样更方便。
+例如，考虑如下application.yml片段：
+endpoints: 
+enabled: false 
+metrics: 
+enabled: true 
+
+
+保护Actuator端点
+使用spring security 。路径的访问需要对应的权限
+
+
+什么是Spring Boot Admin?
+Spring Boot Admin 是一个管理和监控Spring Boot 应用程序的开源软件。每个应用都认为是一个客户端，通过HTTP或者使用 Eureka注册到admin server中进行展示，Spring Boot Admin UI部分使用AngularJs将数据展示在前端。
+
+Spring Boot Admin 是一个针对spring-boot的actuator接口进行UI美化封装的监控工具。他可以：在列表中浏览所有被监控spring-boot项目的基本信息，详细的Health信息、内存信息、JVM信息、垃圾回收信息、各种配置信息（比如数据源、缓存列表和命中率）等，还可以直接修改logger的level。
+

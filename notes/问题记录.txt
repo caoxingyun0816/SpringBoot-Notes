@@ -1,0 +1,64 @@
+问题1
+thymeleaf 
+<!--没有结束符的HTML5标签解析出错的解决办法 -->
+<!-- 配置spring.thymeleaf.mode =LEGACYHTML5 -->
+<!--LEGACYHTML5需要搭配一个额外的库NekoHTML才可用 -->
+<groupId>net.sourceforge.nekohtml</groupId>
+<artifactId>nekohtml</artifactId>
+<version>1.9.22</version>
+
+问题2
+spring Security 使用时禁止了frame
+httpSecurity.headers().frameOptions().sameOrigin();//解决前端使用layui。tab嵌套iframe,在加入security之前并无异常
+//springmvc 在整合spring security时，浏览器发送请求
+//Refused to display 'url' in a frame because it set 'X-Frame-Options' to 'deny'.
+
+问题3
+无法加载frame
+layUI在js中设置的路径，需要修改。
+然后springboot 在templates中放HTML，需要通过controller访问。
+放在static下，则可以直接访问了。
+而springboot默认static文件夹之外的页面需要通过controller访问（好像是websecurity权限控制）。
+
+问题4
+LayUI
+index.html 
+后台管理系统
+左边导航栏，预留一个div
+然后在加载整个项目的时候，js自加载按钮信息，填充左边菜单栏
+菜单栏的标题和连接，都可以写在一个js数据中，然后获取填充。
+
+问题5
+spring security
+th:src和@{}这都是什么鬼。其实这是Thymeleaf的语法。@{}是引入外部资源用的。
+
+在使用spring security时，若用Thymeleaf模板
+指定 login.html为登录界面
+login.html 中登录时，提交表单时 action 用 th:acton = "@{/login}".
+退出也要使用
+@{/logout}
+这是 thymeleaf 和spring security 组合使用的写法。
+
+问题6.
+springboot 的静态资源问题
+当我们访问地址 http://localhost:8080/fengjing.jpg 的时候，显示哪张图片？
+优先级顺序为：这些目录到在src/maim/resources/ 下 META/resources > resources > static > public
+
+通过配置文件配置
+上面是使用代码来定义静态资源的映射，其实Spring Boot也为我们提供了可以直接在 application.properties（或.yml）中配置的方法。 
+配置方法如下：
+
+来定义静态资源的映射，其实Spring Boot也为我们提供了可以直接在 application.properties（或.yml）中配置的方法。 
+配置方法如下：
+
+# 默认值为 /**
+spring.mvc.static-path-pattern=
+# 默认值为 classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/ 
+spring.resources.static-locations=这里设置要指向的路径，多个使用英文逗号隔开，
+使用 spring.mvc.static-path-pattern 可以重新定义pattern，如修改为 /myres/** ，则访问static 等目录下的fengjing.jpg文件应该为 http://localhost:8080/myres/fengjing.jpg ，修改之前为 http://localhost:8080/fengjing.jpg 
+使用 spring.resources.static-locations 可以重新定义 pattern 所指向的路径，支持 classpath: 和 file: 
+
+问题7
+如果不小心引入其他jar包，
+可能在项目启动的时候报错，原因是自动配置的时候在
+classpath中找不到对应的bean。

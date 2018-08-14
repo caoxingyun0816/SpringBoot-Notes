@@ -1,0 +1,2 @@
+http://www.ityouknow.com/springboot/2018/06/03/favorites-spring-boot-2.0.html
+升级问题记录
