@@ -1,0 +1,356 @@
+1.struts2定义返回类型为json。ajax异步请求可以获取返回的数据
+<action name="cdnInjectionAction" class="com.wondertek.mam.webapp.action.CdnInjectionAction">
+			<result type="json">
+				<param name="root">resultMap</param>
+			</result>
+		</action>
+		返回类型为json，这种方式，要在action中添加resultMap的get方法，同时还要在Struts.xml文件中配置 json和Struts的拦截器，用来将返回结果转换成json
+		Struts将resultMap中的数据转化成json字符串传给前台获取，ajax异步获取数据，处理信息。
+
+2.Struts2+Jquery实现ajax并返回json类型数据
+主要实现步骤如下： 1、JSP页面使用脚本代码执行ajax请求 2、Action中查询出需要返回的数据，并转换为json类型模式数据 3、配置struts.xml文件 4、页面脚本接受并处理数据 
+
+3.Struts2获取servlet api 的一种方法
+ HttpServletResponse response=ServletActionContext.getResponse();  
+实现implements ServletRequestAware
+
+4.Struts2动态方法调用
+mam项目使用！调用动态方法。
+需要开启常量
+<constant name="struts.enable.DynamicMethodInvocation" value="true" /> 
+
+还有指定method调用动态方法。
+
+还可以使用通配符方式，推荐使用，但是可读性较差。
+
+1.指定method的方法，一个方法对应一个action，对于多个方法，需要配置多个action，不方便。
+
+2.一个action类中，有很多方法，只为该个Action 类配置一个Action id（如testAction），调用时通过！后指定方法名就可以冬动态调用了。testAction!testLogin即可。
+一个Action类一个action id   不同方法的调用，是请求的action！后的方法。 多个方法一个Action
+
+3.使用通配符的方法。
+也就是说name属性中的占位符*可以用来指定你想指定的值。第一个通配符匹配的就是属性值为{1}的，第二个通配符就是指定属性值为{2}的值。
+
+<form action="mylogin_login" method="post">
+
+<action name = "myAction_*" method={1}></action>
+
+推荐使用通配符的方法。一个Action类一个action id，不同方法的调用，是请求的action后面指定的方法，通过通配符获取。多个方法一个Action。
+
+5.struts2的传参方法
+Struts2通过拦截器机制封装了三种接收页面参数的方式：
+
+　　1.属性驱动
+
+　　2.模型驱动（有两种）
+
+　　　　Domain
+
+　　　　ModelDriven
+
+ 
+
+　　1.属性驱动：这种方式比较简单，只要你直接在页面定义变量并且符合以下两个规则，就会自动接收值。
+
+　　　　规则1：你变量的名字和页面的name属性一致
+
+　　　　规则2：生成对应的get set方式
+
+2.Domain：在Action中创建实体类的对象，并且符合以下两个规则就可以
+
+　　　　规则1：页面的那么属性写法：对象名.属性名
+
+　　　　规则2：生成get set方法
+
+　　Action写法：
+public class ParamAction2 extends ActionSupport {
+    private User user;
+    public String para2(){
+        System.out.println("用户名："+user.getUsername()+"密码"+user.getPassword());
+        return "success";
+    }
+    public User getUser() {
+        return user;
+    }
+    public void setUser(User user) {
+        this.user = user;
+    }
+}
+public class ParamAction {
+    private String username;
+    private String password;
+    public String para1(){
+        System.out.println("用户名："+username+"密码"+password);
+        return "success";
+    }
+    public String getUsername() {
+        return username;
+    }
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    public String getPassword() {
+        return password;
+    }
+    public void setPassword(String password) {
+        this.password = password;
+    }
+}
+
+实现ModelDriven接口，这个一个泛型接口，泛型中的内容就是你要接受的实体类
+
+　　　　规则1：实现ModelDriven这个接口，并实现其getModel方法
+
+　　　　规则2：提供一个空的对象供其初始化
+
+　　　　规则3：页面的名字和实体类的属性名一致
+
+/**
+ * 1.类要实现ModelDriven这个接口
+ * @author Administrator
+ *
+ */
+public class ParamAction3 implements ModelDriven<User> {
+    //2.提供一个空的对象供其初始化，一定要new出来
+    private User user =new User();
+    public String para3(){
+        System.out.println(user.getUsername()+user.getPassword());
+        return "success";
+    }
+    //3.把user返回
+    public User getModel() {
+        return user;
+    }
+}
+
+6.struts2有两种方式获取servletAPI：非IOC方式和IOC方式
+一、非IOC方式
+·struts2提供了一个ActionContext类，struts2可以通过该类来访问servletAPI
+public String execute() throws Exception {  
+        String name="admin";  
+        //获取session  
+        Map session=ActionContext.getContext().getSession();  
+        //将想要存放的值放到session域中  
+        session.put("sessionName",name);  
+        //获取request--获取的是HttpServletRequest对象的attribute  
+        Map request=(Map) ActionContext.getContext().get("request");  
+        //将值存放到request域中  
+        request.put("requestName", name);  
+        //获取application  
+        Map application=ActionContext.getContext().getApplication();  
+        //将值存入application域中  
+        application.put("applicationName", name);  
+        return null;  
+    }  
+
+ 以上获取得到的三大域都是Map类型的，比如对于request来说，我们通常喜欢获取HttpServletRequest类型的，因为这个类型的request功能要强大的多，用ActionContext也是可以获取的，而且也是我们更常用的一种方式
+/获取HttpServletRequest  
+HttpServletRequest request=(HttpServletRequest) ActionContext.getContext().get(StrutsStatics.HTTP_REQUEST);  
+//通过request获取session  
+HttpSession session=request.getSession();  
+
+通过ServletActionContext的静态方法获取
+public String execute() throws Exception {  
+        //获取HttpServletRequest  
+        HttpServletRequest request=ServletActionContext.getRequest();  
+        //通过request获取session  
+        HttpSession session=request.getSession();  
+        return null;  
+    }  
+
+7.jsp界面使用El表达式
+
+1.导入jstl标签库
+2.首先需要在页面头部声明el表达式（<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>）
+3.使用${result}获取数据
+
+8.细节问题
+1).默认加载struts.xml文件，其它名字识别不了
+
+2).extents继承的父类不能乱写，不然加载不了。
+
+
+3)<constant name="struts.action.extension" value="htl"></constant>
+后缀为htl,切记不要加‘.’,.htl；
+
+4)访问路径，如果直接对应cxy/action.htl名字，会直接访问项目名 ssh(项目名)/cxy(namespace)/action.htl(action名)
+如果是/cxy/action.htl,则会带上该jsp所在路径的路径， 例如jsp界面在 page/a.jsp下。则会访问 ssh/page/cxy/action.htl
+
+哥们关于Struts 配置文件说明，给你上一课 
+
+（1）type="dispatcher" 为默认，用于jsp页面跳转 
+<result name="success">/index.jsp</result>  
+完整的写法为： 
+<result name="success" type="dispatcher">  
+     <param name="location">/index.jsp</param>  
+</result> 
+
+
+
+
+
+（2）type="redirect" 重定向到jsp、action、外部网址 
+
+<result name="success" type="redirect">/index.jsp</result>  
+<result name="success" type="redirect">/login.do</result>  
+<result name="success" type="redirect">http://www.baidu.com</result> 
+
+
+
+重定向时带参数处理方法： 
+
+1.type="redirect"：  
+<result name="success" type="redirect">/login.do?userId=${userId }</result>  
+2.type="redirect-action"：  
+见（3） 
+
+
+
+(3)type="redirect-action" 重定向到另外一个action  
+
+<result name="success" type="redirect-action">  
+     <param name="actionName">login.do</param> 重定向action名 
+     <param name="userId">userId</param>带的参数 
+
+</result> 
+
+
+
+（4）type="chain" 用于action跳转。   
+
+
+<action name="action1" class="org.Action1">  
+     <result name="success" type="chain">action2.do</result>  
+</action>  
+<action name="action2" class="org.Action2">  
+     <result name="success">login.jsp</result>  
+</action> 
+
+
+（5）type="plaintextj" 跳转显示源代码 
+
+<result name="err" type="plaintext">  
+    <param name="location">具体的位置</param>  
+    <param name="charSet">字符规范(如GBK)</param>  
+</result> 
+
+9。国际化资源
+struts2国际化---配置国际化全局资源文件并输出国际化资源信息
+我们首先学习怎么配置国际化全局资源文件。并输出资源文件信息
+
+1.首先struts2项目搭建完毕后，我们在src文件夹下。即struts2.xml同级文件夹下创建资源文件。资源文件的名称格式为：
+
+XXX_语言_国家.properties
+
+XXX：资源文件名。能够任意定义
+
+语言、国家：必须是java所支持的语言和国家。比如：
+
+中国大陆：语言   zh   国家  CN
+
+美国：语言  en   国家 US
+
+所以我们能够这么取名：
+
+比如：itheima_zh_CN.properties
+
+itheima_en_US.properties
+
+2.创建上述的两个资源文件，然后在当中输入内容：key   和   value
+
+比如：welcome_zh_CN.properties中输入：welcome=欢迎来到北京，当中中文他们会自己主动转换为ascii码：
+
+welcome=\u6B22\u8FCE\u6765\u5230\u5317\u4EAC
+welcome_en_US.properties中输入：welcome=welcome to beijing
+
+3.然后我们在struts2.xml中配置全局资源文件
+
+<constant name="struts.custom.i18n.resources" value="XXX"></constant>
+
+这里value取值为itheima
+4.在action中我们能够通过getText("welcome")获取值
+
+在jsp中我们能够通过<s:text name="welcome"></s:text>标签获取值
+
+或者<s:textfield name="" value="" key="welcome"></s:textfield>
+
+<constant name="struts.custom.i18n.resources" value="ApplicationResources,errors" />
+
+Struts2中操作国际化
+
+1.在action类中使用
+前提:action类要继承ActionSupport类。
+getText(String name)就可以获取配置文件中对应名称的值。
+
+// I18nDemo1Action.properties 中 msg=hello world
+
+    public String execute() throws Exception {
+
+        // 得到properties文件中信息.
+
+        System.out.println(this.getText("msg"));
+        return NONE;
+    }
+
+    //结果就是 hello world
+
+2.在validation.xml文件中使用 
+<validators>
+    <field name="name">
+        <field-validator type="requiredstring">
+            <message key="nameerror"></message>
+        </field-validator>
+
+    </field>
+
+</validators>
+
+3.在jsp页面上使用
+在i18n.jsp 中加入 ：
+        <s:i18n name="cn.itcast.action.I18nDemo1Action">
+        <s:text name="msg">
+        <s:param>张三</s:param>
+        </s:text>
+        </s:i18n>
+
+<s:text name="名称"> :这里名称为对应的Action名称。
+如果没有使用<s:i18n name="">来指定，会从全局配置文件中获取。
+如果要从某一个配置文件中获取，通过name属性来指定 包名.配置文件名称
+
+
+10.Struts2的数据校验
+struts2提供的校验，也是通过拦截器实现的。
+
+action类必须继承自ActionSupport。因为需要重写一个方法 validate
+通过测试发现在action中重写的validate方法执行了。并且是在请求处理方法(execute)之前执行的。
+
+Struts2的手动校验步骤：
+
+  首先要从页面中获取对应的标签name属性的值，在动作类action中声明同名的属性，提供get和set方法;
+  要继承ActionSupport类或者实现Validateable接口；
+  重写Validateable接口的validate()方法，需要通过addFieldError(fieldName, errorMessage)方法来添加校验提示，fieldName为错误提示字段，errorMessage为错误提示信息，在jsp页面需要通过Struts2的<s:fielderror/>标签来提示添加的信息，该标签有个name属性，值为addFieldError方法中的fieldName，当添加了校验信息，Struts2框架会返回到name值为"input"的<result/>设置的视图中；
+xml校验
+
+11.拦截器(interceptor)
+
+struts2拦截器使用的是AOP思想。
+AOP的底层实现就是动态代理。
+
+拦截器采用 责任链 模式
+
+在责任链模式里,很多对象由每一个对象对其下家的引用而连接起来形成一条链。
+责任链每一个节点，都可以继续调用下一个节点，也可以阻止流程继续执行
+struts2中在struts-default.xml文件中声明了所有的拦截器。
+
+而struts2框架默认使用的是defaultStack这个拦截器栈。
+在这个拦截器栈中使用了18个拦截器。
+简单说，struts2框架在默认情况下，加载了18个拦截器。
+
+关于interceptor与Filter区别
+
+1、拦截器是基于java反射机制的，而过滤器是基于函数回调的。
+2、过滤器依赖于servlet容器，而拦截器不依赖于servlet容器。
+3、拦截器只能对Action请求起作用，而过滤器则可以对几乎所有请求起作用。
+4、拦截器可以访问Action上下文、值栈里的对象，而过滤器不能。
+5、在Action的生命周期中，拦截器可以多次调用，而过滤器只能在容器初始化时被调用一次。
+interceptor 可以在其他环境中使用，而Filter只能在Web环境中使用

@@ -1,0 +1,15 @@
+opacity 不透明；不传导；暧昧
+animate 使有生气；使活泼；鼓舞；推动
+toggle key 切换键
+schedule 计划，安排
+Digester  做摘要者；助消化食品；汇编者；蒸炼器
+multipart 多部件的
+
+enctype 编码方式编码类型
+variable 变量
+Digester 摘要
+invocation 引用点 . 装置，[计] 调用·
+
+exclude  排除；排斥；拒绝接纳；逐出
+enterprise . 企业；事业；进取心；事业心
+Actuator 执行机构；激励者；促动器

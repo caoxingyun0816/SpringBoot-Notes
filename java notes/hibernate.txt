@@ -1,0 +1,26 @@
+Temporal标签的作用很简单：
+
+如果在某类中有Date类型的属性，数据库中存储可能是'yyyy-MM-dd hh:MM:ss'
+要在查询时获得年月日，
+在该属性上标注
+@Temporal(TemporalType.DATE) 会得到形如'yyyy-MM-dd' 格式的日期。
+
+DATE ：等于java.sql.Date
+
+@Temporal(TemporalType.TIME) 会得到形如'HH:MM:SS' 格式的日期。
+
+TIME ：等于java.sql.Time 
+
+@Temporal(TemporalType.TIMESTAMP) 'yyyy-MM-dd hh:MM:ss'
+TIMESTAMP ：等于java.sql.Timestamp 
+
+@JSON(format = "yyyy-MM-dd HH:mm:ss")
+Date转化为Json数据的处理代码
+
+@JSON(format = "yyyy-MM-dd HH:mm:ss")
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "injection_time")
+	public Date getInjectionTime() {
+		return injectionTime;
+	}
+)

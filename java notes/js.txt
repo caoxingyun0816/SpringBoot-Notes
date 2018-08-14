@@ -1,0 +1,96 @@
+
+1.request
+request.getSchema()可以返回当前页面使用的协议，http 或是 https;
+
+request.getServerName()可以返回当前页面所在的服务器的名字;
+
+request.getServerPort()可以返回当前页面所在的服务器使用的端口,就是80;
+
+request.getContextPath()可以返回当前页面所在的应用的名字;
+
+
+2.<%
+%>
+jsp中表示可执行的代码块
+
+3.
+<meta> 元素可提供有关页面的元信息（meta-information），比如针对搜索引擎和更新频度的描述和关键词。
+
+<meta> 标签位于文档的头部，不包含任何内容。<meta> 标签的属性定义了与文档相关联的名称/值对。
+
+注释：<meta> 标签永远位于 head 元素内部。
+
+注释：元数据总是以名称/值的形式被成对传递的。
+
+必需的属性
+属性	值	描述
+content	some_text	定义与 http-equiv 或 name 属性相关的元信息
+可选的属性
+属性	值	描述
+http-equiv	
+content-type
+expires
+refresh
+set-cookie
+把 content 属性关联到 HTTP 头部。
+name	
+author
+description
+keywords
+generator
+revised
+others
+把 content 属性关联到一个名称。
+scheme	some_text	定义用于翻译 content 属性值的格式。
+
+
+http-equiv 属性
+http-equiv 属性为名称/值对提供了名称。并指示服务器在发送实际的文档之前先在要传送给浏览器的 MIME 文档头部包含名称/值对。
+
+当服务器向浏览器发送文档时，会先发送许多名称/值对。虽然有些服务器会发送许多这种名称/值对，但是所有服务器都至少要发送一个：content-type:text/html。这将告诉浏览器准备接受一个 HTML 文档。
+
+使用带有 http-equiv 属性的 <meta> 标签时，服务器将把名称/值对添加到发送给浏览器的内容头部。例如，添加：
+
+<meta http-equiv="charset" content="iso-8859-1">
+<meta http-equiv="expires" content="31 Dec 2008">
+这样发送到浏览器的头部就应该包含：
+
+content-type: text/html
+charset:iso-8859-1
+expires:31 Dec 2008
+
+4.
+//当页面加载完成后，自动加载该函数，由于没有值，所以会alert空
+//先加载页面，再执行js函数。
+$(function() {
+    common.showMessage($("#message").val());
+    alert($("#message").val());
+});
+
+5.springmvc 上传文件
+1）
+form enctype="multipart/form-data"
+input type = file
+2）
+配置文件中加
+文件解析器
+
+service对于图片的处理
+if (adDto.getImgFile() != null && adDto.getImgFile().getSize() > 0) {
+			String fileName = System.currentTimeMillis() + "_" + adDto.getImgFile().getOriginalFilename();
+			File file = new File(adImageSavePath + fileName);
+			File fileFolder = new File(adImageSavePath);
+			if (!fileFolder.exists()) {
+				fileFolder.mkdirs();
+			}
+			try {
+				adDto.getImgFile().transferTo(file);
+				ad.setImgFileName(fileName);
+				adDao.insert(ad);
+				return true;
+			} catch (IllegalStateException | IOException e) {
+				// TODO 需要添加日志
+				return false;
+			}
+		}
+

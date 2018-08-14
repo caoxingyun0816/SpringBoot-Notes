@@ -1,0 +1,185 @@
+启动脚本
+#! /bin/bash
+cd /opt/lmam/1.0.2/mam-admin/WEB-INF/classes
+rm struts*
+rm ApplicationResources_zh_CN.properties
+rm applicationContext-mam-init.xml
+cp /opt/lmam/tmp/WEB-INF/classes/struts*  . 
+cp /opt/lmam/tmp/WEB-INF/classes/ApplicationResources_zh_CN.properties   . 
+cp /opt/lmam/tmp/WEB-INF/classes/applicationContext-mam-init.xml   .
+cd com
+rm -rf *
+cp -r  /opt/lmam/tmp/WEB-INF/classes/com/*  .
+cd /opt/lmam/1.0.2/mam-admin/WEB-INF/lib/
+rm mam-core-1.0.0.jar
+cp /opt/lmam/tmp/WEB-INF/lib/mam-core-1.0.0.jar .
+cd /opt/lmam/1.0.2/mam-admin
+rm -rf ace common pages docs ueditor
+cp -r  /opt/lmam/tmp/ace  /opt/lmam/tmp/common  /opt/lmam/tmp/pages /opt/lmam/tmp/docs /opt/lmam/tmp/ueditor .
+
+sleep 1 
+cd /usr/local/tomcat_lmam/webapps
+ps -ef | grep tomcat_lmam > PIDmam1
+tr -s " " < PIDmam1 > PIDmam2
+cat PIDmam2 | grep jdk > PIDmam1
+pids=`cut -d " " -f 2 PIDmam1`
+if [ -n $pids ];then
+   kill -9 "$pids"
+fi
+rm PIDmam1 PIDmam2
+cd /usr/local/tomcat_lmam/bin
+rm -rf ../work/Catalina/localhost/*
+./startup.sh
+echo "Please wait until the program is starting " 
+for((i=0;i<5;i++))
+do
+ sleep 1
+ echo -n "."
+done
+echo ""
+echo "The program starts successfully"
+exit 0
+
+Tomcat 
+/usr/local/tomcat_mam/bin
+
+日志 /tomcat_mam/logs
+
+代码
+cp /opt/lmam/tmp
+
+
+Linux权限基本概念
+查看系统(文件夹/文件)权限: ls -l =>d/-   xxx xxx xxx.  num  owner  group  size   date  filename
+
+d代表目录，-代表文件
+第一个xxx 表示所有者的权限; 第二个xxx表示所在组的权限; 第三个xxx表示其他用户的权限
+为了保护系统，创建完文件以后，某个文件的默认权限为-rw-r--r--. 所有者有读写权限，其他用户只有读的权限
+num表示文件数目，创建的是文件,num=1，创建的是文件夹，num表示文件夹中含有的文件数
+owner 表示创建者
+group 表述文件所属组
+size 表示文件大小
+date 表示日期
+filename 表示文件或者文件夹名字
+
+Linux 系统权限分类
+
+rwx（r--读，w--写，x--执行）
+augo(a--所有，u--所有者，g---所属组，o--其他)
+
+Linux 有三种权限更改方式：chmod/acl/sudo
+前两者用来更改文件权限，sudo用来更改应用程序或者是命令的执行权限
+chmod的局限是无法实现多种权限分配（用户群体只有三种），面对多权限时需要用ACL进行设置
+Chmod
+chmod (agou)(+-)(rwx) filename
+
+agou 表示文件权限更改影响的范围，分别代表all, group, others, user
++-表示增加或者删除权限
+rwx表示具体的权限类型
+chmod a+x test.txt 表示给test.txt的所有使用者增加执行权限
+chmod a-x,a-w test.txt 表示去除所有人执行和更改test.txt的权限
+
+chmod XXX filename
+三类用户一起设置，第一个X代表所有者，第二个X代表所属组，第三个X代表其他
+r(4) w(2) x(1)： chmod 755 test.txt 给test.txt的owner设置rwx的权限，给其他所有用户设置rx权限因为要计算每一种用户的权限，多用于批量处理权限。对用户单独设置权限多用英文，而非数字
+
+连接到oracle
+ssh登陆远程主机
+
+ssh ansiable@10.200.66.47
+password:
+
+sudo su - 
+su - oracle
+
+sqlplus MEIZI/MEIZI
+
+ssh登陆远程主机
+ssh ansiable@10.200.66.47
+
+在工作中我们经常遇到这样一个问题，服务器A和服务器B在一个内网中，服务器A有外网ip，但服务器B没有外网ip或者我们只知道服务器B的内网ip。这时候我们要怎么登上服务器B呢？ 
+假设服务器A和B都有我们的ssh公钥。这时，我们就可以用securecrt先登录服务器A，然后以服务器A为跳板，再登录到服务器B。 
+
+
+可以看出su和sudo没有切换工作目录和环境变量,只是赋予用户权限,
+
+而su -是真正切换到root登录,工作目录切换到/root,环境变量也同时改变.
+
+su 切换到root用户，但是并没有转到root用户家目录下，即没有改变用户的环境。
+
+su - 切换到root用户，并转到root用户的家目录下，即改变到了root用户的环境。
+
+sudo
+
+通过sudo，我们能把某些超级权限有针对性的下放，并且不需要普通用户知道root密码（sudo用的不是root密码，而是当前用户密码），所以sudo相对于权限无限制性的su来说，还是比较安全的，所以sudo也能被称为受限制的su，另外sudo是需要授权许可的，所以也被称为授权许可的su。
+
+sudo执行命令的流程是当前用户切换到root（或其他指定切换到的用户），然后以root（或其他指定的切换到的用户）身份执行命令，执行完成后，直接退回到当前用户，而这些的前提是要通过sudo的配置文件/etc/sudoers来进行授权
+
+sudo 超级权限下放，切换到root用户，但是用用户自己的密码，
+su -  切换root用户，并切换到root用户家目录下，改变可root的用户的环境
+su 切换root用户，并没用改变用户的环境。
+
+
+Telnet 10.000  ping ip // sz file.name 下载
+
+
+
+
+unzip file.name
+
+jar cvf 
+
+cp /a/d/c/finename . 
+
+tail -f 
+telnet
+
+ping
+
+sz
+
+这里开始介绍一下怎么使用Entunnel：(Entunnel我叫它为跳板机)
+原理：
+在Entunnel设置一个本地的端口，通过连接本地端口，经过Entunnel，连接到别的远程主机。
+
+优点，只要一个跳板，开放本地N个端口，经过跳板，连接到N台主机，网络更佳安全，管理更加有效。缺点，配置比较麻烦。
+
+7.4
+防止CRT断开连接。
+终端中
+勾选反空闲
+发送子串  "\n"  120s
+勾选发送协议 120s
+秒数自己配置，自己根据情况设定。
+
+
+ 使用Software Development Kit Manager进行安装
+软件开发工具管理包（Software Development Kit Manager，SDKMAN，曾用简称GVM）也
+8第1章 入 门
+能用来安装和管理多版本Spring Boot CLI。使用前，你需要先从http://sdkman.io获取并安装
+SDKMAN。最简单的安装方式是使用命令行：
+$ curl -s get.sdkman.io | bash 
+跟随输出的指示就能完成SDKMAN的安装。在我的机器上，我在命令行里执行了如下命令：
+$ source "/Users/habuma/.sdkman/bin/sdkman-init.sh" 
+注意，用户不同，这条命令也会有所不同。我的用户目录是/Users/habuma，因此这也是shell
+脚本的根路径。你需要根据实际情况稍作调整。一旦安装好了SDKMAN，就可以用下面的方式
+来安装Spring Boot CLI了：
+$ sdk install springboot 
+$ spring --version 
+假设一切正常，你将看到Spring Boot的当前版本号。
+如果想升级新版本的Spring Boot CLI，只需安装并使用即可。使用SDKMAN的list命令可
+以找到可用的版本：
+$ sdk list springboot 
+list命令列出了所有可用版本，包括已经安装的和正在使用的。从中选择一个进行安装，然后
+就可以正常使用。举例来说，要安装Spring Boot CLI 1.3.0.RELEASE，直接使用install命令，
+指定版本号：
+$ sdk install springboot 1.3.0.RELEASE 
+这样就会安装一个新版本，随后你会被询问是否将其设置为默认版本。要是你不想把它作为默认
+版本，或者想要切换到另一个版本，可以用use命令：
+$ sdk use springboot 1.3.0.RELEASE 
+如果你希望把那个版本作为所有shell的默认版本，可以使用default命令：
+$ sdk default springboot 1.3.0.RELEASE 
+使用SDKMAN来管理Spring Boot CLI有一个好处，你可以便捷地在Spring Boot的不同版本之
+间切换。这样你可以在正式发布前试用快照版本（snapshot）、里程碑版本（milestone）和尚未正
+式发布的候选版本（release candidate），试用后再切回稳定版本进行其他工作。
+

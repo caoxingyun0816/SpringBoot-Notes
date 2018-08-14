@@ -1,0 +1,1011 @@
+1.window 快捷使用
+window + run 运行
+
+cmd 命令窗口
+regedit 注册表
+services.msc 打开服务
+
+--查看占用的端口并停止
+netstat -ano 列出所有端口的情况，找到被占用的端口
+查看被占用端口对应的PID，输入命令：netstat -aon|findstr "49157"，回车，记下最后一位数字，即PID,这里是2720。
+
+继续输入tasklist|findstr "2720"，回车，查看是哪个进程或者程序占的pid是2720，结果是：svchost.exe
+
+我们打开任务管理器，切换到进程选项卡，在PID一列查看2720对应的进程是谁，
+则我们点击查看--->选择列，将PID(进程标示符)前面的勾打上，点击确定。
+
+这样我们就看到了PID这一列标识，看一下2720对应的进程是谁，如果没有，我们把下面的显示所有用户的进程前面的勾打上，就可以看到了，映像名称是svchost.exe，描述是，Windows的主进程,与上面命令查看的完全一致。
+
+结束该进程：在任务管理器中选中该进程点击”结束进程“按钮，或者是在cmd的命令窗口中输入：taskkill /f /t /im Tencentdl.exe。
+
+window r
+cmd
+services.msc
+regedit
+
+netstat -ano |findstr 8808
+tasklist |findstr 2222
+taskkill /f/t/im a.exe
+
+2.
+<action name="cdnInjectionAction" class="com.wondertek.mam.webapp.action.CdnInjectionAction">
+			<result type="json">
+				<param name="root">resultMap</param>
+			</result>
+		</action>
+		返回类型为json，这种方式，要添加resultMap的get方法，Struts将resultMap中的数据转化成字符串传给前台获取，ajax异步获取数据，处理信息。
+
+3.web访问的路径
+和你自己手动添加的有关，手动添加的目录一定要加入路径中。
+
+4.jq
+display:block; 块级元素
+
+style="display:none; 不显示
+
+css 选择器
+
+HTML选择器
+<style type="text/css">
+p {   /*设置样式：字体和背景色*/
+	font-family: System; 
+	font-size: 18px;
+	color: #3333CC;
+}
+</STYLE>
+
+
+<p>　　 1、蛋鱼：蛋鱼</p>
+
+class类选择器
+
+<STYLE type="text/css">
+.myinput 
+{
+	border: 1px solid;
+	border-color:#D4BFFF;
+	color:#2A00FF
+}
+</STYLE>
+
+<input name="textfield" type="text" class="myinput"></p>
+
+id选择器
+<style type="text/css">		
+ #fire 
+ {
+  color:red;
+  font-size: 24px;
+ }					
+</style>
+
+
+<body>                 
+<p id ="fire">我是段落，火是这样的</p>
+</body>
+
+
+4.sturts2
+请求后缀是.htm,inf
+<constant name="struts.action.extension" value="htm,inf" />
+
+支持!请求动态方法，！后跟Action中要请求的方法
+<constant name="struts.enable.DynamicMethodInvocation" value="true" /> 
+
+还可以直接请求指定Action id
+
+
+国际化资源
+ApplicationResources_zh_CN.properties、
+home.page=\u9996\u9875
+<fmt:message key="home.page"/>
+
+JQuery
+获取DOM元素
+1.基本选择器
+$(".class") 类选择器
+$("#ID")id选择器
+$("div")元素选择器
+$("*")所用选择器
+$("div,#id,.class")合并选择器
+
+2.层次选择器
+$("div input")
+div 里的所用input元素
+
+3.属性选择器对象后加[],表示对应节点的属性
+$("div input [name = 'cxy']")
+
+var modifyTime= $("#manualForm input[name='manual_modifyTime']").val();
+
+基本过滤器 ：选择过滤
+div后的最后一个元素
+$("div：last")
+div后的第一个元素
+$("div：first")
+
+过滤器基本都是在:后加入对应的属性
+
+
+5.Maven仓库，父工程。Maven测试，添加的文件找不到。
+
+父工程 com.wondertek.mobilevideo(将父工程发布到本地或私服供其子工程使用)
+http://172.168.15.21:18081/nexus/content/repositories/chyxRepo/jaxrpc/jaxrpc/1.1/jaxrpc-1.1.poms
+
+父工程在pom文件中指定<model>引用子工程。
+
+子工程
+com.wondertek.mobilevideo.mam
+
+man-admin
+
+man-core
+
+6.
+更新代码
+stash save(把自己的代码隐藏存起来) -> 重新pull -> stash pop(把存起来的隐藏的代码取回来 ) -> 代码文件会显示冲突 -> 右键选择edit conficts，解决后点击编辑页面的 mark as resolved ->  commit&push
+
+
+7.
+http&https数据发送
+使用http和https协议发送xml数据代码请参考HttpClientUtil类
+ public static String sendPostRequest(String reqURL){
+        //响应长度
+        long responseLength = 0;
+        //响应内容
+        String responseContent = null;
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost post  = new HttpPost(reqURL);
+        try {
+            StringEntity xmlEntity = new StringEntity("测试", "GBK");
+            post.addHeader("Content-Type", "text/xml");
+            post.setEntity(xmlEntity);
+            HttpResponse response = httpclient.execute(post);
+            //获取响应实体
+            HttpEntity entity = response.getEntity();
+            if (null != entity) {
+                responseLength = entity.getContentLength();
+                responseContent = EntityUtils.toString(entity, "GBK");
+                //EntityUtils.consume(entity); //Consume response content
+            }
+            System.out.println("响应状态: " + response.getStatusLine());
+            System.out.println("响应长度: " + responseLength);
+            System.out.println("响应内容: " + responseContent);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            post.releaseConnection();
+        }
+        return responseContent;
+    }
+
+
+基于第三方库FtpClient的FTP服务器数据传输
+public static void upload(String localFile, String ftpFile, FtpClient ftp) {  
+        OutputStream os = null;  
+        FileInputStream fis = null;  
+        try {  
+            // 将ftp文件加入输出流中。输出到ftp上  
+            os = ftp.putFileStream(ftpFile);  
+            File file = new File(localFile);  
+  
+            // 创建一个缓冲区  
+            fis = new FileInputStream(file);  
+            byte[] bytes = new byte[1024];  
+            int c;  
+            while((c = fis.read(bytes)) != -1){  
+                os.write(bytes, 0, c);  
+            }  
+            System.out.println("upload success!!");  
+        } catch (FtpProtocolException e) {  
+            e.printStackTrace();  
+        } catch (IOException e) {  
+            e.printStackTrace();  
+        } finally {  
+            try {  
+                if(os!=null) {  
+                    os.close();  
+                }  
+                if(fis!=null) {  
+                    fis.close();  
+                }  
+            } catch (IOException e) {  
+                e.printStackTrace();  
+            }  
+        }  
+    }  
+
+  
+http+xml请求方式
+请求到对应方法后
+在servlet中用getinputStream获取，请求内容
+InputStream inputStream = request.getInputStream();
+
+	InputStream inputStream = request.getInputStream();
+        response.setContentType("text/html;charset="+CHAR_ENCODING);
+        response.setCharacterEncoding(CHAR_ENCODING);
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        //读取缓存
+        byte[] buffer = new byte[2048];
+        int length = 0;
+        while((length = inputStream.read(buffer)) != -1) {
+            bos.write(buffer, 0, length);//写入输出流
+        }
+
+        // 根据输出流创建字符串对象
+        String xmlStr = new String(bos.toByteArray(), CHAR_ENCODING);
+        log.info("--------------request xmlStr is " + xmlStr);
+
+
+对于请求别人的接口：需要自己自己拼接请求报文，然后用httpClient，请求路径和方法，解析返回信息(json)，String responseXml = SendHttpRequest.sendStr(url, xmlStr);
+
+对应别人的请求，需要提供servlet接口调用，解析请求报文InputStream inputStream = request.getInputStream();处理后，拼接xml，
+String returnStr = BatchContentImportUtil.responseXML(params);
+            HttpServletResponse response = (HttpServletResponse)paramsMap.get("response");
+            PrintWriter out = response.getWriter();
+
+    out.write(returnStr);
+            out.flush();
+	    用response返回信息。
+8.sso
+要实现SSO，需要以下主要的功能：
+所有应用系统共享一个身份认证系统。
+　　统一的认证系统是SSO的前提之一。认证系统的主要功能是将用户的登录信息和用户信息库相比较，对用户进行登录认证；认证成功后，认证系统应该生成统一的认证标志（ticket），返还给用户。另外，认证系统还应该对ticket进行效验，判断其有效性。
+所有应用系统能够识别和提取ticket信息
+　　要实现SSO的功能，让用户只登录一次，就必须让应用系统能够识别已经登录过的用户。应用系统应该能对ticket进行识别和提取，通过与认证系统的通讯，能自动判断当前用户是否登录过，从而完成单点登录的功能。
+
+9.date --> String
+simpledateformat
+ SimpleDateFormat endsdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S'Z'");
+样式中加'T'会直接拼接在输出的字符串中
+
+SimpleDateFormat endsdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S'Z'");
+        Date date = new Date();
+        String timeStamp = endsdf.format(date);
+
+将数字输出，不够的自动在前面补0
+DecimalFormat df=new DecimalFormat("00");
+        String str2=df.format(1404);
+
+10.
+视频码率就是数据传输时单位时间传送的数据位数，一般我们用的单位是kbps即千位每秒。通俗一点的理解就是取样率，单位时间内取样率越大，精度就越高，处理出来的文件就越接近原始文件。
+但是文件体积与取样率是成正比的，所以几乎所有的编码格式重视的都是如何用最低的码率达到最少的失真，围绕这个核心衍生出来的cbr（固定码率）与vbr（可变码率），都是在这方面做的文章，不过事情总不是绝对的，
+举例来看，对于一个音频，其码率越高，被压缩的比例越小，音质损失越小，与音源的音质越接近。
+
+基本的算法是：【码率】(kbps)=【文件大小】(KB) * 1024 * 8 / 【时间】(秒)，举例，D5的碟，容量4.3G，其中考虑到音频的不同格式，姑且算为600M，
+（故剩余容量为4.3*1024-600=3803.2M)，所以视频文件应不大于3.7G，本例中取视频文件的容量为3.446G，视频长度100分钟（6000秒），
+计算结果：码率约等于4818kbps(3.446 * 1024 * 1024 * 8 / 6000 = 4817.857)。
+
+1、码率和质量成正比，但是文件体积也和码率成正比。这是要牢记的。
+2、码率超过一定数值，对图像的质量没有多大影响。
+3、DVD的容量有限，无论是标准的4.3G，还是超刻，或是D9，都有极限。视频码率　计算机中的信息都是二进制的0和1来表示，其中每一个0或1被称作一个位，用小写b表示，即bit（位）；大写B表示byte,即字节，一个字节=八个位，即1B=8b；前面的大写K表示1024的意思，即1024个位（Kb)或1024个字节(KB)。表示文件的大小单位，一般都使用字节（KB）来表示文件的大小。
+Kbps：首先要了解的是，ps指的是/s，即每秒。Kbps指的是网络速度，也就是每秒钟传送多少个千位的信息（K表示千位，Kb表示的是多少千个位），为了在直观上显得网络的传输速度较快，一般公司都使用kb（千位）来表示。1KB/S=8Kbps。ADSL上网时的网速是512Kbps,如果转换成字节，就是512/8=64KB/S(即64千字节每秒）。
+4、一般来说，如果是1M的宽带，在网上只能看不超过1024kbps的视频，超过1024kbps的视频只能等视频缓冲才能流畅的观看。
+
+码率也叫比特率，表示经过压缩编码后的视音频数据每秒需要用多少个比特来表示，即把每秒显示的图像进行压缩后的数据量，一般采用的单位是kbps即千位每秒。
+
+固定码率CBR（Constant Bitrate）：指文件从头到尾都是一种码率，这是以固定文件大小为前提的压缩方式。
+动态码率VBR（Variable Bitrate）：指没有固定的码率，压缩时根据视音频数据即时确定使用什么码率，这是以质量为前提兼顾文件大小的压缩方式。
+
+视频格式和视频编码是什么关系
+编解码格式是数据按那种方式编码压缩，便于网络传输和降低带宽的需要；文件格式是将内容按具体的编码格式压缩后，以该文件所规定的格式进行封装的结果，即容器的概念，文件播放则按容器数据的存放方式解析，提取出编码数据然后解码后交由播放设备进行播放。
+原始视频通过摄像头采集进来以后很庞大，要想在互联网上进行传输就必须要进行压缩，于是就有了编解码标准，原始视频文件经过压缩以后就有了不同的格式，比如通过h.264压缩的就是.264格式，其它的同理。而我们看的电影之类的视频（AVI，MPEG，MOV）除了包含图像外还有声音，它是将视频和音频封装以后的结果。
+所谓视频编码方式就是指通过特定的压缩技术，将某个视频格式的文件转换成另一种视频格式文件的方式。视频流传输中最为重要的编解码标准有国际电联的H.261、H.263、H.264，运动静止图像专家组的M-JPEG和国际标准化组织运动图像专家组的MPEG系列标准，此外在互联网上被广泛应用的还有Real-Networks的RealVideo、微软公司的WMV以及Apple公司的QuickTime等。
+所谓视频格式即容器，就是把编码器生成的多媒体内容（视频，音频，字幕，章节信息等）混合封装在一起的标准。容器使得不同多媒体内容同步播放变得很简单，而容器的另一个作用就是为多媒体内容提供索引，也就是说如果没有容器存在的话一部影片你只能从一开始看到最后，不能拖动进度条（当然这种情况下有的播放器会话比较长的时间临时创建索引），而且如果你不自己去手动另外载入音频就没有声音。
+视频的编码格式有h.263，h.264，mpeg-4等，视频的文件格式有AVI，MPEG，MOV等格式，h.263，h.264，mpeg-4是3种不同的编解码器。
+
+1TB=1024GB
+
+1GB=1024MB
+
+1MB=1024KB
+
+1KB=1024B
+
+1B（字节）=8b（比特）
+
+100兆宽带指的速度是100Mb/s
+
+那换成 100/8 M/s =12.5 M/s
+
+视屏中的码率就是 kbps  Kb/s
+
+所以 1KB/s = 8kb/s
+
+所以视频码率和宽带一样
+理论上一兆的宽带 只能看1024kbps 码率的视频
+超过这个码率，只能缓存来看了。
+
+
+一个四兆的宽带，能看一个3.5g左右的，100视频分钟的视频
+内容越大，时间越短，需要的带宽也就也大。
+
+11
+1.
+js的数据类型
+基本类型
+name:'name';
+数组
+address：[id:'1'，num:'2'];
+无类型对象
+{	
+	x:0,
+	name:'aaa',
+	address：[id:'1'，num:'2'],
+	people:[{age:'1',name:'cxy'},
+	{age:'1',name:'cxy'}
+	]
+}
+
+注意和java的区别，java使用{}定义数组。string[] a = {"cxy","dy"}
+
+2.
+Struts2返回success，直接 return SUCCESS，如果返回"SUCCESS",会找不到路径。
+return
+
+3.
+界面放在web目录下，不能放在web-inf目录下，不然访问不到。
+
+4.
+../ 就是当前文件的上一层
+../../ 上两层 以此类推
+
+在idea中如果 引用的路径正确，按住CTRL会到达指定路径
+
+5.jsp中前端框架相互依赖，要注意引入顺序。
+
+只有自己写，才能知道许多细节，代码量太少
+
+6.默认加载struts.xml文件，其它名字识别不了
+
+7.extents继承的父类不能乱写，不然加载不了。
+
+12、系统bean注入
+action中的service不用注入吗？在application.xml中配置对应引用service的bean就可以了，到时就可以直接调用了。
+
+service 中注入
+和service对应的Dao，用构造方法注入，引用其他的，用set，get方法注入，推荐用注解注入。
+
+12.Struts2中菜单的跳转可以用<a>标签
+然后请求action
+通过action跳转到对应界面
+<a href="#" menu-url="<c:url value='/inverse/inverseContentManager.htm'/>">反注任务管理</a>
+
+action 
+
+指定了跳转的界面
+<action name="inverseContentManager" class="com.wondertek.mam.webapp.action.InverseContentInjectAction" method="list">
+<result name="success">/pages/inverse/inverseContentManager.jsp</result>
+</action>
+
+private static final long serialVersionUID = 3027860244556716647L;
+private Logger log = Logger.getLogger(InverseContentInjectAction.class);
+public String list() {
+	return SUCCESS;
+}
+
+13.系统中的左边菜单栏在 left.jsp中
+引用的js
+<script src="./ace/assets/js/jqGrid/jquery.jqGrid.src.js"></script>
+<script src="./ace/assets/js/jqGrid/i18n/grid.locale-cn.js"></script>
+<script src="./ace/assets/js/jquery-ui.js"></script>
+<script src="./ace/assets/js/jquery-ui.custom.js"></script>
+<script src="./ace/assets/js/jquery.ui.touch-punch.js"></script>
+<script src="./ace/assets/js/jquery.gritter.js"></script>
+<script src="./ace/assets/js/jquery.easypiechart.js"></script>
+
+首页
+<script src="./pages/util.js?v=2.4.0"></script>
+<script src="./pages/main.js"></script>
+<script src="./pages/live/js/MVC/base.js"></script>
+<script src="./pages/live/js/MVC/common.js"></script>
+<script src="./pages/live/js/MVC/page.js"></script>
+
+14.label标签的for属性的效果就是，鼠标点击“女”实现radio选中的效果，主要 
+归功于for=nv 而且必须要求input文本框的id也等于nv，男这个radio作对比，没有这个效果
+ <div>
+  <label for="nan1">男</label>
+   <input type="checkbox" id="nan" />
+   <label for="nv">女</label>
+   <input type="checkbox" id="nv" />
+   </div>
+
+15.jsp界面
+div
+inverseContentManager 包含按钮和搜索框 table 分页
+actions-before 按钮框
+searchDiv 搜索框
+grid-table-dbgl table
+grid-pager 分页
+
+inverseContentManagerView 双击详细数据展示层
+
+createCopyright 版权
+
+16.当js语法出错时，加载该JS没有效果，相应的请求也发不出去，检查js语法。
+js,各种异步请求，各种触发函数，掌握JqGrid表格插件的用法。
+
+17.表单域传参
+前台的表单name名字和要查询的类属性名对应，类和表对应，jQgrid的column和类的属性名对应。
+
+Struts传参，从前台接收的都是String，查询时，要将String转换成对应的model中字段定义的类型。
+
+hql参数的数据类型要和model定义的一致。
+
+返回的信息，使用json传到前台界面。
+
+前台用jqgrid插件，对应列名id和属性名一直。
+
+jqgrid插件获取某列的值，要使用之前定义的列ID。
+
+出错的地方：不细心，各种字段不对应导致查询无效，
+代码反复测才能测出问题，说明代码质量不高，没有具体思路
+现在学习理解规则，以后做到心中有数，有思路，才能写出高质量的代码。
+多写，多练。
+
+18.Junit测试，右键新建类通过ClassPathXmlApplicationContext得到ApplicationContext，再getBean
+单元测试中需要引入bean，最容易想到的办法就是使用spring bean注入的原理
+@Test  
+    public void testBeanInjection() {  
+         ApplicationContext testContext = new ClassPathXmlApplicationContext("test_services.xml");  
+         TestService testService = (TestService)testContext.getBean("testService");  
+    }  
+
+18.jQGrid常用函数
+1、获取选中行ID
+
+     selIDs=$("#grid").getGridParam("selarrrow");//selIDs是一个选中行ID的数组
+
+     selectID=$("#grid").getGridParam("selrow");//这只能获得选中一行的ID，如果表格选中         多行，selrow 这个函数，只能获得选中的最后一行的ID
+
+     这里需要主要selarrrow与selrow两个函数的区别
+
+
+
+2、判断是否有选中行
+
+       selIDs.length>0  则表示界面上有选中的行，否则表示没有选择任何行
+
+
+
+3、获取表格的所有数据
+
+     var   gridData= $("#grid").jqGrid("getRowData");
+
+
+
+4、获取表格选中行的数据
+
+        for(var i=0;i<selIDs.length;i++){
+
+           var gridData= $("#grid").jqGrid("getRowData",selIDs[i]);//这是获得 某一行的数据          
+   }
+
+
+
+5、  获取单元格的值和设置单元格的值
+
+     var strValue=$("#grid").jqGrid("getCell",selIDs[i],"表格列的名字");//行ID和列名字,决定了一个                        单元格的位置，从而可以取出单元格的值
+
+
+
+      $("#grid").jqGrid("setCell",selIDs[i],"表格列的名字","数据");//设置单元格的值，需要行id，列                        名，以及对应列名的值
+
+
+
+6、获得行的值和设置行的值    (获得行的值上面已经写出)
+
+     $("#grid").setRowData(rowId,{l列名:值,列明:值....});
+
+       setCell方法与setRowData方法的不同是：setRowData可以同时设置一行的值，即多个列的值，而setCell只能设置一个单元格的值
+
+
+
+7、获取表格所有的ID
+
+    var strIds=  $("#grid").jqGrid("getDataIDs");//获得表格所有行的ID
+
+
+
+8、设置列的属性：
+
+         $("#grid").jqGrid("setColProp",{editType:"text",formatter:"text"});//这里设置了列的两个属性，自己可以根据需要改变
+
+
+
+9、获得当前表格的行数：
+
+    $("#grid").getGridParam("recount");
+
+
+
+10、设置某一行被选中
+
+   $("#grid").setSelection(rowId);//再很多文章上看到这个方法，需要注意的是：
+
+这个方法起的是反选的作用，也就是如果某一行被选中，使用这个方法就是取消选中，如果某一行处于未选中状态，使用这个方法使其选中
+
+
+
+在这些方法中所有获得行ID的，其实是获取的列属性key=true的那一列的值，只是一般设置ID列的key=true
+
+5.9
+1、
+select * from tab for updata;
+那是一种行级锁，一旦用户对某个行施加了行级加锁，则该用户可以查询也可以更新被加锁的数据行，其它用户只能查询但不能更新被加锁的数据行．如果其它用户想更新该表中的数据行，则也必须对该表施加行级锁．即使多个用户对一个表均使用了共享更新，但也不允许两个事务同时对一个表进行更新，真正对表进行更新时，是以独占方式锁表，一直到提交或复原该事务为止。行锁永远是独占方式锁。
+只有当出现如下之一的条件，便释放共享更新锁：
+（1）、执行提交（COMMIT）语句；
+（2）、退出数据库（LOG　OFF）
+（3）、程序停止运行。
+
+js 区分大小写
+js中0默认为undefined
+jqgrid中表格的id要和返回的数据的字段对应，不然获取不到。
+
+
+2、
+Bootstrap 模态框（Modal）插件
+模态框（Modal）是覆盖在父窗体上的子窗体。通常，目的是显示来自一个单独的源的内容，可以在不离开父窗体的情况下有一些互动。子窗体可提供信息、交互等。
+如果您想要单独引用该插件的功能，那么您需要引用 modal.js。或者，正如 Bootstrap 插件概览 一章中所提到，您可以引用 bootstrap.js 或压缩版的 bootstrap.min.js。
+
+一个静态的模态窗口实例，如下面的实例所示：
+用法
+您可以切换模态框（Modal）插件的隐藏内容：
+通过 data 属性：在控制器元素（比如按钮或者链接）上设置属性 data-toggle="modal"，同时设置 data-target="#identifier" 或 href="#identifier" 来指定要切换的特定的模态框（带有 id="identifier"）。
+通过 JavaScript：使用这种技术，您可以通过简单的一行 JavaScript 来调用带有 id="identifier" 的模态框：
+$('#identifier').modal(options)
+
+实例
+一个静态的模态窗口实例，如下面的实例所示：
+实例
+<h2>创建模态框（Modal）</h2>
+<!-- 按钮触发模态框 -->
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">开始演示模态框</button>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">模态框（Modal）标题</h4>
+            </div>
+            <div class="modal-body">在这里添加一些文本</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">提交更改</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+代码讲解：
+使用模态窗口，您需要有某种触发器。您可以使用按钮或链接。这里我们使用的是按钮。
+如果您仔细查看上面的代码，您会发现在 <button> 标签中，data-target="#myModal" 是您想要在页面上加载的模态框的目标。您可以在页面上创建多个模态框，然后为每个模态框创建不同的触发器。现在，很明显，您不能在同一时间加载多个模块，但您可以在页面上创建多个在不同时间进行加载。
+在模态框中需要注意两点：
+第一是 .modal，用来把 <div> 的内容识别为模态框。
+第二是 .fade class。当模态框被切换时，它会引起内容淡入淡出。
+aria-labelledby="myModalLabel"，该属性引用模态框的标题。
+属性 aria-hidden="true" 用于保持模态窗口不可见，直到触发器被触发为止（比如点击在相关的按钮上）。
+<div class="modal-header">，modal-header 是为模态窗口的头部定义样式的类。
+class="close"，close 是一个 CSS class，用于为模态窗口的关闭按钮设置样式。
+data-dismiss="modal"，是一个自定义的 HTML5 data 属性。在这里它被用于关闭模态窗口。
+class="modal-body"，是 Bootstrap CSS 的一个 CSS class，用于为模态窗口的主体设置样式。
+class="modal-footer"，是 Bootstrap CSS 的一个 CSS class，用于为模态窗口的底部设置样式。
+data-toggle="modal"，HTML5 自定义的 data 属性 data-toggle 用于打开模态窗口。
+
+jqGrid随窗口大小变化自适应大小
+
+{name:'cipMediaId',index:'cipMediaId', width:100, editable: true,sortable:true,edittype:"select",editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"}},
+
+前后台传值，对于每次传多个值的，需要遍历一下，将所有ID拼接，然后加一个标记区分(例如','),传到后台，然后用String的split函数，取出所用id。
+js
+//获取选中行id
+var rowIds = $("#grid-table-dbgl").jqGrid("getGridParam","selarrrow");
+
+//需要传到后台的contentIds
+var contentIds = "";
+
+//当前行contentIds
+
+遍历拼接
+var contentId = "";
+for(var i = 0;i<rowIds.length;i++){
+	contentId = $("#grid-table-dbgl").jqGrid("getCell",rowIds[i],"contentId");
+	contentIds = contentIds + contentId + ",";	
+}
+
+action
+获取参数
+String contentIds = getParam("contentIds");
+分割
+String[] contentIdStr = contentIds.split(",");
+
+
+WebApplicationContextUtils
+ServletContext
+ServletActionContext 获得httpservletrequest
+ApplicationContext 获得BENA实例
+
+第一种：
+<h1 align="center"><font color="red">网络工程系09网2</font></h1>
+第二种:
+<h1 align="center" style="color:red;">网络工程系09网二</h1>
+
+Struts2的手动校验步骤：
+
+  首先要从页面中获取对应的标签name属性的值，在动作类action中声明同名的属性，提供get和set方法;
+  要继承ActionSupport类或者实现Validateable接口；
+  重写Validateable接口的validate()方法，需要通过addFieldError(fieldName, errorMessage)方法来添加校验提示，fieldName为错误提示字段，errorMessage为错误提示信息，在jsp页面需要通过Struts2的<s:fielderror/>标签来提示添加的信息，该标签有个name属性，值为addFieldError方法中的fieldName，当添加了校验信息，Struts2框架会返回到name值为"input"的<result/>设置的视图中；
+
+xml校验
+首先要从页面中获取对应的标签name属性的值，在动作类action中声明同名的属性，提供get和set方法；
+创建一个XML格式验证文件，文件的命名方式：ActionClassName-validation.xml，ActionClassName指的是Action类的名称，该文件需要和Action类放在同一目录下；
+XML格式验证文件的内容格式
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC
+          "-//Apache Struts//XWork Validator 1.0.3//EN"
+          "http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+<!--validators根元素-->
+<validators>
+    <!--field:指定action中要校验的属性
+            name:指定将被验证的表单字段的名字
+     -->
+    <field name="name">
+        <!--field-validator:指定验证规则
+                type:指定验证规则的名称
+         -->
+        <field-validator type="requiredstring">
+            <!--param:向验证器传递的参数,name值为校验器的参数名 -->
+            <param name="trim">true</param>
+            <!--message:验证失败时,提示的错误信息
+                里面的文本:错误提示信息
+             -->
+            <message>用户名不能为空</message>
+        </field-validator>
+    </field>
+</validators>
+
+验证规则
+<validators>  
+    <!--validator:声明验证规则  
+            name:验证规则的名称  
+            class:验证规则对应的类的完整路径  
+     -->  
+    <!--required:必填校验器,要求被校验的属性值不能为null-->   
+    <validator name="required" class="com.opensymphony.xwork2.validator.validators.RequiredFieldValidator"/>  
+    <!--requiredstring:必填字符串校验器,要求被校验的属性值不能为null，并且长度大于0,默认情况下会对字符串去前后空格  
+            参数trim:该参数为可选参数,用于指定是否在校验之前对字符串进行整理。  
+    -->  
+    <validator name="requiredstring" class="com.opensymphony.xwork2.validator.validators.RequiredStringValidator"/>  
+    <!--int:整数校验器,要求field的整数值必须在指定范围内  
+            参数min:指定字段值的最小值,该参数为可选  
+            参数max:指定字段值的最大值,该参数为可选  
+    -->  
+    <validator name="int" class="com.opensymphony.xwork2.validator.validators.IntRangeFieldValidator"/>  
+    <!--long:整数校验器,要求field的整数值必须在指定范围内  
+            参数min:指定字段值的最小值,该参数为可选  
+            参数max:指定字段值的最大值,该参数为可选  
+    -->  
+    <validator name="long" class="com.opensymphony.xwork2.validator.validators.LongRangeFieldValidator"/>  
+    <!--short:整数校验器,要求field的整数值必须在指定范围内  
+            参数min:指定字段值的最小值,该参数为可选  
+            参数max:指定字段值的最大值,该参数为可选      
+    -->  
+    <validator name="short" class="com.opensymphony.xwork2.validator.validators.ShortRangeFieldValidator"/>  
+    <!--double:双精度浮点数校验器,要求field的双精度浮点数必须在指定范围内  
+            参数minInclusive:指定字段数值所接受的最小值,该参数为可选  
+            参数maxInclusive:指定字段数值所接受的最大值,该参数为可选  
+            参数minExclusive:指定字段数值被排除的最小值,该参数为可选  
+            参数maxExclusive:指定字段数值被排除的最大值,该参数为可选  
+    -->  
+    <validator name="double" class="com.opensymphony.xwork2.validator.validators.DoubleRangeFieldValidator"/>  
+    <!--date:日期校验器,要求field的日期值必须在指定范围内  
+            参数min:指定字段日期值的最小值,该参数为可选  
+            参数max:指定字段日期值的最大值,该参数为可选  
+    -->  
+    <validator name="date" class="com.opensymphony.xwork2.validator.validators.DateRangeFieldValidator"/>  
+    <!--expression:表达式校验器,它是一个非字段校验器,当参数expression计算的值为true时,校验通过,否则返回提示.  
+            参数expression:该参数为一个逻辑表达式,该参数使用OGNL表达式,并基于值栈计算,返回一个Boolean类型值。   
+    -->  
+    <validator name="expression" class="com.opensymphony.xwork2.validator.validators.ExpressionValidator"/>  
+    <!--fieldexpression:字段表达式校验器,当参数expression计算的值为true时,校验通过,否则返回提示.  
+            参数expression:该参数为一个逻辑表达式,该参数使用OGNL表达式,并基于值栈计算,返回一个Boolean类型值.  
+    -->  
+    <validator name="fieldexpression" class="com.opensymphony.xwork2.validator.validators.FieldExpressionValidator"/>  
+    <!--email:邮件地址校验器,要求如果被校验的属性值非空,则必须是合法的邮件地址-->  
+    <validator name="email" class="com.opensymphony.xwork2.validator.validators.EmailValidator"/>  
+    <!--url:网址校验器,要求如果被校验的属性值非空,则必须是合法的url地址-->  
+    <validator name="url" class="com.opensymphony.xwork2.validator.validators.URLValidator"/>  
+    <!--visitor复合类型校验器,该校验器用来校验Action中定义的复合类型属性,支持简单的复合类型或数组类型或集合类型.  
+            参数context:校验器引用的上下文,可以随意取,可选参数  
+            参数appendPrefix:是否为字段校验信息加前缀(message中设置的值),可选参数  
+    -->  
+    <validator name="visitor" class="com.opensymphony.xwork2.validator.validators.VisitorFieldValidator"/>  
+    <!--conversion:类型转换校验器,该校验器检查是否存在转换异常  
+            参数repopulateField:指定当类型转换失败后返回input页面时,类型转换失败的表单是否保留原来的错误输入,true为保留,false为不保留.  
+    -->  
+    <validator name="conversion" class="com.opensymphony.xwork2.validator.validators.ConversionErrorFieldValidator"/>  
+    <!--stringlength:字符串长度校验器,用于检验字段中字符串长度是否在指定的范围  
+            参数trim:该参数为可选参数,用于指定是否在校验之前对字符串进行整理。  
+            参数maxLength:用于指定最大字符串长度,该参数为可选  
+            参数minLength:用于指定最小字符串长度,该参数为可选  
+    -->  
+    <validator name="stringlength" class="com.opensymphony.xwork2.validator.validators.StringLengthFieldValidator"/>  
+    <!--regex:正则表达式校验器,检查被校验的属性值是否匹配一个正则表达式.  
+            参数expression:指定正则表达式  
+            参数caseSensitive:指定进行正则表达式匹配时,是否区分大小写,默认值为true,为可选参数.  
+    -->  
+    <validator name="regex" class="com.opensymphony.xwork2.validator.validators.RegexFieldValidator"/>  
+    <validator name="conditionalvisitor" class="com.opensymphony.xwork2.validator.validators.ConditionalVisitorFieldValidator"/>  
+</validators>
+
+在Action类相同目录下新建XML格式验证文件：ValidateAction-validation.xml：
+<validators>  
+    <field name="name">  
+        <field-validator type="requiredstring">  
+            <param name="trim">true</param>  
+            <message>姓名不能为空</message>  
+        </field-validator>  
+    </field>  
+</validators>  
+
+jsp页面：
+
+<body>  
+ <s:fielderror name="name"/>  
+ <form action="${pageContext.servletContext.contextPath}/validateAction.action">  
+    姓名：<input type="text" name="name"><br>  
+    <input type="submit" value="提交">  
+ </form> 
+
+ 如果要对指定方法进行验证的话，XML验证文件的命名方式：ActionClassName-ActionName-validation.xml，ActionName对应的是struts.xml文件对应的action标签的name属性的值。
+
+ 3)visitor验证规则示例
+
+vsitor校验器主要用于校验Action里的复合类型、数组类型或者集合类型，如一个Action里面包含了Person类型的属性，需要验证Person类型的name属性不能为空。
+https://blog.csdn.net/helongzhong/article/details/60142902
+
+
+
+在 WEB.XML配置<mime-mapping>实现浏览器根据文件类型自动打开
+我们用浏览器打开文件的时候会发现如果是doc文件， 会用记事本打开，出现乱码， 但是如果在web.xml里面配置了类型，浏览器就会根据配置的类型自动调用相应的程序打开
+<mime-mapping>  
+    <extension>doc</extension>  
+    <mime-type>application/vnd.ms-word</mime-type>  
+</mime-mapping>
+。。。
+
+5.17
+lobibox提示框插件
+打开index页面，里面应用的样式以及css，你照样引入，插件引入成功！打开demo.js 里面包含所有调用， 比如
+确认框：
+Lobibox.confirm({
+    msg: "Are you sure you want to delete this user?",
+});
+
+错误框：
+Lobibox.alert('error', {
+   msg: "Lorem ipsum dolor sit amet byron frown tumult minstrel wicked clouded bows columbine full"
+});
+
+	private int status;//转码状态，10待转码、11转码中、12转码完成、13转码失败、16转码完成处理中、17转码时长差超过3S
+
+1、tail -f filename
+说明：监视filename文件的尾部内容（默认10行，相当于增加参数 -n 10），刷新显示在屏幕上。退出，按下CTRL+C。
+
+2、tail -n 20 filename
+说明：显示filename最后20行
+
+5.21
+1.位深度   
+在记录数字图像的颜色时，计算机实际上是用每个像素需要的位深度来表示的。黑白二色的图像是数字图像中最简单的一种，它只有黑、白两种颜色，也就是说它的每个像素只有1位颜色，位深度是1，用2的零次幂来表示；考虑到位深度平均分给R, G, B和Alpha，而只有RGB可以相互组合成颜色。所以4位颜色的图，它的位深度是4，只有2的4次幂种颜色，即16种颜色或16种灰度等级 ) 。8位颜色的图，位深度就是8，用2的8次幂表示，它含有256种颜色 ( 或256种灰度等级 )。24位颜色可称之为真彩色，位深度是24，它能组合成2的24次幂种颜色，即：16777216种颜色 ( 或称千万种颜色 )，超过了人眼能够分辨的颜色数量。
+当我们用24位来记录颜色时，实际上是以2^（8×3），即红、绿、蓝 ( RGB ) 三基色各以2的8次幂，256种颜色而存在的，三色组合就形成一千六百万种颜色。
+
+图像文件的字节数=图像分辨率*颜色深度/8，例如：一幅640*480图像分辨率、RGB色一般为24
+位真彩色,图像未经压缩的数据容量为：640X480X24/8＝921600字节=900KB（1KB＝l千字节=1024
+字节）。
+
+
+2.zyUpload是一款优秀的图片批量上传插件，浏览器兼容性强，应用方便便捷，特别适用于批量图片（当然不仅仅支持图片）文件的上传。
+
+
+5.23
+REST设计需要遵循的原则
+网络上的所有事物都被抽象为资源（resource）；
+每个资源对应一个唯一的资源标识符（resource identifier）；
+通过通用的连接器接口（generic connector interface）对资源进行操作；
+对资源的各种操作不会改变资源标识符；
+所有的操作都是无状态的（stateless）
+
+谓词
+GET
+表示查询操作，相当于Retrieve、Select操作
+POST
+表示插入操作，相当于Create，Insert操作
+PUT
+表示修改操作，相当于Update操作
+DELETE
+表示删除操作，相当于Delete操作
+
+
+ServletActionContext.getServletContext().getRealPath
+
+
+jQuery(function($){
+  // Create variables (in this scope) to hold the API and image size
+  var jcrop_api,
+  boundx,
+  boundy,
+  
+  // Grab some information about the preview pane
+  $preview = $('#preview-pane'),
+  $pcnt = $('#preview-pane .preview-container'),
+  $pimg = $('#preview-pane .preview-container img'),
+  
+  xsize = $pcnt.width(),
+  ysize = $pcnt.height();
+  
+  console.log('init',[xsize,ysize]);
+
+  $('#target').Jcrop({
+    onChange: updatePreview,
+    onSelect: updatePreview,
+    aspectRatio: xsize / ysize
+  },function(){
+    // Use the API to get the real image size
+    var bounds = this.getBounds();
+    boundx = bounds[0];
+    boundy = bounds[1];
+    // Store the API in the jcrop_api variable
+    jcrop_api = this;
+    
+    // Move the preview into the jcrop container for css positioning
+    $preview.appendTo(jcrop_api.ui.holder);
+  });
+  
+  function updatePreview(c){
+    if (parseInt(c.w) > 0) {
+      var rx = xsize / c.w;
+      var ry = ysize / c.h;
+      
+      $pimg.css({
+        width: Math.round(rx * boundx) + 'px',
+        height: Math.round(ry * boundy) + 'px',
+        marginLeft: '-' + Math.round(rx * c.x) + 'px',
+        marginTop: '-' + Math.round(ry * c.y) + 'px'
+      });
+    }
+  };
+});
+
+
+5.24
+1.PrintWriter out = response.getWriter();
+这是servlet的输出流的意思，然后在页面直接可以显示和解析
+
+response顾名思义就是服务器对浏览器的相应，PrintWriter它的实例就是向前台的JSP页面输出结果，比如
+out.print("Hello World")；
+在JSP页面就会有Hello World这句话
+
+2.open() 方法用于打开一个新的浏览器窗口或查找一个已命名的窗口
+window.open(URL,name,features,replace)
+
+URL 一个可选的字符串，声明了要在新窗口中显示的文档的 URL。如果省略了这个参数，或者它的值是空字符串，那么新窗口就不会显示任何文档。
+
+name	一个可选的字符串，该字符串是一个由逗号分隔的特征列表，其中包括数字、字母和下划线，该字符声明了新窗口的名称。这个名称可以用作标记 <a> 和 <form> 的属性 target 的值。如果该参数指定了一个已经存在的窗口，那么 open() 方法就不再创建一个新窗口，而只是返回对指定窗口的引用。在这种情况下，features 将被忽略。
+
+features	一个可选的字符串，声明了新窗口要显示的标准浏览器的特征。如果省略该参数，新窗口将具有所有标准特征。在窗口特征这个表格中，我们对该字符串的格式进行了详细的说明。
+
+replace
+一个可选的布尔值。规定了装载到窗口的 URL 是在窗口的浏览历史中创建一个新条目，还是替换浏览历史中的当前条目。支持下面的值：
+true - URL 替换浏览历史中的当前条目。
+false - URL 在浏览历史中创建新的条目。
+
+
+3.jquery 中$.ajax().done() 的用法
+
+后面的.done()表示$.ajax()如果执行成功，则执行.done()，funtion(e) 中的e 为返回结果，如果$.ajax()执行发生错误，则.done()不执行。
+
+4.<embed> 标签是 HTML 5 中的新标签。
+embed可以用来插入各种多媒体，格式可以是 Midi、Wav、AIFF、AU、MP3等等，Netscape及新版的IE 都支持。url为音频或视频文件及其路径，可以是相对路径或绝对路径。
+
+<embed> 标签必须有 src 属性。
+height	pixels	设置嵌入内容的高度。
+src	url	嵌入内容的 URL。
+type	type	定义嵌入内容的类型。
+width	pixels	设置嵌入内容的宽度。
+
+<embed src="<%=request.getParameter("src") %>" width="<%=request.getParameter("width") %>" height="<%=request.getParameter("height") %>" type="application/x-vlc-plugin" pluginspage="http://www.videolan.org"></embed>
+
+展示视频
+
+5.修改模态框的宽度很简单,修改width属性就可以了
+
+但是要注意的一点是,修改的不是modal这个div
+
+而是modal-dialog这个div,代码如下
+
+[html] view plain copy
+<div class="modal-dialog" style="width:1100px">  
+
+6.循环绑定事件
+$('#create button').each(function(n, v)
+
+$('#create button').each(function(n, v) {
+		var ac = $(v).attr("data-action");
+		if(ac) {
+			$(v).unbind('click').click(function(e) {
+				var aid = $("#aid").val();
+				if(ac == 'save') {
+					Lobibox.confirm({ 
+					       title:"提示",      //提示框标题 
+					            msg: "确认保存?",   //提示框文本内容 
+					       callback: function ($this, type, ev) {               //回调函数 
+					               if (type === 'yes') { 
+					            	   Mam.asset.saveHandler();    
+					               } else if (type === 'no') { 
+					                          
+					               } 
+					          } 
+					});
+				}else if(ac == 'save_for_submit') {
+					Lobibox.confirm({ 
+					       title:"提示",      //提示框标题 
+					            msg: "确认提交入库?",   //提示框文本内容 
+					       callback: function ($this, type, ev) {               //回调函数 
+					    	   if (type === 'yes') { 
+					            	 Mam.asset.saveForSubmitHandler();   
+					               } else if (type === 'no') { 
+					                          
+					               } 
+					          } 
+					});
+				}else if(ac == 'submit') {
+					Lobibox.confirm({ 
+					       title:"提示",      //提示框标题 
+					            msg: "确认入库?",   //提示框文本内容 
+					       callback: function ($this, type, ev) {               //回调函数 
+					               if (type === 'yes') { 
+					            	   Mam.asset.submitHandler();  
+					               } else if (type === 'no') { 
+					                          
+					               } 
+					          } 
+					});
+				}
+			});
+		}
+	});
+
+
+7.jq  
+assetAdd.jsp	assetAdd.js   
+standardModal 规则展示界面(修改)
+uploadImgModal 上传图片
+
+assetadd.jsp 图片平铺
+jQuery Colorbox是一款非常好的内容播放插件。它集弹出层、幻灯片播放功能于一身，不仅于此，它还支持其它的内容格式：例如html, flash, iframe等，这些内容的显示方式都是Ajax的。更难能可贵的是，在压缩后它只有10K的大小，使用这款插件不会给你的网页带来过多的负担，而且还能实现很棒的视觉效果，为用户体验增色不少。
+
+易于使用也是Colorbox的众多优点之一，它的代码调用非常之简洁。
+
+树形目录
+jquery.ztree  zTree 是一个依靠 jQuery 实现的多功能 “树插件”。优异的性能、灵活的配置、多种功能的组合是 zTree 最大优点。
+
+图片剪裁
+jQuery Jcrop 图像裁剪
+
+Lobibox.confirm 提示框
+
+jQuery.each
+function(index,element)	
+必需。为每个匹配元素规定运行的函数。
+index - 选择器的 index 位置
+element - 当前的元素（也可使用 "this" 选择器）
+
+zyUpload
+图片上传组件
+
+6.12
+
+
+

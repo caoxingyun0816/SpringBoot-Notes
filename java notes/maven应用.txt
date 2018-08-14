@@ -1,0 +1,314 @@
+1.创建maven工程 
+select an archetype
+maven-archetype-quicstart 是普通的maven项目。
+maven-archetype-webapp 是web工程。
+
+2.pom.xml：用于定义或者添加jar包的依赖
+
+  src-main：用于存放java源文件
+
+　src-test：用于存放测试用例。
+
+　也许工程下还会出现target文件夹，这个是用来生成对应的class文件或发布的jar包。
+
+3.Eclipse中maven常用的命令
+
+　　点击Run As就可以发现几个Maven的命令：
+
+　　Maven Build:
+
+　　这个命令用于编译Maven工程，执行命令后会在target文件夹中的classes中生成对应的class文件。
+
+　　Maven Clean:
+
+　　删除target文件夹，即删除生成的package包以及class等文件。
+
+　　Maven Test:
+
+　　先自动进行编译，在运行所有的测试用例。
+
+　　Maven install:
+
+　　发布生成对应的package包。
+
+ 
+
+　　注意：
+
+　　留意上面的命令的作用，build和test都会生成相应的class文件。也就是说，当你新建一个maven工程，或者clean一个maven工程后，如果没有使用这两个命令，直接针对类进行测试，会跑出java.class.notfound的错误。因为此时还没有编译生成class文件，如果有朋友发现这个问题注意一下就好了。（该部分只针对旧版本，新版本如maven3.3是可以自动编译的）
+
+　　只有使用了上面的两个命令后，才能针对某个类进行单元测试。
+
+4.创建的 maven 项目如果是 web 项目，如果通过 eclipse 的 tomcat 插件去发布会遇到各种各样的问题。这一节，我们介绍分别用 maven 的 jetty 插件和 tomcat 插件来发布 maven 的 web 项目。
+	1、使用 jetty 作为容器
+
+	（1）在 pom 文件里引入 jetty 的插件依赖
+	 <build>
+        <finalName>JerseyDemo</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>8.1.16.v20140903</version>
+            </plugin>
+        </plugins>
+    </build>
+
+   
+   2、然后在命令行运行 mvn jetty:run 就可以将该项目发布到 jetty 容器中去了。
+   mvn jetty:run 命令的含义是： 运行 jetty 插件的 run 目标.
+
+   如果我们希望 maven 在运行 package 以后就发布该项目，我们的思路是：把 jetty 插件的 run 目标绑定到 maven 生命周期的 package 阶段。于是我们写出了下面的 pom.xml 文件片段：
+
+    <plugins>
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>8.1.16.v20140903</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+配置好上面的 pom 文件片段以后，我们只要运行 mvn clean package 以后，maven 就会自动帮我们运行 mvn jetty:run。
+
+2、使用 Tomcat 作为发布容器
+关键是抄下这段 pom 配置片段：
+
+    <plugin>
+        <groupId>org.apache.tomcat.maven</groupId>
+        <artifactId>tomcat7-maven-plugin</artifactId>
+        <version>2.2</version>
+    </plugin>
+然后，我们就可以运行 mvn tomcat:run 命令来发布 web 服务到 tomcat 容器了。 
+按照上一节发布到 jetty 容器的做法，我们还可以将 tomcat 插件的 run 目标绑定到 maven 生命周期的 package 阶段，在这里就不赘述了.
+
+jetty与tomcat区别
+相同点
+
+1.tomcat与jetty都是一种servlet引擎，他们都支持标准的servlet规范和javaEE规范
+
+
+
+不同点
+
+1.架构比较
+
+jetty相比tomcat更为简单
+
+jetty架构是基于Handler来实现的，主要的扩展功能都可以用Handler来实现，扩展简单
+
+tomcat的框架是基于容量设计的，进行扩展是需要了解tomcat的整体设计结构，不易扩展
+
+2.性能比较
+
+jetty和tomcat性能方面差异不大
+
+jetty可以同时处理大量链接而且可以长时间保持链接，适合于javaWeb聊天应用
+
+jetty的架构简单，因此作为服务器，jetty可以按需加载组件，减少不需要的组件，减少了服务器内存开销，从而提高服务器性能
+
+jetty默认采用NIO结束来处理I/o请求上更占优势，在处理静态资源时，性能较高
+
+
+
+tomcat适合处理少数非常繁忙的连接，也就是连接生命周期短的话，tomcat的总体性能更高
+
+tomcat默认采用B/o处理I/o请求，在处理静态资源时，性能较差
+
+
+
+3.其他比较
+
+jetty的应用更加快捷，修改简单，对新的servlet规范的支持更好
+
+tomcat目前应用比较广泛，对javaEE和servlet的支持更加全面，很多特性会直接集成进来。
+
+5.如果启动maven项目时，已经启动过，又重新启动创建config启动，那么会出现冲突。
+
+
+6.maven项目启动时如果有source not find
+在run/debug as --> run/debug configurations -->source 中
+删掉default
+添加 选择Java Project 添加自己的项目即可。
+
+7.Maven目录结构
+src
+	main
+		java  主干代码
+		resources 配置文件
+		webapp	web资源，css,js,jsp,web.xml
+	
+	test
+		java   测试代码
+		resources 测试配置文件
+
+8.maven pom文件相关属性用法
+	设置依赖
+	<dependencies>
+	...
+	<dependencies>
+	锁定版本
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+			...
+			<dependency>
+		<dependencies>		
+	<dependencyManagement>
+
+			引用插件
+	<build>
+		<plugins>
+			<!-- 设置编译版本为1.7 -->
+			<plugin>
+			...
+			<plugin>
+		<plugins>
+	<build>
+
+
+9.Maven仓库
+三种仓库
+1、本地仓库 自己维护
+本地仓库的配置只需要修改settings.xml文件就可以
+
+2、远程仓库（私服） 公司维护
+3、中央仓库 maven团队维护     两个亿 
+
+Install 就是把项目发布到本地仓库
+jetty/Tomcat：run  一键启动
+deploy（发布到私服）
+mvn install
+ 
+安装包至本地仓库，以备本地的其它项目作为依赖使用
+ 
+
+mvn deploy
+ 
+复制最终的包至远程仓库，共享给其它开发人员和项目（通常和一次正式的发布相关）
+
+
+
+找到Local resppsitory -->Rebuild index 重建索引
+
+web工程打成war包
+
+java-Project 打成jar包
+
+添加依赖
+1.从网站上查找坐标，http://search.maven.org/
+
+2.使用maven插件的索引功能
+maven --》 add dependency
+
+
+依赖范围
+a依赖b，需要在添加时指定依赖范围
+<scope>compile</scope>
+scope：此元素指的是任务的类路径（编译和运行时，测试等）以及如何限制依赖关系的传递性。有 5 种可用的限定范围：
+compile - 如果没有指定 scope 标签，maven 默认为这个范围。编译依赖关系在所有 classpath 中都可用。此外，这些依赖关系被传播到依赖项目。
+provided - 与 compile 类似，但是表示您希望 jdk 或容器在运行时提供它。它只适用于编译和测试 classpath，不可传递。
+runtime - 此范围表示编译不需要依赖关系，而是用于执行。它是在运行时和测试 classpath，但不是编译 classpath。
+test - 此范围表示正常使用应用程序不需要依赖关系，仅适用于测试编译和执行阶段。它不是传递的。
+system - 此范围与 provided 类似，除了您必须提供明确包含它的 jar。该 artifact 始终可用，并且不是在仓库中查找。
+
+debug调试
+要引入源码
+
+
+依赖传递、
+mvn依赖传递
+mvn 项目 A引用一个依赖项目B，B引用其他的JAR包，那么A也就有了对应的依赖JAR包了，这就是依赖传递。
+
+解决依赖冲突
+
+依赖调解原则
+1)添加两个依赖，这两个依赖都引用了同一个依赖，会产生冲突。
+声明优先原则，先声明的，先被引用。
+2)路径优先原则，
+如A依赖log4j4.0,A依赖B，B依赖log4j3.5，则引用4.0版本的。
+
+排除依赖
+	<groupId>log4j</groupId>
+	<artifactld>log4j</artifactld>
+	<version>4.0</version>
+	<exclusions>
+		<exclusion>
+			<groupId>A</groupId>
+			<artifactld>A</artifactld>
+		</exclusion>
+	</exclusions>
+添加exclusion，排除依赖。
+
+锁定版本
+在pom中添加dependencyManagement属性,将两个冲突的引用指定一个版本。
+<dependencyManagement>
+	<dependencies>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactld>log4j</artifactld>
+			<version>4.0</version>
+		</dependency>
+	</dependencies>
+</dependencyManagement>
+
+在该属性中锁定版本并没有引用依赖，需要在dependencies中引用，此时不需要指定版本了。
+
+
+maven 支持继承功能。子 POM 可以使用 parent 指定父 POM ，然后继承其配置。
+
+  <parent>
+    <groupId>org.codehaus.mojo</groupId>
+    <artifactId>my-parent</artifactId>
+    <version>2.0</version>
+    <relativePath>../my-parent</relativePath>
+  </parent>
+ 
+  <artifactId>my-project</artifactId>
+</project>
+
+四.定义pom.xml（构建SSH web项目）
+1.指定项目坐标。
+2.定义属性properties，即ssh各个框架版本version。
+3.锁定版本，防止版本依赖冲突
+4.添加依赖
+框架，数据库驱动，数据库连接池，servlet,日志，Junit，jstl等。
+5.添加build属性，引用插件。
+maven插件
+Tomcat
+6.配置文件，整合ssh
+7.继承和聚合
+继承
+ssh分为三个独立工程，dao,Service，web，如果将三个工程独立创建，会重复很多配置，
+通用的配置放在父工程中。继承父工程即可。
+聚合
+项目开发通常分模块进行的，每个模块完成，需要将所用模块，聚合起来一起运行，比如dao,Service，web，三个工程会打一个独立的war运行。
+创建父工程。
+
+8.创建好父工程，install发布到仓库（install本地仓库）
+创建子工程
+maven model
+
+依赖传递，是有范围的，如果没有该范围，
+可以直接在项目中引用依赖。
+
+创建问子工程后，修改父工程的pom.xml,
+将子工程都放在<modules>中。
+<modules>
+<module>c<module>
+<module>a<module>
+<module>b<module>
+<modules>
+
+d父工程
+a依赖b,b依赖c
+abc是三个子工程，
+运行a，时，如果b,c修改了，要及时发布到仓库
+
+如果直接运行d,贼会自动聚合a,b,c三个工程

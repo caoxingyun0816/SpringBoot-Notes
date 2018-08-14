@@ -1,0 +1,77 @@
+mysql
+1、登录mysql
+
+本地：mysql -u root -p, 回车后输入密码; 也可以p后不加空格，直接加密码。回车就登录了
+1)、 连接到本机上的MYSQL。
+首先打开DOS窗口，然后进入目录mysql\bin，再键入命令mysql -u root -p；回车后提示你输密码.注意用户名前可以有空格也可以没有空格，但是密码前必须没有空格，否则让你重新输入密码.
+
+远程：mysql -hxx.xx.xx.xx -u -pxxx
+
+2)假设远程主机的IP为：110.110.110.110，用户名为root, 数据库为 mam密码为abcd123。则键入以下命 令：
+mysql -h110.110.110.110 -u root -p mam 
+然后输入密码
+123;(注:u与root之间可以不用加空格，其它也一样)
+
+3)退出MYSQL命令： exit (回车)
+
+4)注意命令要以分号结尾
+
+5)修改密码
+
+　　格式：mysqladmin -u用户名 -p旧密码 password 新密码。 例如
+
+　　1、 给root加个密码ab12。首先在DOS下进入目录mysql\bin，然后键入以下命令
+
+　　mysqladmin -u root -password ab12
+
+　　2、 再将root的密码改为djg345。
+
+　　mysqladmin -u root -p ab12 password ******
+
+UPDATE mysql.user SET password=PASSWORD('新密码') WHERE User='root';
+
+
+2、查看数据库：show databases;
+ 创建数据库 create database db_name;
+
+3、连接数据库：use db_name;
+
+4、查看数据表：show tables;
+
+5、查询：select * from table_name where xxx and xxx;
+
+6、当前选择的数据库：select database();
+
+7、查询mysql版本：select version();
+
+8、当前时间：select now();或select current_timestamp();
+
+9、查看表结构：describe <表名>;
+
+10、当前所有连接的详细情况：show full processlist;(没有full，只显示前100个连接)
+
+11、备份数据库：(命令在DOS的\mysql\bin目录下执行)
+
+　　1.导出整个数据库
+
+　　导出文件默认是存在mysql\bin目录下
+
+　　mysqldump -u 用户名 -p 数据库名 > 导出的文件名
+
+　　mysqldump -u user_name -p123456 database_name > outfile_name.sql
+
+　　2.导出一个表
+
+　　mysqldump -u 用户名 -p 数据库名 表名> 导出的文件名
+
+　　mysqldump -u user_name -p database_name table_name > outfile_name.sql
+
+　　3.导出一个数据库结构
+
+　　mysqldump -u user_name -p -d --add-drop-table database_name > outfile_name.sql
+
+　　-d 没有数据 --add-drop-table 在每个create语句之前增加一个drop table
+
+　　4.带语言参数导出
+
+　　mysqldump -uroot -p --default-character-set=latin1 --set-charset=gbk --skip-opt database_name > outfile_name.sql

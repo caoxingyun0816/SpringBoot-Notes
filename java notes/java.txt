@@ -1,0 +1,21 @@
+java 
+1.
+ /**
+     * ªÒ»°Õº∆¨≥ﬂ¥Á
+     *
+     * @param input
+     *            a {@link java.io.InputStream} object.
+     * @return [width,height]
+     */
+    public static int[] getSizeInfo(InputStream input) throws Exception {
+        try {
+            BufferedImage img = ImageIO.read(input);
+            int w = img.getWidth(null);
+            int h = img.getHeight(null);
+            return new int[] { w, h };
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new Exception(e);
+        }
+    }
+

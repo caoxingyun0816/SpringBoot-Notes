@@ -1,0 +1,254 @@
+1.git init 使用当前目录作为Git仓库，我们只需使它初始化。
+
+2.git init newrepo 使用我们指定目录作为Git仓库。
+初始化后，会在 newrepo 目录下会出现一个名为 .git 的目录，所有 Git 需要的数据和资源都存放在这个目录中。
+
+3.如果当前目录下有几个文件想要纳入版本控制，需要先用 git add 命令告诉 Git 开始对这些文件进行跟踪，然后提交
+$ git add *.c
+$ git add README
+$ git commit -m '初始化项目版本'
+以上命令将目录下以 .c 结尾及 README 文件提交到仓库中。
+
+4.git clone
+我们使用 git clone 从现有 Git 仓库中拷贝项目（类似 svn checkout）。
+
+克隆仓库的命令格式为：
+
+git clone <repo>
+如果我们需要克隆到指定的目录，可以使用以下命令格式：
+
+git clone <repo> <directory>
+
+参数说明：
+
+repo:Git 仓库。
+directory:本地目录。
+比如，要克隆 Ruby 语言的 Git 代码仓库 Grit，可以用下面的命令：
+
+$ git clone git://github.com/schacon/grit.git
+
+执行该命令后，会在当前目录下创建一个名为grit的目录，其中包含一个 .git 的目录，用于保存下载下来的所有版本记录。
+
+如果要自己定义要新建的项目目录名称，可以在上面的命令末尾指定新的名字：
+$ git clone git://github.com/schacon/grit.git mygrit
+
+5.Git 基本操作
+Git 的工作就是创建和保存你项目的快照及与之后的快照进行对比。
+
+git status
+git status 以查看在你上次提交之后是否有修改。
+
+我演示该命令的时候加了 -s 参数，以获得简短的结果输出。
+
+git diff
+执行 git diff 来查看执行 git status 的结果的详细信息。
+
+git diff 命令显示已写入缓存与已修改但尚未写入缓存的改动的区别。git diff 有两个主要的应用场景。
+
+尚未缓存的改动：git diff
+查看已缓存的改动： git diff --cached
+查看已缓存的与未缓存的所有改动：git diff HEAD
+显示摘要而非整个 diff：git diff --stat
+
+git commit
+使用 git add 命令将想要快照的内容写入缓存区， 而执行 git commit 将缓存区内容添加到仓库中。
+我们使用 -m 选项以在命令行中提供提交注释
+
+ $ git commit -m '第一次版本提交'
+
+如果你没有设置 -m 选项，Git 会尝试为你打开一个编辑器以填写提交信息。
+
+如果你觉得 git add 提交缓存的流程太过繁琐，Git 也允许你用 -a 选项跳过这一步。命令格式如下：
+
+git commit -a
+
+我们先修改 hello.php 文件为以下内容：
+
+<?php
+echo '菜鸟教程：www.runoob.com';
+echo '菜鸟教程：www.runoob.com';
+?>
+再执行以下命令：
+
+git commit -am '修改 hello.php 文件'
+[master 71ee2cb] 修改 hello.php 文件
+ 1 file changed, 1 insertion(+)
+
+git reset HEAD
+git reset HEAD 命令用于取消已缓存的内容。
+
+我们先改动文件 README 文件，内容如下：
+
+# Runoob Git 测试
+# 菜鸟教程 
+hello.php 文件修改为：
+
+<?php
+echo '菜鸟教程：www.runoob.com';
+echo '菜鸟教程：www.runoob.com';
+echo '菜鸟教程：www.runoob.com';
+?>
+现在两个文件修改后，都提交到了缓存区，我们现在要取消其中一个的缓存，操作如下：
+
+$ git status -s
+ M README
+ M hello.php
+$ git add .
+$ git status -s
+M  README
+M  hello.pp
+$ git reset HEAD -- hello.php 
+Unstaged changes after reset:
+M    hello.php
+$ git status -s
+M  README
+ M hello.php
+现在你执行 git commit，只会将 README 文件的改动提交，而 hello.php 是没有的。
+
+$ git commit -m '修改'
+[master f50cfda] 修改
+ 1 file changed, 1 insertion(+)
+$ git status -s
+ M hello.php
+
+
+
+
+可以看到 hello.php 文件的修改并为提交。
+
+这时我们可以使用以下命令将 hello.php 的修改提交：
+
+$ git commit -am '修改 hello.php 文件'
+
+git rm
+
+git rm <file>
+要从 Git 中移除某个文件，就必须要从已跟踪文件清单中移除，然后提交。
+
+如果删除之前修改过并且已经放到暂存区域的话，则必须要用强制删除选项 -
+git rm -f <file>
+
+如果把文件从暂存区域移除，但仍然希望保留在当前工作目录中，换句话说，仅是从跟踪清单中删除，使用 --cached 选项即可
+
+git rm --cached <file>
+
+如我们删除 hello.php文件：
+
+$ git rm hello.php 
+rm 'hello.php'
+$ ls
+README
+不从工作区中删除文件：
+
+$ git rm --cached README 
+rm 'README'
+$ ls
+README
+可以递归删除，即如果后面跟的是一个目录做为参数，则会递归删除整个目录中的所有子目录和文件：
+
+git rm –r * 
+进入某个目录中，执行此语句，会删除该目录下的所有文件和子目录。
+
+git mv
+git mv 命令用于移动或重命名一个文件、目录、软连接。
+
+我们先把刚移除的 README 添加回来：
+
+$ git add README 
+然后对其重名:
+
+$ git mv README  README.md
+$ ls
+README.md
+
+5.Git 分支管理
+创建分支命令：
+	git branch (branchname)
+
+切换分支命令:
+	git checkout (branchname)
+
+当你切换分支的时候，Git 会用该分支的最后提交的快照替换你的工作目录的内容， 所以多个分支不需要多个目录。
+	合并分支命令:
+	git merge 
+
+列出分支
+列出分支基本命令：
+git branch
+
+当你以此方式在上次提交更新之后创建了新分支，如果后来又有更新提交， 然后又切换到了"testing"分支，Git 将还原你的工作目录到你创建分支时候的样子。
+我们用 git checkout (branch) 切换到我们要修改的分支。
+
+$ ls
+README
+$ echo 'runoob.com' > test.txt
+$ git add .
+$ git commit -m 'add test.txt'
+[master 048598f] add test.txt
+ 2 files changed, 1 insertion(+), 3 deletions(-)
+ delete mode 100644 hello.php
+ create mode 100644 test.txt
+$ ls
+README        test.txt
+$ git checkout testing
+Switched to branch 'testing'
+$ ls
+README        hello.php
+
+当我们切换到"testing"分支的时候，我们添加的新文件test.txt被移除了, 原来被删除的文件hello.php文件又出现了。切换回"master"分支的时候，它们有重新出现了。
+$ git checkout master
+Switched to branch 'master'
+$ ls
+README        test.txt
+
+我们也可以使用 git checkout -b (branchname) 命令来创建新分支并立即切换到该分支下，从而在该分支中操作。
+
+删除分支命令：
+git branch -d (branchname)
+
+分支合并
+git merge
+
+合并并不仅仅是简单的文件添加、移除的操作，Git 也会合并修改。
+
+6.Git 查看提交历史
+在使用 Git 提交了若干更新之后，又或者克隆了某个项目，想回顾下提交历史，我们可以使用 git log 命令查看
+
+我们可以用 --oneline 选项来查看历史记录的简洁的版本
+$ git log --oneline
+
+我们还可以用 --graph 选项，查看历史中什么时候出现了分支、合并。以下为相同的命令，开启了拓扑图选项：
+$ git log --oneline --graph
+
+如果只想查找指定用户的提交日志可以使用命令：git log --author 
+$ git log --author=Linus --oneline -5
+
+
+
+Git 标签
+如果你达到一个重要的阶段，并希望永远记住那个特别的提交快照，你可以使用 git tag 给它打上标签。
+我们可以用 git tag -a v1.0 命令给最新一次提交打上（HEAD）"v1.0"的标签。
+
+ 不用 -a 选项也可以执行的，但它不会记录这标签是啥时候打的，谁打的，也不会让你添加个标签的注解。
+
+ $ git tag -a v1.0
+
+ 当你执行 git tag -a 命令时，Git 会打开你的编辑器，让你写一句标签注解，就像你给提交写注解一样
+
+ 删除标签
+
+ git tag -d v1.1
+
+
+
+保存密码
+全局设置
+[credential]
+helper = store
+
+桌面出现蓝色底的白色问号
+说明有地方有.git文件夹，以桌面创建了仓库。删除.git文件夹即可
+
+向上箭头表示本地有提交(commit)，但是还没有推(push)到远程代码库中，旁边的数字表示本地commit的次数；
+
+向下箭头表示你拉(fetch)下来的更新，需要合并(merge)到你的本地代码库，旁边的数字表示更新的次数；

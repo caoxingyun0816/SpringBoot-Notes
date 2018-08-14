@@ -1,0 +1,2334 @@
+4.17
+1.环境
+2.git
+3.系统
+4.业务
+
+window + run 运行
+
+cmd 命令窗口cmd
+regedit 注册表 regedit
+services.msc 打开服务 services.msc
+
+--查看占用的端口并停止
+netstat -ano 列出所有端口的情况，找到被占用的端口  netstat -ano 
+查看被占用端口对应的PID，输入命令：netstat -ano|findstr "49157"，回车，记下最后一位数字，即PID,这里是2720。
+
+继续输入tasklist|findstr "2720"，回车，查看是哪个进程或者程序占的pid是2720，结果是：svchost.exe tasklist
+
+我们打开任务管理器，切换到进程选项卡，在PID一列查看2720对应的进程是谁，
+则我们点击查看--->选择列，将PID(进程标示符)前面的勾打上，点击确定。
+
+这样我们就看到了PID这一列标识，看一下2720对应的进程是谁，如果没有，我们把下面的显示所有用户的进程前面的勾打上，就可以看到了，映像名称是svchost.exe，描述是，Windows的主进程,与上面命令查看的完全一致。
+
+结束该进程：在任务管理器中选中该进程点击”结束进程“按钮，或者是在cmd的命令窗口中输入：taskkill /f /t /im Tencentdl.exe。
+
+window r
+cmd
+services.msc
+regedit
+
+netstat -ano |findstr 8808
+tasklist |findstr 2222
+taskkill /f/t/im a.exe
+
+无聊了可以看这些内容
+BatchContentImportServlet中doPost方法
+然后在这个进入ImportContentThreadPool.addTask()方法中
+再到importedContentRelationshipService.importTask()中看这个方法的实现
+
+确实需要适应，这个困难要面对，哪里不会问哪里。
+对于系统，需要完全吃透，了解构造，运行流程，使用的技术，将一个系统，了解清楚，后对于其他的也能融会贯通。
+
+4.18
+通知Cip
+步骤：
+点播管理 
+PointAssetManagerAction
+pointAssetManager.jsp 添加PlayUrl按钮
+pointAssetManager.js 添加uploadPlayUrlToCip()，ajax异步请求 asset/cdnInjectionAction!uploadPlayUrlToCip.htm，使用的是！动态调用cdnInjectionAction中的uploadPlayUrlToCip
+cdnInjectionAction 中添加uploadPlayUrlToCip()方法，处理上传url，发送请求。
+		<action name="cdnInjectionAction" class="com.wondertek.mam.webapp.action.CdnInjectionAction">
+			<result type="json">
+				<param name="root">resultMap</param>
+			</result>
+		</action>
+		返回类型为json，这种方式，要添加resultMap的get方法，Struts将resultMap中的数据转化成字符串传给前台获取，ajax异步获取数据，处理信息。
+cdnInjectionService 添加uploadPlayUrlToCip()，生成请求数据，通过配置文件生成uploadPlayUrlToCip.ftl生成请求报文，发送到对应系统。
+使用java的httpclient 发送post请求，可以发送请求报文。
+
+数据库：
+alter table  m_asset add (CDIStatus number(10));  
+Asset 添加了CDIStatus 字段。
+
+4.19
+1.完成任务
+2.自己找资料了解系统，熟悉项目，了解数据库
+3.学习bootstrap
+
+4.20
+1.效率要更高，学习bootstrap。
+2.看系统，学业务
+3.Maven仓库，父工程。Maven测试，添加的文件找不到？
+4.网络。公司内网。
+
+web访问的路径
+和你自己手动添加的有关，手动添加的目录一定要加入路径中。
+
+display:block; 块级元素
+
+css 选择器
+
+HTML选择器
+<style type="text/css">
+p {   /*设置样式：字体和背景色*/
+	font-family: System; 
+	font-size: 18px;
+	color: #3333CC;
+}
+</STYLE>
+
+
+<p>　　 1、蛋鱼：蛋鱼</p>
+
+class类选择器
+
+<STYLE type="text/css">
+.myinput 
+{
+	border: 1px solid;
+	border-color:#D4BFFF;
+	color:#2A00FF
+}
+</STYLE>
+
+<input name="textfield" type="text" class="myinput"></p>
+
+id选择器
+<style type="text/css">		
+ #fire 
+ {
+  color:red;
+  font-size: 24px;
+ }					
+</style>
+
+
+<body>                 
+<p id ="fire">我是段落，火是这样的</p>
+</body>
+
+style="display:none; 不显示
+
+请求后缀是.htm,inf
+<constant name="struts.action.extension" value="htm,inf" />
+
+支持!请求动态方法，！后跟Action中要请求的方法
+<constant name="struts.enable.DynamicMethodInvocation" value="true" /> 
+
+还可以直接请求指定Action id
+
+<%@ taglib uri="http://www.wondertek.com.cn/cas" prefix="cas" %> 自定义标签库，和sso登录有关
+<fmt:message key="home.page"/>
+
+国际化资源
+ApplicationResources_zh_CN.properties、
+home.page=\u9996\u9875
+
+<div class="col-sm-7">
+<select multiple="multiple" class="form-control input-sm chosen-select" error-locate="next" data-placeholder="<fmt:message key="select.multi"/>" id="poingAssetType">
+</select>
+</div>
+
+
+根据Id加载缓存数据poingAssetType，在对应的jsz中获取数据。
+
+loadAttrData("#poingAssetType", webroot +"other/attrCacheAction!query.htm", 45);
+
+
+
+发送登录请求
+加载css，bootstrap，jQuery 等一系列的css，加载js
+http://localhost:8080/mam-admin/ace/assets/css/bootstrap.css
+
+http://localhost:8080/mam-admin/other/loadNoticeMsgForMainPage.htm
+
+http://localhost:8080/mam-admin/json/checkSession.htm?_=1524214641665
+
+点播管理 (对应界面pointAssetManager)
+
+控制台的请求信息
+加载资源 session，页面,js,字体
+
+/json/checkSession!checkSession
+http://localhost:8080/mam-admin/json/checkSession.htm?_=1524214641667
+
+
+http://localhost:8080/mam-admin/asset/pointAssetManager.htm?_=1524214641668
+
+http://localhost:8080/mam-admin/pages/sys/js/assetSelect.js?_=1524214641669
+
+http://localhost:8080/mam-admin/pages/asset/js/pointAssetManager.js?_=1524214641670
+
+http://localhost:8080/mam-admin/pages/copyright/js/copyrightDeclareSearch.js?_=1524214641671
+
+http://localhost:8080/mam-admin/other/attrCacheAction!query.htm
+loadAttrData("#poingAssetType", webroot +"other/attrCacheAction!query.htm", 45);
+这个是获取前台下拉框的数据的请求方法。
+
+
+http://localhost:8080/mam-admin/asset/queryPointAsset.htm
+
+请求action
+http://localhost:8080/mam-admin/asset/queryPointAsset.htm?form-field-checkbox=on&form-field-checkbox=on&form-field-checkbox=on&form-field-checkbox=on&form-field-checkbox=on&form-field-checkbox=on&assetId=&name=&keywords=&formType=&category=&userName=&showSerial=1&resolutionHigh=&videoBitRate=&beginTime=&endTime=&distStatus=&p383=&contentLevel=&tvEndDate=&mpid=&modifyyhdm=&createTime=&manual_createTime=&manual_modifyTime=&assetBP383=&assetType=null&displayType=null&recommendlabel=&platform=null&showSerialFlag=1
+
+
+4.23
+1.看系统，学业务，学技术。
+
+2.Maven仓库，父工程。Maven测试，添加的文件找不到。
+
+父工程 com.wondertek.mobilevideo(将父工程发布到本地或私服供其子工程使用)
+http://172.168.15.21:18081/nexus/content/repositories/chyxRepo/jaxrpc/jaxrpc/1.1/jaxrpc-1.1.poms
+
+父工程在pom文件中指定<model>引用子工程。
+
+子工程
+com.wondertek.mobilevideo.mam
+
+man-admin
+
+man-core
+
+admin 依赖 core，core修改后要install到本地。
+
+3.国际化资源原理，如何使用。
+
+4.<%@ taglib uri="http://www.wondertek.com.cn/cas" prefix="cas" %>自定义标签库；
+
+5.Jqgrid，JQuery
+
+6.提高效率，自己多写。
+
+7.shell命令
+
+媒资系统，媒资主要是指媒体资源，存放在m_asset 表中，其中包括媒体源文件（例如视频，音频等），这个源文件放在m_media 中，一条媒资信息对应多个媒资源文件。以媒资ID来关联。
+
+CdnQueue cdn注入队列，cdn分发，删除，都要进入该队列
+
+
+
+
+
+
+String[] assetStr = assetIds.split(",");
+		//返回没有媒体文件的媒资id
+		String responseIds = "";
+		String transactionIds = "";
+		for(String assetId : assetStr){
+			//查询媒资是否有媒体文件
+			List<AssetMedia> assetMedias = assetMediaService.querySomeMediaByAssetId2(StringUtil.nullToLong(assetId));			
+			if( assetMedias == null || assetMedias.size() == 0 || StringUtil.nullToBoolean(assetMedias.get(0).getIsUrlOnly())){
+				responseIds = responseIds + assetId + ",";
+			}else{
+				//向CDN注入列队里插入数据
+				CdnQueue cdnQueue = new CdnQueue();
+				cdnQueue.setAssetId(StringUtil.nullToLong(assetId));
+				cdnQueue.setStatus(0);//执行状态 0:待执行，1:执行中，2:执行完成;3:失败
+				cdnQueue.setOperCode(2);//操作码：   1:删除；2：注入
+				cdnQueue = cdnInjectionService.save(cdnQueue);
+				transactionIds = transactionIds + cdnQueue.getId() + ",";
+				//更新asset表里的数据
+				Asset asset = assetService.getAssetByAssetId(StringUtil.nullToLong(assetId));
+				if(asset != null){
+					asset.setCDNStatus(0);//0:待分发，1:分发中，2:分发成功;3:分发失败;4:待删除;5:删除中;6:删除成功;7:删除失败
+					assetService.update(asset);
+				}
+			}
+		}
+
+24.
+1.世界杯节目单
+2.Jqgrid，JQuery
+3.看系统，学业务，学技术。
+
+JQuery
+获取DOM元素
+1.基本选择器
+$(".class") 类选择器
+$("#ID")id选择器
+$("div")元素选择器
+$("*")所用选择器
+$("div,#id,.class")合并选择器
+
+2.层次选择器
+$("div input")
+div 里的所用input元素
+
+3.属性选择器对象后加[],表示对应节点的属性
+$("div input [name = 'cxy']")
+
+var modifyTime= $("#manualForm input[name='manual_modifyTime']").val();
+
+基本过滤器 ：选择过滤
+div后的最后一个元素
+$("div：last")
+div后的第一个元素
+$("div：first")
+
+过滤器基本都是在:后加入对应的属性
+
+style = "display:none"
+隐藏元素
+
+
+场景一 
+user0 有新提交
+user1 没有pull -> 写新代码 -> pull -> 提示有冲突
+ 
+解决办法一
+-> stash save(把自己的代码隐藏存起来) -> 重新pull -> stash pop(把存起来的隐藏的代码取回来 ) -> 代码文件会显示冲突 -> 右键选择edit conficts，解决后点击编辑页面的 mark as resolved ->  commit&push
+ 
+解决办法二(尽量少使用，这种方法的优点是在在原编辑器里处理冲突，代码逻辑看得更清楚一些)
+-> stash save(把自己的代码隐藏存起来) -> 重新pull -> stash pop(把存起来的隐藏的代码取回来 ) -> 代码文件会显示冲突 -> 右键选择resolve conflict -> 打开文件解决冲突 -> commit&push
+ 
+ 
+场景二
+user0 有新提交
+user1 没有pull -> 写新代码 -> commit&push -> 提示有冲突
+ 
+解决办法一
+-> pull -> 代码文件会显示冲突 -> 右键选择edit conficts，解决后点击编辑页面的 mark as resolved ->  commit&push
+
+
+流程：
+初次提交：
+- 通过git add 将文件 工作区 ---》暂存区 (本地)
+- 通过git commit 将文件 暂存区 ---》分支 (本地)
+- 通过git push 将文件 分支 ---》远程库 (github)
+
+提交改动：
+- 通过git commit将文件 暂存区 ---》分支 (本地)
+- 通过git push 将文件 分支 ---》远程库 (github)
+
+pull&push
+- 通过git pull 将文件 远程库 ---》分支 (本地)
+- 通过git push 将文件 分支 ---》远程库 (github)
+
+而上面的两个操作是需要有改动，有差异才能执行。
+所以会提示暂存区和远程库的内容一致。
+
+4.25
+what fuck
+
+jQuery 插件
+
+redis
+
+m_epg_world_cup
+
+cookie
+seesion
+http 
+tcp  
+javase 
+jvm
+
+4.26
+启动报监听错误
+maven mam启动时将resource编码设置为utf-8
+
+看代码
+
+EPG生产
+EPG节目单 指以前的节目单
+直播节目管理 世界杯新增的导入节目
+
+删除时先判断节目是否上线，如果上线了，提示要先下线才能删除。根据 
+
+m_content_world_cup 
+
+	
+	/**
+	 * 是否已发布
+	 */
+	private Boolean published=false;
+
+字段判断。
+
+
+视频集中转码，2D常规片源自适应转码策略如下：
+
+片源分辨率（高）及码率范围	自适应输出转码率	选择杜比
+
+采用HTTP+XML实现。使用XML描述业务属性。易读性强，扩展性好。
+
+需要说明的是，在HTTP传输过程中，HTTP Header部分需要遵循下面的约定：
+Content-Type: text/xml; charset=UTF-8
+Content-Length: length
+
+媒资合作接入平台与接入商之间交易等待超时时间配置为60秒（配置可修改），超过60秒后系统直接判定为超时。超时后的处理需要进行n次重发（n可配置，暂定为5次），n次重发后还是失败系统直接判定为处理失败，停止处理，后续由人工干预处理（人工重发）。
+
+点播内容注入接口
+BatchContentImportServlet
+
+回执文件
+当点播内容注入请求响应成功时，会生成媒资合作接入平台的内容ID和接入商系统的内容ID的对应关系，便于后续对账单中建立媒资合作接入平台的内容ID和接入商的内容ID的对应关系。
+
+Contents	Content	1..n	－	－	－	
+Content	ResCode	1	String
+V10	应答/错误代码	参见8.2.2异步响应应答码
+Content	ResMessage	1	String
+V100	应答/错误描述	必填
+Content	IsAssetExist	?	String
+F1	媒资合作接入平台系统媒资是否存在，用于媒资重复的情况表示采用新增媒资还是已有媒资	1：新增媒资
+2：已有媒资
+Content	ContentId	1	String
+V20	媒资合作接入平台系统自动生成的ID	可以为空
+Content	Sequence	1	String
+V20	接入商系统的内容ID	必填
+Content	AssetId	1	String
+V20	媒资合作接入平台系统自动生成的媒资ID	可以为空
+Content	CopyrightId	1	String
+V20	媒资合作接入平台系统自动生成的版权ID	可以为空
+
+OTT回执文件
+当点播内容注入请求响应成功时，会生成媒资合作接入平台的内容ID和接入商系统的内容ID的对应关系，便于后续对账单中建立媒资合作接入平台的内容ID和接入商的内容ID的对应关系。
+
+直播内容注入接口
+batchLivingContentImportServlet
+、
+直播节目单注入接口
+updateLivingPlaybillServlet
+
+对账文件
+为方便接入商及时知道内容当前所处的状态，媒资合作接入平台系统每隔五分钟生成一个内容的对账文件，
+该对账文件包括了当前时间到当天零点所有内容发生变化的信息，生成后的文件存放于FTP的指定位置，由接入商获取。
+
+当媒资的审核状态、版权的审核状态和内容的发布状态其中任意一个条件发生变化时就会生成该注入内容的对账文件。
+
+分层分级信息同步接口
+根据编码查询基础属性的枚举值
+baseAttrQueryServlet?code=21
+ip为访问的服务器地址，port为访问的端口号，code为编码的数值，例如code=21表示请求点播主分类的枚举值。
+
+拓展属性接口
+extendAttrQueryServlet?displayType=****
+点播内容根据主分类不同包含不同的扩展属性，本接口规范了一主分类下包含的所有扩展属性。
+
+拓展属性取值查询接口
+点播内容类型为人物、出品方的扩展属性取值查询接口
+
+extendAttrValQueryServlet?type=3
+
+码率和转码策略查询接口
+点播和直播内容的码率取值查询和点播转码策略的取值查询接口
+
+http://ip:port/mam-admin/codeRateAndStrategyQueryServlet? type=1
+type为查询的类别，type为1时表示查询点播码率信息，type为4时表示查询直播码率信息，type为2时表示查询转码策略信息。 
+
+
+SecurityKey生成
+请求报文中SecurityKey生成代码样例请参考SignGen类。
+http&https数据发送
+使用http和https协议发送xml数据代码请参考HttpClientUtil类
+ public static String sendPostRequest(String reqURL){
+        //响应长度
+        long responseLength = 0;
+        //响应内容
+        String responseContent = null;
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost post  = new HttpPost(reqURL);
+        try {
+            StringEntity xmlEntity = new StringEntity("测试", "GBK");
+            post.addHeader("Content-Type", "text/xml");
+            post.setEntity(xmlEntity);
+            HttpResponse response = httpclient.execute(post);
+            //获取响应实体
+            HttpEntity entity = response.getEntity();
+            if (null != entity) {
+                responseLength = entity.getContentLength();
+                responseContent = EntityUtils.toString(entity, "GBK");
+                //EntityUtils.consume(entity); //Consume response content
+            }
+            System.out.println("响应状态: " + response.getStatusLine());
+            System.out.println("响应长度: " + responseLength);
+            System.out.println("响应内容: " + responseContent);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            post.releaseConnection();
+        }
+        return responseContent;
+    }
+
+
+基于第三方库FtpClient的FTP服务器数据传输
+public static void upload(String localFile, String ftpFile, FtpClient ftp) {  
+        OutputStream os = null;  
+        FileInputStream fis = null;  
+        try {  
+            // 将ftp文件加入输出流中。输出到ftp上  
+            os = ftp.putFileStream(ftpFile);  
+            File file = new File(localFile);  
+  
+            // 创建一个缓冲区  
+            fis = new FileInputStream(file);  
+            byte[] bytes = new byte[1024];  
+            int c;  
+            while((c = fis.read(bytes)) != -1){  
+                os.write(bytes, 0, c);  
+            }  
+            System.out.println("upload success!!");  
+        } catch (FtpProtocolException e) {  
+            e.printStackTrace();  
+        } catch (IOException e) {  
+            e.printStackTrace();  
+        } finally {  
+            try {  
+                if(os!=null) {  
+                    os.close();  
+                }  
+                if(fis!=null) {  
+                    fis.close();  
+                }  
+            } catch (IOException e) {  
+                e.printStackTrace();  
+            }  
+        }  
+    }  
+
+  
+http+xml请求方式
+请求到对应方法后
+在servlet中用getinputStream获取，请求内容
+InputStream inputStream = request.getInputStream();
+
+	InputStream inputStream = request.getInputStream();
+        response.setContentType("text/html;charset="+CHAR_ENCODING);
+        response.setCharacterEncoding(CHAR_ENCODING);
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        //读取缓存
+        byte[] buffer = new byte[2048];
+        int length = 0;
+        while((length = inputStream.read(buffer)) != -1) {
+            bos.write(buffer, 0, length);//写入输出流
+        }
+
+        // 根据输出流创建字符串对象
+        String xmlStr = new String(bos.toByteArray(), CHAR_ENCODING);
+        log.info("--------------request xmlStr is " + xmlStr);
+
+
+对于请求别人的接口：需要自己自己拼接请求报文，然后用httpClient，请求路径和方法，解析返回信息(json)，String responseXml = SendHttpRequest.sendStr(url, xmlStr);
+
+对应别人的请求，需要提供servlet接口调用，解析请求报文InputStream inputStream = request.getInputStream();处理后，拼接xml，
+String returnStr = BatchContentImportUtil.responseXML(params);
+            HttpServletResponse response = (HttpServletResponse)paramsMap.get("response");
+            PrintWriter out = response.getWriter();
+            out.write(returnStr);
+            out.flush();
+	    用response返回信息。
+
+
+String importContentAccess = systemConfigService.getConfigValue("IMPORT_CONTENT_ACCESS");
+
+注入内容
+m_imported_content_task
+
+线程池
+
+现在我是原理都知道了，需要自己来写
+缺少代码量
+post
+
+get 直接获取参数
+
+要实现SSO，需要以下主要的功能：
+所有应用系统共享一个身份认证系统。
+　　统一的认证系统是SSO的前提之一。认证系统的主要功能是将用户的登录信息和用户信息库相比较，对用户进行登录认证；认证成功后，认证系统应该生成统一的认证标志（ticket），返还给用户。另外，认证系统还应该对ticket进行效验，判断其有效性。
+所有应用系统能够识别和提取ticket信息
+　　要实现SSO的功能，让用户只登录一次，就必须让应用系统能够识别已经登录过的用户。应用系统应该能对ticket进行识别和提取，通过与认证系统的通讯，能自动判断当前用户是否登录过，从而完成单点登录的功能。
+
+不要用maven-clean ，用整个项目的clean，core-->install,mam -->build
+
+
+4.27
+转码策略
+m_media_strategy
+
+<%@ taglib uri="http://www.wondertek.com.cn/cas" prefix="cas" %> 不理解；
+
+Jqgrid
+
+片源分辨率（高）及码率范围	自适应输出转码率	选择杜比
+
+
+2、	CIP解析报文，生成属于自己的内容id（魔百和id），内容入库。CIP不需要搬迁视频文件，但需要搬迁图片文件。
+3、	CIP完成内容入库后，通过ADI2的异步响应，将魔百和id（《CIP规范》的2.3.2章节的currentID字段）与统一媒资的id《CIP规范》的2.3.2章节的ID字段）对应关系返回给统一媒资。
+4、	统一媒资OTT CIP生成的内容id（魔百和id）通知到咪咕CDN。咪咕CDN基于此id，生成可服务URL。
+5、	咪咕CDN将此URL返回给统一媒资。
+6、	统一媒资通过CDI上报给OTT CIP。
+
+漏洞是怎样产生的。
+程序不健壮，考虑的东西，因素太少，要学会思考。
+
+4.28
+<%@ taglib uri="http://www.wondertek.com.cn/cas" prefix="cas" %> 不理解；
+
+Jqgrid
+
+片源分辨率（高）及码率范围	自适应输出转码率	选择杜比
+
+看系统
+
+线程池
+
+<form id="impAssetForm" name="impAssetForm" method="post" 
+	enctype="multipart/form-data" class="form-horizontal" onsubmit="false">
+<input type='file' style='display: none;' id="pointAssetInFile" name="pointAssetInFile" onchange="importPointAssetExcel()"/>
+</form>
+
+Struts2 下载文件，action的设置
+<action name="exportAsset" class="com.wondertek.mam.webapp.action.PointAssetManagerAction" method="exportAsset">
+			<result type="stream">
+				<param name="contentType">application/vnd.ms-excel</param>
+				<param name="contentDisposition">attachment;filename="Asset.xls"</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+
+long sTime = System.currentTimeMillis();
+
+InputStream is = new ByteArrayInputStream(bt);
+
+5.3
+1.<%@ taglib uri="http://www.wondertek.com.cn/cas" prefix="cas" %> 
+2.Jqgrid
+3.系统
+
+_sso_userid
+_sso_username
+
+hibernate操作数据库的一些写法
+
+mysql
+1、登录mysql
+
+本地：mysql -u root -p, 回车后输入密码; 也可以p后不加空格，直接加密码。回车就登录了
+1)、 连接到本机上的MYSQL。
+首先打开DOS窗口，然后进入目录mysql\bin，再键入命令mysql -u root -p；回车后提示你输密码.注意用户名前可以有空格也可以没有空格，但是密码前必须没有空格，否则让你重新输入密码.
+
+远程：mysql -hxx.xx.xx.xx -u -pxxx
+
+2)假设远程主机的IP为：110.110.110.110，用户名为root, 数据库为 mam密码为abcd123。则键入以下命 令：
+mysql -h110.110.110.110 -u root -p mam 
+然后输入密码
+123;(注:u与root之间可以不用加空格，其它也一样)
+
+3)退出MYSQL命令： exit (回车)
+
+4)注意命令要以分号结尾
+
+5)修改密码
+
+　　格式：mysqladmin -u用户名 -p旧密码 password 新密码。 例如
+
+　　1、 给root加个密码ab12。首先在DOS下进入目录mysql\bin，然后键入以下命令
+
+　　mysqladmin -u root -password ab12
+
+　　2、 再将root的密码改为djg345。
+
+　　mysqladmin -u root -p ab12 password ******
+
+UPDATE mysql.user SET password=PASSWORD('新密码') WHERE User='root';
+
+
+2、查看数据库：show databases;
+ 创建数据库 create database db_name;
+
+3、连接数据库：use db_name;
+
+4、查看数据表：show tables;
+
+5、查询：select * from table_name where xxx and xxx;
+
+6、当前选择的数据库：select database();
+
+7、查询mysql版本：select version();
+
+8、当前时间：select now();或select current_timestamp();
+
+9、查看表结构：describe <表名>;
+
+10、当前所有连接的详细情况：show full processlist;(没有full，只显示前100个连接)
+
+11、备份数据库：(命令在DOS的\mysql\bin目录下执行)
+
+　　1.导出整个数据库
+
+　　导出文件默认是存在mysql\bin目录下
+
+　　mysqldump -u 用户名 -p 数据库名 > 导出的文件名
+
+　　mysqldump -u user_name -p123456 database_name > outfile_name.sql
+
+　　2.导出一个表
+
+　　mysqldump -u 用户名 -p 数据库名 表名> 导出的文件名
+
+　　mysqldump -u user_name -p database_name table_name > outfile_name.sql
+
+　　3.导出一个数据库结构
+
+　　mysqldump -u user_name -p -d --add-drop-table database_name > outfile_name.sql
+
+　　-d 没有数据 --add-drop-table 在每个create语句之前增加一个drop table
+
+　　4.带语言参数导出
+
+　　mysqldump -uroot -p --default-character-set=latin1 --set-charset=gbk --skip-opt database_name > outfile_name.sql
+
+
+5.7 gogoggogo
+
+1.重构代码
+2.界面
+
+5.8
+改造界面
+补充知识
+
+系统中的左边菜单栏在 left.jsp中
+
+<script src="./ace/assets/js/jqGrid/jquery.jqGrid.src.js"></script>
+
+<script src="./ace/assets/js/jqGrid/i18n/grid.locale-cn.js"></script>
+<script src="./ace/assets/js/jquery-ui.js"></script>
+<script src="./ace/assets/js/jquery-ui.custom.js"></script>
+<script src="./ace/assets/js/jquery.ui.touch-punch.js"></script>
+<script src="./ace/assets/js/jquery.gritter.js"></script>
+<script src="./ace/assets/js/jquery.easypiechart.js"></script>
+
+首页
+<script src="./pages/util.js?v=2.4.0"></script>
+<script src="./pages/main.js"></script>
+<script src="./pages/live/js/MVC/base.js"></script>
+<script src="./pages/live/js/MVC/common.js"></script>
+<script src="./pages/live/js/MVC/page.js"></script>
+
+5.9 
+计划，接下来需要学的东西。
+1)Struts配置信息和顺序
+       <result-types>
+            <result-type name="json" class="org.apache.struts2.json.JSONResult"/>
+        </result-types>
+        <interceptors>
+            <interceptor name="json"
+                         class="org.apache.struts2.json.JSONInterceptor"/>
+        </interceptors>
+
+
+2)hibernate 注解 ，注意配置映射关系，hql语句
+@JSON(format = "yyyy-MM-dd HH:mm:ss")
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "injection_time")
+	public Date getInjectionTime() {
+		return injectionTime;
+	}
+
+3)
+jqgrid
+
+4)
+bootstrup
+col-lg-3
+
+列出现在欠缺的知识，然后系统的学习，动手。
+
+listUgc(event)
+
+addUgcModal
+添加DIV  Mam.ugcManager.addSave()
+
+editUgcUserDiv
+ <input type="text" class="form-control" id = "ugcIp" placeholder="多个IP请用英文逗号分隔"/>
+ placeholder 
+
+ Mam.ugcManager.editAndSave()
+
+ 5.10
+jqgrid
+熟练使用jqgrid
+
+Bootstrap 模态框（Modal）插件
+layUI
+
+jqGrid随窗口大小变化自适应大小
+
+好像在写bug，不过也通过错误，发现了用途，如果直接复制，还是不知道。
+
+eclipse 中没有js的语法校验，要细心。
+错误：
+1.不能隐藏
+<div class="modal fade" id="subContentModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+
+aria-hidden="true" 隐藏div，hidden 写错了，不能隐藏
+
+class="modal fade" 写错了，导致不能控制隐藏。
+
+2.js写错了，导致按钮显示不出来。
+gridComplete：为每一条数据后加一个按钮
+var ids = $(grid_selector).jqGrid('getDataIDs');
+获取ID时，getDataIDs写成了getDataIds，导致识别不了属性。
+
+3.获取不到数据
+var rowData = $("#grid-table-dbgl").getRowData(id);
+ $("#grid-table-dbgl") 直接使用另一个方法定义的变量。
+
+5.11
+修改，复习
+
+国际化资源
+ApplicationResources_zh_CN.properties、
+home.page=\u9996\u9875
+<fmt:message key="home.page"/>
+
+
+1)Struts配置信息和顺序
+       <result-types>
+            <result-type name="json" class="org.apache.struts2.json.JSONResult"/>
+        </result-types>
+        <interceptors>
+            <interceptor name="json"
+                         class="org.apache.struts2.json.JSONInterceptor"/>
+        </interceptors>
+
+
+2)hibernate 注解 ，注意配置映射关系，hql语句
+@JSON(format = "yyyy-MM-dd HH:mm:ss")
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "injection_time")
+	public Date getInjectionTime() {
+		return injectionTime;
+	}
+
+3)
+jqgrid
+
+4)
+bootstrup
+col-lg-3
+
+5.14
+回忆总想哭
+又回到以前迷茫，毫无方向，虚度光阴的日子。
+明确目标，坚决实行。
+给自己找点事做
+早睡早起，跑步，技术方向，工作，业余看书。
+今天的事情就是明确目标，制定技术，往前走。
+
+所以我决定学习技术，计划计划，一路往前走。
+
+1.接口列表(Restful)
+* 需要对自己要调用的接口清晰,按照一致化的命名规范进行定义
+* 尽量参考restful的接口模式
+
+2.测试类的写法
+##dao
+		public class AwardsDaoTest extends GenericDaoTest<AwardsDao>{
+			@Override
+			protected String[] getContextConfigs() {
+				return new String[] { "classpath:/applicationContext-resources.xml",
+						"classpath*:/applicationContext-mam*.xml" };
+			}
+		
+			@Test 
+			public void testGetAwardsByStarId(){
+				List ls = dao.getAwardsByStarId(1L);
+				assertNotNull(ls);
+			}
+		}
+
+##service
+
+1. service的单元测试和dao层类似,可继承GenericManagerTest,配置spring的xml文件(更新下GenericManagerTest可不用重载此方法)
+
+		public class AssetServiceTest extends GenericManagerTest<AssetService> {
+		
+			@Override
+			protected String[] getContextConfigs() {
+				return new String[] { "classpath:/applicationContext-resources.xml",
+						"classpath:/applicationContext-mam.xml",
+						"classpath:/applicationContext-mam-*.xml"};
+			}
+			
+			@Test
+			public void testGet() {
+		
+				Asset asset = manager.getAsset(-1L);
+				if (asset == null) {
+					asset = new Asset();
+					asset.setId(-1L);
+					asset.setAssetId(-1L);
+					asset = manager.save(asset);
+					assertNotNull(asset);
+				}
+				asset = manager.getAsset(-1L);
+				assertNotNull(asset);
+			}
+		}
+
+##action
+1. action的写法:继承GenericActionTest,在setup里面设置struts的配置,根据action的name获得action,然后即可调用action的方法,自行写验证数据.
+
+		public class AssetActionTest extends GenericActionTest<AssetAction> {
+		
+			@Override
+			@Before
+			public void setUp() throws Exception {
+				super.setUp();
+				this.namespace = "/pages/";
+				this.extension = ".htm";
+		//		this.request.addHeader("X-UP-CALLING-LINE-ID", "13777777777");
+		//		 this.request.setParameter("p1", "pvalue");
+			}
+		
+			@Test
+			public void testList() {
+				action = this.getAction("listAsset");
+				String ret = action.list();
+				assertSuccess(ret);
+			}
+		}
+
+
+## 帮助文件的组织
+1. 总目录:/docs/index.html,
+2. 侧边栏定义一级菜单/二级菜单,用于帮助的导航
+3. 帮助文档放到/docs/sections/下,可有多个html文件或1个index.html多个#部分
+4. 图片放到/docs/sections/xxx/images下,便于区分
+
+3.衍生出一个循环问题
+传入Contentids
+因为前台传入是多条，而别人调用时传入是单条。
+由于没有规定在哪一层遍历，有的在action遍历，循环中调用service(这样在别人调用如果传入多条，就不能处理了，service如果处理单条，那么效率会高一点)
+有的在service中遍历（不知道前面有没有遍历，对应别人来调用服务时，每个服务都遍历，就是循环循环再循环，这样效率太低）。
+
+暂定在service中遍历，这样兼容性更强。
+
+出现这种问题的原因是，整个过程很零散，不同人来开发，没有定好规则。
+
+解决方法：给别人调用，多个Contentids,应该最外层遍历，其他就直接处理单条。
+对于前台按钮触发，就在action中遍历，调用service。
+
+需要注意的是，前台按钮触发，需要action，在action判断没有媒体文件的会不调用，直接返回，将有媒体文件的传入service调用。
+
+由于service还提供给别人调用，所以不一定传入的都有吗媒体文件，所以需要在service中也要判断是否为null。
+
+1）不明确前端触发是一条还是多条，这样的返回写法，只能处理一个。
+
+responseStr = SendHttpRequest.httpPostXmlString(cipInjectUrl, adi2Xml);
+
+		ByteArrayOutputStream os = new ByteArrayOutputStream();
+		wb.write(os);
+		
+		return os.toByteArray();
+5.16
+百度
+下载
+业务
+
+媒资管理子系统
+媒资管理子系统主要对基地现有的媒资信息进行编辑、管理、审核、发布等工作，同时对合作方的相关基本信息进行管理，清晰化现有媒体资源、CP/SP资源等相关信息。
+目前现网平台是在中央媒体库内部署了媒资与内容服务子系统来实现媒资管理功能。手机视频的媒资管理子系统和OTT的媒资管理子系统相对独立，无法有效地将2个平台的媒体资源进行整合利用，资源利用率较低，有待进一步进行整合，提升媒资利用率。
+
+版权管理子系统
+版权管理系统主要用于对媒资版权信息的管理，包括版权申报、版权审核、版权配置管理、版权到期管理（如到期提醒、内容下线处理等）。
+目前平台在中央媒体库内设立了版权管理子系统，用于实现基本的版权管理功能。由于现有媒资的版权管理功能较弱，无法有效的发挥版权资源的优势，有待进一步提升。
+
+数据采集中心
+
+数据抽取组件
+Kettle
+
+消息组件
+KafkaMQ
+
+
+m_awards
+
+m_awards_image
+
+      <dependency>
+          <groupId>org.apache.poi</groupId>
+          <artifactId>poi</artifactId>
+          <version>3.15</version>
+      </dependency>
+
+UPLOAD_PLAYURL_TO_CIP
+
+http://183.192.162.165:8888/cip/cdiDeliveryTask
+
+http://localhost:8080/mam-admin/asset/queryMyApplypointAsset.htm?flag=pointAssetApply
+
+m_a_asset
+
+				if(paramsMap.get("flag").equals("pointAssetApply")){
+					sql.append(" and T1.status in (1,2,3,5) ");
+				}
+				//标志位为pointAssetCollectEdit只查询 新增，驳回，修改 的信息
+				if(paramsMap.get("flag").equals("pointAssetCollectEdit")){
+					sql.append(" and T1.status in (0,3,4) ");
+				}
+				if(paramsMap.get("flag").equals("pointAssetTask")){
+					sql.append(" and T1.status in (1,2,3,5) ");
+				}
+
+统一媒资的可以注入一个内容过来试试了，接口地址的systemId改成sptymz，麻烦你那边改一下，http://183.192.162.165:8888/cip/icmsContentInject?systemId=sptymz
+
+
+ace admin
+
+简单介绍下Ace Admin：
+1、兼容BootStrap，兼容Jquery UI。所以可以用bootstrap和jqueryui的功能。当然还有jquery了。这太省心了！
+
+2、图标使用font awesome 3.2，可以使用字体图标，这就免去了，查找png图标的工作。
+
+3、表格可以用bootstrap的表格，也可以用jqueryui的表格，也可以用jqgrid的表格，jqgrid我用的还是比较多，功能很强大。
+
+4、图表的话，我看ace里有jquery.flot 和?jquery.easy-pie-chart。不过我自己使用的百度的 Echarts，这个功能比较强大。
+
+5、还有一个比较不错的js插件，bootbox.js这个 做提示框我很喜欢！
+
+6、日历插件，有daterangepicker.min.js等，不过我用的My97DatePicker这个也很赞。
+
+7、另外ace admin还预设了4中样式效果，根据自己喜好进行选择；固定页面中一些元素，宽屏窄屏等等。也比较不错。
+
+总之，Ace Admin中，只是一个普通的界面，融合了各种js，作为本身的插件。当然，我们自己也可以，只要能够很好的解决js兼容性，即可
+
+
+表格插件
+echarts
+
+5.21
+初始化加载
+	<!-- 点播 -->
+		<script src="./pages/asset/js/imageEditer.js"></script>
+		<script src="./pages/asset/js/starSelect.js"></script>
+		<script src="./pages/asset/js/labelBox.js"></script>
+		<script src="./ace/plugins/js/zyFile/zyFile.js"></script>
+		<script src="./ace/plugins/js/zyFile/zyUpload.js"></script>
+
+点播生产
+assetAdd.jsp	assetAdd.js  保存按钮 --> saveHandler
+
+生产页面的图形编辑栏
+<div class="col-lg-4 text-center">
+	<div id="imageEditer"></div>
+</div>
+
+document.hs = new $.imageEditer("#imageEditer", {
+		selector : "aid",
+		viewType : "edit",
+		url : "<c:url value='/asset/assetAction!imgApplyView.htm'/>" //imgApplyView 查询媒资申请表的图片
+	});
+
+select count(id) from AssetImageApply where aid = ？  m_a_image 图片申请表
+
+imageEditer.js 加载点播生产页面的图形编辑栏 
+$.extend({imageEditer:function (select, param) {}); 
+如果只为$.extend()指定了一个参数，则意味着参数target被省略。此时，target就是jQuery对象本身。通过这种方式，我们可以为全局对象jQuery添加新的函数。
+
+		var standardDialog = webroot + "pages/asset/standardModal.jsp";
+		this.loadStandardDialog=function(selector, callback) {
+            	//$("#standardModal").modal("show"); 	
+                $(selector).html("");
+                $(selector).load(standardDialog,function () {
+                	$("#standardModal").modal("show"); 
+                	
+                });
+        }
+jsp
+standardModal 规则展示界面(修改)
+
+uploadImgModal  上传图片(js长宽验证修改) -->initJcrop 
+
+长宽比
+scale
+
+原图分辨率
+resolution
+
+图片类型
+strategy 
+
+裁剪宽高
+
+asswidth
+
+assheight
+
+deleteModal 上传页面
+
+ace/assets/img/noimage.jpg 默认图片
+
+
+
+assetAction!fileUpload.htm
+
+asset/assetAction!localFileUpload.htm",			  // 上传文件的路径
+
+验证图片大小比例
+AssetBatchAction --> addImage --> verifyImageSize (修改尺寸)
+
+批量导入
+batchImportAssetLibAction --> readExcel --> verifyImageSize (修改尺寸)
+
+注入 
+BatchContentImportServlet --> BatchContentImportUtil --> validateImageRatio
+
+zyUpload
+
+
+
+5.22
+1.通过工作来学习SSH。学习相关前端bootstrap，ace-admin ,jq，插件等。
+2.课余学习SSM，到6月底。
+3.springboot + springcloud ，7月底。
+
+
+view_videoGridDiv
+
+view_asset-grid-table
+
+mediaPlayPage
+/mediaUrl
+
+长/短视频剧集和内容集的内容资产配图必须图片变更为4张
+
+Lobibox.confirm
+
+batchImportAsset 批量导入
+
+initProgressTask
+
+fileUploadSimple 上传文件
+
+addProgressTask
+
+parseDataFile 解析数据
+
+importAssetProgress 
+
+
+5.25
+http://180.168.71.6:8000/ccm/ccm.git
+http://192.168.1.40:8000/ccm/ccm.git
+
+5.30
+1.计划
+今年必须有所改变，做出点成绩，有想法，就付出行动，一定要有进步，不能浑浑噩噩。
+
+缺少动力和目标
+花精力学习一段时间，如果遇到瓶颈，能找到更好的，可以选择。
+
+工作
+制定计划，学习技术，看书，培养良好的工作习惯和学习习惯。
+
+上班的工作效率提高，不听歌了，影响我的效率，
+利用周末时间，下班时间，休息时间来看书，逛社区，多思考，多实践。
+多看技术类，算法类文章，锻炼自己的逻辑思维能力，独立思考。
+计划：对于ssm,ssh框架的学习需要结合业务和代码来实践，通过工作任务和视频教学来练习。
+技术路线。总结出自己薄弱部分，多学习，多实践，多总结。
+每天有计划，完成后才能下班。
+
+在达到每阶段的目标后，可以奖励自己，出去旅游，买东西等等。没达到的话就不能任性了，现阶段，省钱为主，但要保证自己的吃。
+
+身体健康
+早睡早起，
+增肌，少食多餐，牛奶，水果，多喝鸡汤，多吃肉。
+现阶段晚上跑步回家，一定时候后可以早上跑步。
+可以每天做一些健身
+
+兴趣爱好
+唱歌，打球，用心去学，建议每周打一次球，学一首歌。
+
+技能
+练车，制定计划，租车开，不能成为马路杀手。
+
+制作视频，PS 。
+周末
+这么多兴趣爱好，游戏，篮球，小说，动漫。。。总要有产出吧，
+可以制作视频，写文章，关注热点新闻，热点事件，公众号，头条号等等。
+看也看这么多了，需要自己来实践了。
+
+人际
+敢说，敢做，敢问，大方，自信。
+
+多联系亲朋好友
+
+爱情
+理想中的另一半
+有话题，相互理解。
+可以试试，既然是我追人，就要想尽办法。
+
+计划
+对于玩之类的事情都是周末做，比如打球，学歌，练车等。
+其他的都是周一到周五完成。
+
+白天学习技术
+晚上总结，复习，然后制作视频，PS等。
+
+对得起自己，学习就完事了。
+
+2.面试题
+1)单点登录的实现方式有哪几种。
+2)微服务SOA区别。
+3)soa有哪些组件
+
+4)dubbo和cloud的区别。
+5)分布式事务，解决方案。
+6)ssm,ssh,springboot,clod,dubbo,mq
+
+String.valueOf(longVal) 
+
+Digester digester = new Digester();
+
+
+内存频率的提升对于内存读写带宽的提升立竿见影，基本和内存频率成正比，另外WinRAR解压速率也受到内存频率影响较大，DDR4 3000内存相对DDR4 2133有近22.2%的提升。
+内存带宽的提升也会显著提升CPU处理数据的吞吐量，进而提升CPU的计算性能，无论是CineBenchmark 11.5的多核性能还是Super PI 32M的单核性能表现均有显著提升。
+3DMark 11和3DMark基准性能测试中，内存带宽的影响主要体现在以CPU性能为基础的物理分数，可以看到高的内存带宽还是可以为物理分数增色不少，只是3DMark系列的总分显卡权重过高，甚至CPU取得的物理得分优势轻易的就被显卡测试的误差所抵消。
+
+图片规格修改
+src\main\java\com\wondertek\mam\webapp\util\AssetBatchImportUtil.java
+src\main\webapp\pages\asset\uploadImgModal.jsp
+src\main\webapp\pages\asset\standardModal.jsp
+src\main\webapp\pages\asset\uploadImgModal.jsp
+
+
+http://192.168.1.6:28080/mam-admin/main.htm
+
+administrator/Oms@2010
+
+192.168.1.6  root/wondertek  
+/opt/mam
+
+/tomcat_mam
+
+
+6.1
+quartz
+完成
+
+6.2
+部署
+掌握xml报文
+content
+hibernate封装
+
+
+secureCRT
+会话设置
+滚屏条数设为10000，
+设置 CRT编码 utf-8
+
+灵活使用shell命令
+
+tail -n 5000 file.name | grep 'cxy'
+输出file的后5000行中有cxy的行。
+
+tail -f file.name
+
+获取实时刷新
+
+6.3
+content
+
+hibernate 封装
+
+联调
+http://117.131.17.18/mam-admin/contentToCipCallBack
+
+6.6
+联调
+content
+hibernate封装
+
+9500130529,9500130649
+
+码率文件
+ssh ansible@10.200.66.51
+cd /opt/mam/
+cd 2.2.0/mam-admin/depository/asset/zhengshi/9000/107/
+
+
+ 登入的是53
+ 测试环境49
+ 数据库47
+ 定时任务51
+
+
+
+CipXmlContentServiceImpl.setMpathAbPathForMedia(248) | java.lang.String cannot be cast to java.lang.Integer
+
+
+1.cip反注不通，超时？
+2.对于重复请求反注，怎么处理？
+3.同步返回，异步返回，具体要求？
+
+6.7
+1.传入的类型要和数据库中的类型对应、
+
+postman 
+post请求
+
+发送 xml/json
+
+设置hander
+Content-Type
+
+application/xml
+application/json
+
+在body中发送请求
+
+
+CIP_REINJECTION_URL	
+http://10.150.240.118:8888/cip/icmsContentInject?systemId=sptymz	CIP反注接口
+
+IPTV反注接口
+http://10.150.200.219:4329/MZContentSyncReq
+
+
+
+上传cip
+http://183.192.162.165:8888/cip/cdiDeliveryTask
+
+反注
+ http://117.131.17.18:80/mam-admin/assertReverseNotice
+
+反注回执
+ http://180.168.71.6:18080/voms-cloud/view/HttpMgtvMedia_getMgtvMedia-json.html
+
+上报魔百合内容id
+内网：http://10.200.66.49:28080/mam-admin/contentToCipCallBack
+公网：117.131.17.18/mam-admin/contentToCipCallBack
+
+UPLOAD_PLAYURL_TO_CIP
+上报PlayURL
+通知cip上传PlayURL
+http://183.192.162.165:8888/cip/cdiDeliveryTask
+
+IPTV
+http://10.150.200.219:4329/MZContentNotifyReq
+
+
+
+ftp:
+内网：10.200.66.50 21
+外网：117.131.17.18
+u800091:2wsx1qaz
+
+wget --ftp-user=u800091 --ftp-password=2wsx1qaz "ftp://10.200.66.50:21/9500/129/173/FILENAME_BZ_sc_H32_sc.jpg"
+
+注入短视频10.200.69.30 80
+注入现网长视频：10.200.69.29 80
+
+6.11
+图片上传ftp,服务器，复制，下载等
+
+视频上传，下载，播放等
+
+视频编码，解码，等
+
+而使用Apache Jakarta的Digester，解析XML文件非常方便且不需要过多的关心底层的具体解析过程。
+
+工作原理如下: Digester底层采用SAX(Simple API for XML)析XML文件，所以很自然的，对象转换由"事件"驱动，在遍历每个节点时，
+检查是否有匹配模式，如果有，则执行规则定义的操作，比如创建特定的Java对象，或调用特定对象的方法等。此处的XML元素根据匹配模式(matching pattern)识别，而相关操作由规则(rule)定义。
+
+
+
+
+6.12
+shell命令
+Telnet 10.000  ping ip // sz file.name 下载
+连接ftp
+wget --ftp-user=u800091 --ftp-password=2wsx1qaz "ftp://10.200.66.50:21/9500/129/173/FILENAME_BZ_sc_H32_sc.jpg"
+
+wget --ftp-user=u800091 --ftp-password=2wsx1qaz "ftp://117.131.17.18:21/9500/129/173/FILENAME_BZ_sc_H32_sc.jpg"
+
+1.弄懂ftp,和测试环境的路径联系，以及代码中ftp路径获取方式。
+
+2.通过反注流程，了解整个系统，梳理出功能点。
+
+3.content
+
+4.联调
+
+httppost
+
+json ，xml
+
+
+1.对于剧壳没有源文件？回执怎么返回？
+2.剧壳和子集如何关联在一起
+
+ftp://admin:3edc#EDC@117.131.17.18/lyf/mam-admin-6.12cxy.zip
+
+alter table  m_cip_res_asset modify (current_id number(32))
+
+alter table  m_cip_res_media modify (CIP_MEDIA_ID number(32))
+
+
+cipMediaId
+
+package org.springframework.beans;中的
+
+     BeanUtils.copyProperties(A,B);
+
+     是A中的值付给B
+
+
+弄懂ftp,和测试环境的路径联系，以及代码中ftp路径获取方式。
+拷贝图片
+private void setMpathAbPathForImage(Long contentId, List<AssetImage> images) throws IOException {
+		String ftpUrlToCip = SystemConfigCache.getValue(CipConstants.IMAGE_FTP_BASE_URL_TO_CIP);
+		String idPath = FilePathHelper.getContentThreeDir(contentId.toString());
+		String dest = FilePathHelper.joinPath(SystemConfigCache.getValue(CipConstants.IMAGE_TO_CIP_BASE_FOLDER), idPath);
+		File destFile = new File(dest);
+		if(!destFile.exists()) {
+			destFile.mkdirs();
+		}
+		log.info("开始拷贝图片 到: " + dest);
+		for(int i=0; i<images.size(); i++) {
+			String pathRoot = StringUtil.isNullStr(images.get(i).getCfgPath()) ? MamConstants.STORE : images.get(i).getCfgPath();
+			String sourcePath = FilePathHelper.joinPath(MamConstants.REAL_PATH, pathRoot, MamConstants.DIR_ASSET, images.get(i).getMpath());
+			log.info("图片 id" + images.get(i).getId() + "的源路径为: " + sourcePath);
+			try {
+				FileUtils.copyFileToDirectory(new File(sourcePath), destFile);
+				log.info("图片 id" + images.get(i).getId() +   "拷贝成功 ." );
+			} catch (Exception e) {
+				//e.printStackTrace();
+			}
+			String cipInjectUrl = SystemConfigCache.getValue(CipConstants.CIP_INJECTION_URL);
+			if("http://10.150.200.219:4329/MZContentSyncReq".equals(cipInjectUrl)){
+				images.get(i).setmPathAbPath(idPath);
+			}else{
+				images.get(i).setmPathAbPath(ftpUrlToCip + idPath + images.get(i).getName());
+				//images.get(i).setmPathAbPath("ftp://cipftp2:cipftp2@117.131.17.1:21/Pic/20180417/02003/681/28F123E2D04569047F5A742C894F0A40.jpg");
+			}
+		}
+		log.info("拷贝图片成功...");
+	}
+
+
+13.    <#if groupSet.ChannelNumber ?? >
+       <vod:EpisodeID>${groupSet.ChannelNumber!''}</cod:EpisodeID>
+       </#if>
+       <#if groupSet.CallSign ?? >
+       <vod:EpisodeID>${groupSet.CallSign!''}</cod:EpisodeID>
+       </#if>
+	
+	
+	<#if groupSet.targetGroupAssetID ??>
+	null "" 都会进入，只有没有初始化 才不会进入
+
+       integer 默认只能存储18位
+
+       ftp 根目录 对应 /nas/nas_log/meizi/upload/
+
+6.14
+1.assetID为null 应该填ContentID
+2.没有源文件的处理，直接通知。 不要分发cdn，不上报，回执medialist为null、
+壳是没有视频文件的，分发没有意义。
+
+内容申请表中
+一个ContentID能查到唯一的assetId。
+但是一个媒资AssetID,可能查到多个ContentID。因为AssetID 不唯一。
+
+剧壳和剧集的内容申请表中的 版权ID是一样的。
+可以用子集的版权ID和，关联的父媒资ID，在内容申请表中确定一个唯一的父内容申请信息。
+得到对应的父内容申请ID。
+
+在Java中，如果你自己写了一个构造器，那么Java机制将不会提供给你一个默认的构造器，除非你的类中无任何构造器时它才会提供默认的，
+但是Spring注入时，不管你是否添加属性的注入，它都要去寻找默认构造器，为的是一旦你不注入属性了，也能找到默认构造器，所以，规范的Java写法是：如果你自己写了构造器，那就把默认的也写出来。。。
+
+
+FTP
+FTP（File Transfer Protocol）是文件传输协议的简称。 
+FTP的作用 
+正如其名所示：FTP的主要作用，就是让用户连接上一个远程计算机（这些计算机上运行着FTP服务器程序）察看远程计算机有哪些文件，然后把文件从远程计算机上拷到本地计算机，或把本地计算机的文件送到远程计算机去。 
+FTP工作原理 
+拿下传文件为例，当你启动FTP从远程计算机拷贝文件时，你事实上启动了两个程序：一个本地机上的FTP客户程序：它向FTP服务器提出拷贝文件的请求。另一个是启动在远程计算机的上的FTP服务器程序，它响应你的请求把你指定的文件传送到你的计算机中。FTP采用“客户机/服务器”方式，用户端要在自己的本地计算机上安装FTP客户程序。FTP客户程序有字符界面和图形界面两种。字符界面的FTP的命令复杂、繁多。图形界面的FTP客户程序，操作上要简洁方便的多。 
+简单地说，支持FTP协议的服务器就是FTP服务器，下面介绍一下什么是FTP协议（文件传输协议） 
+一般来说，用户联网的首要目的就是实现信息共享，文件传输是信息共享非常重要的一个内容之一。Internet上早期实现传输文件，并不是一件容易的事，我们知道 Internet是一个非常复杂的计算机环境，有PC，有工作站，有MAC，有大型机，据统计连接在Internet上的计算机已有上千万台，而这些计算机可能运行不同的操作系统，有运行Unix的服务器，也有运行Dos、Windows的PC机和运行MacOS的苹果机等等，而各种操作系统之间的文件交流问题，需要建立一个统一的文件传输协议，这就是所谓的FTP。基于不同的操作系统有不同的FTP应用程序，而所有这些应用程序都遵守同一种协议，这样用户就可以把自己的文件传送给别人，或者从其它的用户环境中获得文件。 
+与大多数Internet服务一样，FTP也是一个客户机/服务器系统。用户通过一个支持FTP协议的客户机程序，连接到在远程主机上的FTP服务器程序。用户通过客户机程序向服务器程序发出命令，服务器程序执行用户所发出的命令，并将执行的结果返回到客户机。比如说，用户发出一条命令，要求服务器向用户传送某一个文件的一份拷贝，服务器会响应这条命令，将指定文件送至用户的机器上。客户机程序代表用户接收到这个文件，将其存放在用户目录中。 
+在FTP的使用当中，用户经常遇到两个概念："下载"（Download）和"上载"（Upload）。"下载"文件就是从远程主机拷贝文件至自己的计算机上；"上载"文件就是将文件从自己的计算机中拷贝至远程主机上。用Internet语言来说，用户可通过客户机程序向（从）远程主机上载（下载）文件。 
+使用FTP时必须首先登录，在远程主机上获得相应的权限以后，方可上载或下载文件。也就是说，要想同哪一台计算机传送文件，就必须具有哪一台计算机的适当授权。换言之，除非有用户ID和口令，否则便无法传送文件。这种情况违背了Internet的开放性，Internet上的FTP主机何止千万，不可能要求每个用户在每一台主机上都拥有帐号。匿名FTP就是为解决这个问题而产生的。 
+匿名FTP是这样一种机制，用户可通过它连接到远程主机上，并从其下载文件，而无需成为其注册用户。系统管理员建立了一个特殊的用户ID，名为anonymous, Internet上的任何人在任何地方都可使用该用户ID。 
+通过FTP程序连接匿名FTP主机的方式同连接普通FTP主机的方式差不多，只是在要求提供用户标识ID时必须输入anonymous，该用户ID的口令可以是任意的字符串。习惯上，用自己的E-mail地址作为口令，使系统维护程序能够记录下来谁在存取这些文件。 
+值得注意的是，匿名FTP不适用于所有Internet主机，它只适用于那些提供了这项服务的主机。
+
+
+iis （互联网信息服务）
+
+is是Internet Information Services的缩写，意为互联网信息服务
+
+IIS（Internet Information Server，互联网信息服务）是一种Web（网页）服务组件，其中包括Web服务器、FTP服务器、NNTP服务器和SMTP服务器
+
+IIS是一个World Wide Web server。Gopher server和FTP server全部包容在里面。 IIS意味着你能发布网页，并且有ASP（Active Server Pages）、JAVA、VBscript产生页面，有着一些扩展功能。
+
+IIS的添加 请进入“控制面板”，依次选“添加/删除程序→添加/删除Windows组件”，将“Internet信息服务（IIS）”前的小钩去掉（如有），重新勾选中后按提示操作即可完成IIS组件的添加。用这种方法添加的IIS组件中将包括Web、FTP、NNTP和SMTP等全部四项服务。
+
+IIS的运行 当IIS添加成功之后，再进入“开始→设置→控制面板→管理工具→Internet服务管理器(Internet信息服务)”以打开IIS管理器，对于有“已停止”字样的服务，均在其上单击右键，选“启动”来开启。
+
+自己搭建ftp服务器。
+ftp://172.16.13.152:21/ 
+
+授权的用户
+ftpcxy
+123456
+
+匿名账户
+只能下载
+anonymous
+密码随意
+
+
+服务器上搭建一个ftp服务器，
+设置一个文件夹为 ftp的文件夹。
+
+WEB应用将资源存在 文件夹中，外部可以用ftp的方式去访问下载。
+
+6.15
+CDN的全称是Content Delivery Network，即内容分发网络。其基本思路是尽可能避开互联网上有可能影响数据传输速度和稳定性的瓶颈和环节，使内容传输的更快、更稳定。通过在网络各处放置节点服务器所构成的在现有的互联网基础之上的一层智能虚拟网络，CDN系统能够实时地根据网络流量和各节点的连接、负载状况以及到用户的距离和响应时间等综合信息将用户的请求重新导向离用户最近的服务节点上。其目的是使用户可就近取得所需内容，解决 Internet网络拥挤的状况，提高用户访问网站的响应速度
+
+<jsp:doBody/>
+它调用标记的主体，将结果的输出发送给JspWriter，或者。
+对可以被检查和操作的范围属性。这个标准操作只能在标记文件中使用。
+
+自定义标签
+
+拦截器
+
+
+
+6.19
+1.剧壳和子集一起发。 不用修改
+2.showtype要转换。1111
+3.对于正在 转码的，需要判断下，如果正在转码，需要返回正在转码中。
+4.ts，文件找不到路径。
+
+学习
+tortoiseGit showlog 查看日志，只能查看到当前本地 最新一次pull下来的代码，和远程仓库中的不一样。
+
+通过自动回复机器人学习mybatis基础版，加强版。分页拦截器
+
+先加入返回，在set值，怎么成功的？
+
+mybatis dao层封装
+
+
+9000108479
+
+1.通过测试大兄弟了解系统的流程。
+搬迁 将别的系统注入的内容视频文件，搬迁到我们系统中。
+然后内容提交入库。
+
+转码
+
+同步
+
+发布 
+
+eclipse 中  maven 设置中勾选 download artifact sources 能直接追踪到源码  
+
+数据挖掘。
+数据算法
+
+6.20
+
+1.测试数据
+
+媒资生产，填写基本信息，绑定版权，媒体文件。
+
+然后如果直接 点保存，则需要在 点播媒资校订中审核，才能到内容申请表中，然后搬迁，转码，入媒资库。
+
+如果直接入库，默认已经审核，直接到内容申请表中，然后搬迁，转码，入媒资库。
+
+2.ts文件不能播放。CipMediaUrl 有问题，已解决，生产环境web.xml,没有配置。
+
+3.系统融合。
+
+4.删除，修改。
+
+5.CipXmlContentServiceImpl.setMpathAbPathForMedia(284)  ，已修改，? ,和参数不对应。
+
+6.cdn分发用的id不对，使用异步返回的 cid --> CipmediaID ,已修改。
+
+7.目录结构
+linux
+117.131.17.18 --> 10.200.6649
+项目名为 mam-admin 对应 /opt/mam/2.4.0/mam-admin 目录下。（maven install后的目录结构）
+
+转码后的文件放在
+/opt/mam/2.4.0/mam-admin/depository/asset/zhengshi/9000/108/339/9000108339/media
+
+/opt/mam/2.4.0/mam-admin/depository 链接到 /nas/meizi/depository
+直接访问
+http://117.131.17.18/mam-admin/depository/asset/zhengshi/9000/108/339/9000108339/media/9000108339_1365_590.ts
+
+
+源文件路径
+/opt/mam/2.4.0/mam-admin/store/asset/zhengshi/9000/108/339/9000108339/media
+ /opt/mam/2.4.0/mam-admin/store ->链接到 /nas/meizi/store
+直接访问
+http://117.131.17.18/mam-admin/depository/asset/zhengshi/9000/108/339/9000108339/media/9000108339_1365_590.ts
+
+Linux中
+“l”是链接文件，相当于windows的快捷方式；
+
+“b”是块设备，硬盘就是一个例子；
+
+“c”是字符设备文件，鼠标，键盘算是；
+
+“d”是目录文件，相当于windows的文件夹。
+
+crt 脚本
+
+ftp路径问题
+
+调试。
+
+21.
+Integer转String
+//方法一:Integer类的静态方法toString()
+Integer a = 2;
+String str = Integer.toString(a)
+
+//方法二:Integer类的成员方法toString()
+Integer a = 2;
+String str = a.toString();
+
+//方法三:String类的静态方法valueOf()
+Integer a = 2;
+String str = String.valueOf(a);
+
+系统融合。
+删除，修改。
+
+实际项目中，可以将存储磁盘路径放在配置文件中，根据不同需求，修改配置，不要写死在代码中。
+
+alter table     M_CIP_RES_ASSET add(target_system_id varchar2(10));
+
+alter table     M_CIP_RES_ASSET add(iptv_status number(10));
+
+alter table     M_CIP_RES_ASSET add(iptv_id varchar2(50));
+                   
+alter table     M_CIP_RES_MEDIA add(iptv_mediaId varchar2(50));
+
+6.22
+1.反注两家，先反注cip，再获得对应的魔百合ID，魔百合子ID，拼接在报文中，发给IPTV。
+
+先发 cip
+
+和如在或的后请求，只能在异步回调，请求结束后了，再反注。
+
+
+2.更新，获取更新前后的信息，判断是否更新了源文件。如果更换了，发送删除请求。
+
+
+6.25
+1.复习之前所得。
+
+2.反注新增，更新。   
+
+3.继续学习。找一个好的学习路线。
+
+4.自己实践，现在要多思考，做一件事，如果不能达到自己掌握，运用，那就毫无意义。
+关键点在于，学习，思考，学以致用，实践。
+
+
+要点：
+restful风格 表单提交，使用hidden 指定——method
+
+如果是ajax请求，如何对应呢？
+
+
+springmvc 通过注解绑定参数
+
+
+ftp虚拟路径
+虚拟目录就是将其他目录以映射的方式虚拟到该ＦＴＰ服务器的主目录下，这样，一个ftp服务器的主目录实质上就可以包括很多不同盘符、不同路径的目录，而不会受到所在盘空间的限制了。当用户登录到主目录下，还可以根据该账户的权限对它进行相应的操作，就像操作主目录下的子目录一样。如果用户被锁定在主目录下，这项功能将允许他们访问主目录之外的其它目录。
+
+虚拟目录可以很方便的进行文件结构的重映射。比如默认目录为D:\ftproot，然后又设置了用户锁定到根目录。但是E：\m 目录也想让用户访问到，就可以进行虚拟目录，在D:\ftproot下建立一个虚拟目录em 映射E：\m这个目录，用户在登陆的时候就可以看到通过操作em这个目录来操作E:\m这个目录了
+
+分页拦截器
+我们知道分页拦截的合理时机是在StatementHandler中
+
+自定义的拦截器需要交给Mybatis管理，这样才能使得Mybatis的执行与拦截器的执行结合在一起，即，拦截器需要注册到mybatis-config配置文件。
+
+package com.csdn.ingo.interceptor;  
+  
+import java.sql.Connection;  
+import java.sql.PreparedStatement;  
+import java.sql.ResultSet;  
+import java.util.Map;  
+import java.util.Properties;  
+  
+import org.apache.ibatis.executor.parameter.ParameterHandler;  
+import org.apache.ibatis.executor.statement.StatementHandler;  
+import org.apache.ibatis.mapping.BoundSql;  
+import org.apache.ibatis.mapping.MappedStatement;  
+import org.apache.ibatis.plugin.Interceptor;  
+import org.apache.ibatis.plugin.Intercepts;  
+import org.apache.ibatis.plugin.Invocation;  
+import org.apache.ibatis.plugin.Plugin;  
+import org.apache.ibatis.plugin.Signature;  
+import org.apache.ibatis.reflection.DefaultReflectorFactory;  
+import org.apache.ibatis.reflection.MetaObject;  
+import org.apache.ibatis.reflection.ReflectorFactory;  
+import org.apache.ibatis.reflection.SystemMetaObject;  
+  
+import com.csdn.ingo.entity.PagePOJO;  
+  
+/** 
+*@author 作者 E-mail：ingo 
+*@version 创建时间：2016年4月27日下午6:55:09 
+*类说明 
+*/  
+@Intercepts({@Signature(type=StatementHandler.class,method="prepare",args={Connection.class})})  
+public class PageInterceptor implements Interceptor{  
+      
+    /* (non-Javadoc) 
+     * 拦截器要执行的方法 
+     */  
+    public Object intercept(Invocation invocation) throws Throwable {  
+        StatementHandler statementHandler = (StatementHandler)invocation.getTarget();  
+        MetaObject metaObject = MetaObject.forObject(statementHandler, SystemMetaObject.DEFAULT_OBJECT_FACTORY, SystemMetaObject.DEFAULT_OBJECT_WRAPPER_FACTORY,new DefaultReflectorFactory());  
+        MappedStatement mappedStatement = (MappedStatement) metaObject.getValue("delegate.mappedStatement");  
+        String id = mappedStatement.getId();  
+        if(id.matches(".+ByPage$")){  
+              
+            BoundSql boundSql = statementHandler.getBoundSql();  
+            Map<String,Object> params = (Map<String,Object>)boundSql.getParameterObject();  
+            PagePOJO page = (PagePOJO)params.get("page");  
+            String sql = boundSql.getSql();  
+            String countSql = "select count(*)from ("+sql+")a";  
+            Connection connection = (Connection) invocation.getArgs()[0];  
+            PreparedStatement countStatement = connection.prepareStatement(countSql);  
+            ParameterHandler parameterHandler = (ParameterHandler) metaObject.getValue("delegate.parameterHandler");  
+            parameterHandler.setParameters(countStatement);  
+            ResultSet rs = countStatement.executeQuery();  
+            if(rs.next()){  
+                page.setTotalNumber(rs.getInt(1));  
+            }  
+            String pageSql = sql+" limit "+page.getStartIndex()+","+page.getTotalSelect();  
+            metaObject.setValue("delegate.boundSql.sql", pageSql);  
+        }  
+        return invocation.proceed();  
+    }  
+  
+    /* (non-Javadoc) 
+     * 拦截器需要拦截的对象 
+     */  
+    public Object plugin(Object target) {  
+        return Plugin.wrap(target, this);  
+    }  
+  
+    /* (non-Javadoc) 
+     * 设置初始化的属性值 
+     */  
+    public void setProperties(Properties properties) {  
+          
+    }  
+}  
+
+<select id="selectByPage" parameterType="Map" resultMap="UserInfoResult">  
+    select * from userinfo   
+</select>  
+
+
+6.26
+问题:
+1.AssociateContent  assetID 如何填，还是之前的id。 不能填outAssetId,不然解析有问题。
+<adi:AssociateContent type="Video"  groupProviderID="" groupAssetID="5500001952" providerID="" assetID="5000002431"/>
+
+2.重复反注。
+之前反注过给cip,再反注CIP 没问题
+反注过CIP,现在反注IPTV。
+反注过IPTV,现在反注CIP。
+之前都反注过，就不反注了。
+
+会不会出现
+反注给双方的时候，之前已经反注过。
+这样的话，就需要加一个判断，id始终是之前的。
+
+1.通知接口，反注过后的逻辑 null
+2.反注时，成功判断去掉
+3.不更新 反注状态，先保存flag，在保持反注状态。
+4.图片path 写反了。
+5.根据flag来判断
+
+27.
+拷图片
+
+将图片从服务器上的物理存储目录，拷贝到和 ftp虚拟路径对应的服务器的物理路径上(一般是某个硬盘上)。
+然后其他系统用ftp来访问。
+
+
+弄清楚assetID和mediaID的关系。
+
+
+讨论下更新返回的信息
+
+由于发的是assetId,返回的是assetId吗？
+异步返回报文，如果和之前一样，那么所用的assetId 的 反注内容都要更新状态，更新ID，重新分发？
+
+
+6.28
+学以致用
+spring security
+
+spring dynamic modules
+
+spring amqp 消息队列
+
+spring data
+
+j2ee java ee ejb pojo vo dto do po 详见笔记
+
+6.29
+面向接口
+前端
+ztree树插件
+jqgrid表格插件
+图片上传插件
+图片剪切插件
+echarts 统计图插件
+jQuery validate
+开源协议 bsd ,mit,apache
+单点登录
+spring validate
+异常拦截器 自定义异常
+
+两周开发
+
+cas 权限管理
+
+facicon
+
+7.3
+shell命令
+ftp登录
+wget下载
+
+反注测试
+http://180.168.71.6:18080/voms-cloud/view/HttpMgtvMedia_getMgtvMedia-json.html 
+支持返回cip和IPTV ，和poms 没问题了。
+
+MoveOTTMediaJob
+
+修改源文件，好像触发不了
+
+gradle依赖
+
+Linux中符号连接的用途
+
+用符号连接指向配置的bin目录。
+path中配置符号链接的目录，以后升级版本，直接修改符号链接的
+指向目录即可，不用修改path。
+
+1000624_sc99_0.mp4
+
+看下转码是干什么，转码任务，定时任务。
+
+查询转码进度
+进度条
+
+http://117.131.17.18/mam-admin/sys/queryTransProgress.htm
+
+<div class=\"col-md-6\">"
+<label for=\"addmzname\" class=\"col-sm-3 control-label no-padding-top\">"+transInfo.template_id+":</label>"
+<div class=\'col-sm-9 progress progress-striped pos-rel active\' data-percent=\'"+transInfo.percent+"%\'>"
+<div class=\'progress-bar progress-bar-warning\' style=\'width: "+transInfo.percent+"%;\'></div>"
+ </div>
+</div>"
+
+
+
+:/opt/mam/tmp/WEB-INF/classes/com/wondertek/mam/webapp/selvert
+
+7.9
+？
+7.10
+1.子集剧壳
+2.沿用接口，子集剧壳关联关系怎么填。
+3.更新，删除测试。
+
+7.11
+很混乱
+由于剧壳和子集是分次注入的，注入子集的时候要带上剧壳的信息。
+1.当注入子集的时候，剧壳已经注入给CIP了，这时应该，带上的是剧壳的内容ID，但是返回又返回了剧壳的ContentID，不知道这个和单独注入的时候是否一样，如果一样，这个就不用存了。这样都填内容ID，基本上没有什么问题了。
+
+2.都注入给了IPTV，那么再注入给CIP的时候，应该填魔百合ID？
+
+对于反注过cip，再次更新时，我传魔百合ID还是ContentID
+
+7.12
+监控
+net.bull.javamelody.MonitoringFilter
+
+net.bull.javamelody.SessionListener
+
+net.bull.javamelody.CollectorServlet
+
+基础基础，什么都不知道0.0
+
+jpa java持久化API
+
+spring data jpa  
+http://www.cnblogs.com/zeng1994/p/7575606.html
+dao层可以直接实现spring data 提供的 jpaRespository ,该接口封装了基本操作，直接实现，就不用再写dao层的实现类了。
+SpringData方法定义规范 可以直接根据方法名生成 sql 
+@Query注解
+ 通过上面的学习，我们在dao层接口按照规则来定义方法就可以不用写方法的实现也能操作数据库。但是如果一个条件查询有多个条件时，写出来的方法名字就太长了，所以我们就想着不按规则来定义方法名。我们可以使用@Query这个注解来实现这个功能，在定义的方法上加上@Query这个注解，将查询语句声明在注解中，也可以查询到数据库的数据。
+使用Query结合jpql语句实现自定义查询
+在PersonDao接口中声明方法，放上面加上Query注解，注解里面写jpql语句。
+@Query("from Person where id < ?1 or name like ?2")
+List<Person> testPerson(Integer id, String name);
+
+hibernate jpa 实现 hibernate 支持jpa, 继承 hibernatesupport，使用hql 。
+
+spring + mybatis
+https://blog.csdn.net/mingtian625/article/details/47684271
+1.mybatis注解方式是怎样通过没有实现类的dao接口进行数据库操作
+2.spring+mybatis注解方式是怎样在没有实现类的dao接口的情况下结合的
+对于第一部分可以说是返回了mybatis的dao接口的jdk代理对象，通过mapperproxy这个类似于拦截器一样的类跳转执行sql的，可以说是原生dao接口的一层代理对象；
+
+所以，咱们在spring中使用
+@autowired
+private UserMapper userMapper;
+来注入对象的时候，其实是经历了 cglib --> mapperfactorybean  --> sqlsessiontemplate  --> mapperproxy  -->  原生dao接口  的包装过程，才获取的
+所以咱们在使用spring来调用没有实现类的mybatis的dao接口的时候，并不是像看起来那么简单，而是经过多层代理包装的一个代理对象，对方法的执行也跳转到mybatis框架中的mappermethod中了
+
+
+
+spring security
+自定义注解
+spring 注解逻辑实现原理
+
+7.13
+spring bean
+1.问题1,spring什么时候实例化bean，只有使用该对象的时候才调用吗？
+springbeanfactory会在启动时实例化所用的bean。
+然后只有等到用该对象的时候才会去调用，所以要使用对象，必须要类中声明为属性，然后调用其方法。
+
+(将使用的对象声明为类的属性，即表明要调用，然后就自动实例化，获得bean == 等同于加载配置文件，然后getBean，获得实例化的bean)
+实例化的本质是啥，获得bean， 在test类中就可以直接加载配置文件，并实例化。
+
+spring 懒加载机制，使用的是代理对象！
+等到用到的时候才会去调用这个对象。
+
+2.问题2
+Struts2的action为何不在xml中配置调用的service的引用或者加注解。
+这些由于Struts2和spring的整合，交给了Struts2去处理了。
+
+3.spring注解和xml配置。
+注解service，controller，dao。相当于在xml中配置bean。
+然后再bean中的引用，用注解引用service，dao，等，相当于在xml中bean中加入ref的引用。
+
+你们测试环境的媒资，从今天开始不要向10.125.147.213:22000地址发请求了。改到我们灰度测试环境设备：10.125.147.76:22000。  之前对接的测试数据会清空掉。
+
+ln -s 指定链接文件
+
+
+
+反注联调进度
+1.沿用IPTVID 接口，注入的报文已按要求注入，CIP那边返回未按媒资要求返回。
+2.正常接口子集和剧壳的联调，如果子集带上了剧壳的内容ID，CIP那边回调的时候返回了子集和剧壳的内容ID,媒资这边只需要子集内容ID。
+3.更新，删除都没有联调。
+
+7.18
+spring security
+
+7.19
+spring security
+
+7.23
+cs:
+IPTV系统的所有ID均为32位的 
+cs:
+OTT系统的ID为10~16位  
+
+24.
+9500130872 子集
+9500130876 子集  沿用
+9500130868 剧壳
+
+
+9500130877 沿用ID剧壳
+9500130878 沿用子集ID
+
+电影修改 9500130585
+120.78.91.77
+root/Test2018
+
+对于沿用ID接口，子集和剧壳，需要配置规定为要么都沿用，要么都不沿用，且先剧壳再子集。
+
+
+
+http://183.192.162.165:8888/cip/icmsContentInject?systemId=sptymz
+
+
+http://117.131.17.18:80/mam-admin/assertReverseNotice
+{
+"accessId":"01",
+"contentIds": ["9500130763"],
+"targetSystemId":["1"]
+}
+
+
+7.25
+spring MVC 
+
+@Component、@Repository @Service、@Controller
+
+　　看字面含义，很容易却别出其中三个：
+
+　　@Controller 控制层。
+
+　　@Service 业务逻辑层，就是我们的service或者manager层
+
+　　@Repository 持久层，就是我们常说的DAO层
+
+　　而@Component (字面意思就是组件)，它在你确定不了事哪一个层的时候使用。
+
+　　其实，这四个注解的效果都是一样的，Spring都会把它们当做需要注入的Bean加载在上下文中;
+
+　　但是在项目中，却建议你严格按照除Componen的其余三个注解的含义使用在项目中。这对分层结构的web架构很有好处!!
+
+
+1. 控制层
+
+　　@Controller // 注释为controller
+
+　　@RequestMapping("/login")
+
+　　public class LoginAction {
+
+　　@Autowired
+
+　　@Qualifier("userService") //注释指定注入 Bean
+
+　　private IUserService userService;
+
+　　。。。。。。 其他略 。。。。。。
+
+　　}
+
+　　2. 业务逻辑层
+
+　　@Service("userService")
+
+　　public class UserServiceImpl implements IUserService {
+
+　　@Autowired
+
+　　@Qualifier("userDao")
+
+　　private IUserDao userDao;
+
+　　。。。。。。 其他略 。。。。。。
+
+　　}
+
+　　3. 持久层
+
+　　@Repository("userDao")
+
+　　public class UserDaoImpl implements IUserDao {
+
+　　private static Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
+
+　　private DataSource dataSource;
+
+　　private JdbcTemplate template;
+
+　　@Autowired
+
+　　public UserDaoImpl(DataSource dataSource){
+
+　　this.dataSource= dataSource;
+
+　　template = new JdbcTemplate(this.dataSource);
+
+　　}
+
+注意，service和dao层注解都是在实现类上的。
+而且必须要有注解，不然自动装配Autowire时是找不到的。
+
+注解是可以用@Qualifier("userDao")指定引用的id，如果不指定，会根据ID和类型查找。
+
+
+
+7.25
+现在新增都没问题了，修改只测试 正常接口的 电影和 电视剧的元数据修改
+
+private Integer injectFlag;//1:CIP新增正常接口,2:CIP沿用新增接口,3:IPTV新增正常接口,4:IPTV沿用新增接口,
+//5:CIP更新接口,6:CIP删除接口,7:IPTV更新接口,8:IPTV删除接口 ,9.CIP 沿用接口更新 10.cip 沿用 删除接口，11.IPTV沿用更新接口，12IPTV沿用删除接口
+
+9500130872 子集
+9500130876 子集  沿用
+9500130868 剧壳
+
+
+9500130877 沿用ID剧壳
+9500130878 沿用子集ID
+
+电影修改 9500130585
+
+
+9500130888 电影
+
+9000109369 子集
+
+
+7.26
+日志级别由高到低
+（OFF、FATAL、ERROR、WARN、INFO、DEBUG、TRACE、 ALL）
+设置了日志级别P
+会输出大于等于P级别的日志, 也就是设置了INFO之后, DEBUG是不会被输出, 只会输出INFO、WARN，ERROR和FATAL级别的日志.
+
+日志级别越低，输出的日志越多。 相当于段位一样，段位约低，人约多。
+只输出大于设置的级别的日志，相当于门槛一样，级别低的没有权限进去。
+
+9500130888	 不沿用ID
+9500130908	  子集，注入，修改实体文件
+9500130909  电影 注入。
+
+不沿用ID 子集删除没测
+
+更新后，cdn分发流程没走？
+
+剩下
+不沿用ID 子集删除没测 。
+
+沿用ID的更新删除没测
+
+9500130910 剧壳 
+CIP反注 剧壳 测试
+9500130911  子集  测试 正常 删除
+
+
+9000109328 子集沿用ID变更 
+
+电影沿用测试
+ 9000109395
+
+9000109395	沿用ID电影 速度与激情	 9500130912    沿用电影测试
+9000109394	CIP反注 测试 子集 火影1	  9500130911	子集  测试 正常 删除
+9000109328	CIP反注沿用ID测试子集1	  9500130878    子集沿用ID变更   
+
+1.回执有问题
+[MAM-ADMIN][2018-07-26 19:27:03 001] INFO [http-28080-1] CipResReturnResultServiceImpl.sendResultData(166) | 接口URL : http://180.168.71.6:18080/voms-cloud/view/HttpMgtvMedia_getMgtvMedia-json.html
+[MAM-ADMIN][2018-07-26 19:27:03 002] INFO [http-28080-1] CipResReturnResultServiceImpl.sendResultData(168) | 输出数据：[{"mediaList":[],"iptvContentId":"04010000000000001033","code":"000","msg":"success","contentId":9500130910}]
+[MAM-ADMIN][2018-07-26 19:27:03 002] INFO [http-28080-1] CipResReturnResultServiceImpl.sendResultData(169) | 开始与咪视界通信。。。
+200
+[MAM-ADMIN][2018-07-26 19:27:03 073] INFO [http-28080-1] CipResReturnResultServiceImpl.sendResultData(173) | 通信返回。。。{"code":"200","msg":"失败"}
+[MAM-ADMIN][2018-07-26 19:27:03 073] INFO [http-28080-1] CipResReturnResultServiceImpl.sendResultData(174) | {"code":"200","msg":"失败"}
+[MAM-ADMIN][2018-07-26 19:27:03 074] INFO [http-28080-1] CipResReturnResultServiceImpl.sendResultData(177) | 解析返回数据result
+[MAM-ADMIN][2018-07-26 19:27:03 074] INFO [http-28080-1] CipResReturnResultServiceImpl.sendResultData(190) | 数据返回失败200
+[MAM-ADMIN][2018-07-26 19:27:03 074] INFO [http-28080-1] CipResReturnResultServiceImpl.sendResultData(191) | 失败
+[MAM-ADMIN][2018-07-26 19:27:03 080] INFO [http-28080-1] InjectToCipCallBackServlet.doPost(92) | 反注异步响应结束...result : 0|成功
+[{"mediaList":[],"cipContentId":"04010000000000001004","code":"000","msg":"success","contentId":9500130877}]
+判断去掉
+
+2.更新实体文件
+沿用ID的更新，如果沿用了，说明注入给了两方，所以应该两边都通知。
+
+3.不自动分发 判断去掉
+04010000000000001004
+
+4。子集删除 
+沿用ID实体更新删除
+
+
+ftp://cipftp:cipftp@10.151.176.187:21/xhr10.ts
+
+"ftp://10.200.66.50:21/9500/129/173/FILENAME_BZ_sc_H32_sc.jpg
+
+wget --ftp-user=cipftp --ftp-password=cipftp "ftp://10.151.176.187:21/xhr10.ts"
+
+
+7.27
+剩余问题
+1.修改实体文件，双方反注，代码调整。
+2.同时反注流程验证。
+
+7.30
+logback.xml
+
+8.1
+freemarket
+httpclient
+copy
+定时任务
+
+
+8.2
+解决迷茫的方式，永远是立刻去做点什么，Just do it . 而不是去想，路都是在做着做着就走出来的。而不是想着或者抱怨着，就会清晰的。
+
+给迷茫的人生添点色彩
+我现在能做的就是
+学技术，看书，把握爱情。
+现在开始，做任何事都要思考一下，能做还是不能做
+但凡犹豫的都可能不是遵从本心的。
+
+今日计划
+学习mybatis
+
+发送一次http请求，将请求内容写在请求体中
+然后解析从inputstream中获取请求内容，返回信息写到outputstream中。
+
+
+8.3
+1.springmvc 处理 httpclient post请求 ,可以访问本项目，但是访问不到？
+springboot使用了安全验证 ，如果发送post请求数据，那么 很多问题都应该是springboot框架带来的问题。
+Spring Boot 使用 Spring Security 后无法 POST 提交数据解决方法
+【问题描述】
+项目使用的是 spring-boot + spring-security，页面用了 thymeleaf 模板
+使用了 spring-security 后，默认开启了防止跨域攻击的功能，任何 POST 提交到后台的表单都要验证是否带有 _csrf 参数，一旦传来的 _csrf 参数不正确，服务器便返回 403 错误；
+Invalid CSRF Token 'null' was found on the request parameter '_csrf' or header 'X-CSRF-TOKEN'.
+
+
+
+2.logging自定义不行
+3.diagester 解析失败
+4.springboot jpa 分页 完成
+
+
+8.6
+时间飞逝，，好好把握
+smtp.163.com
+邮件发送message failed !
+
+/asset/ppSportsManager.htm
+
+String url = SystemConfigCache.getValue("lONG_ASSET_IP");
+
+
+8.7
+jpa中写的方法不对，对应的entity中没有方法中的属性
+No property matchId found for type PpInjectImage!
+
+fastjson
+JSONObject jsonObject = JSON.parseObject(reqJson);  //String 转换成对象
+Map<String, Object> requestMap = jsonObject;
+
+Map<String, Object> params = (Map<String, Object>) JSON.parse(response);//String 转换成对象
+
+//对象转换成JSON穿
+String jsonMap = JSONObject.toJSONString(paramsMap);
+
+
+
+String index out of range
+
+8.8
+mybatis
+
+将报文中的file. videobitrate 改为 usageCode  videoBitRate
+
+
+maven跳过单元测试--maven skip test
+
+$ mvn install -Dmaven.test.skip=true
+跳过单元测试的方法是给你项目的 pom.xml 添加这个配置。 你需要为你的 build 添加 plugin 元素。
+
+ 
+
+<project>
+  [...]
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  [...]
+</project>
+
+
+-DskipTests，不执行测试用例，但编译测试用例类生成相应的class文件至target/test-classes下。
+
+mvn package -Dmaven.test.skip=true，不执行测试用例，也不编译测试用例类。
+
+8.9
+打包部署springboot项目失败
+
+springboot 上传图片
+
+Spring Boot Admin
+
+SpringBoot 2.0 新特性
+
+Spring Boot 更换 Banner
+
+在 Spring Boot 2.0 项目src/main/resources路径下新建一个banner.txt文件
+
+docker 
+
+使用 Spring Boot 解决初始化资源
+
+
+springboot 2.0 小细节
+
+github+jekyll可免费在github上面构建自己的博客，再结合markdown来写作
+
+8.10
+启动Springboot 
+1.mvn
+mvn package Dmaven.skip.test=true;
+mvn spring-boot:run
+
+2.java jar启动 命令行参数
+mvn install
+
+java -jar springboot.jar
+java -jar springboot.jar--servert.port=8888
+
+3.ideal启动main 方法的启动类
+
+8.13
+git@192.168.1.138:wangwei/ecmoho-common.git
+git@192.168.1.138:wangwei/ecmoho-service.git
+
+计划
+简历
+项目
+sprinboot
+springcloud
+
+8.14
+git
+caoxingyun0816
+cxy940816
+
+  dependencies与dependencyManagement的区别
+
+  由于我们的模块很多，所以抽出一个parent来管理子项目的公共的依赖。为了项目的正确运行，必须让所有的子项目使用依赖项的统一版本，必须确保应用的各个项目的依赖项和版本一致，才能保证测试的和发布的是相同的结果。
+  在我们项目顶层的POM文件中，我们会看到dependencyManagement元素。通过它元素来管理jar包的版本，让子项目中引用一个依赖而不用显示的列出版本号。Maven会沿着父子层次向上走，直到找到一个拥有dependencyManagement元素的项目，然后它就会使用在这个dependencyManagement元素中指定的版本号。
+
+  这样做的好处：统一管理项目的版本号，确保应用的各个项目的依赖和版本一致，才能保证测试的和发布的是相同的成果，因此，在顶层pom中定义共同的依赖关系。同时可以避免在每个使用的子项目中都声明一个版本号，这样想升级或者切换到另一个版本时，只需要在父类容器里更新，不需要任何一个子项目的修改；如果某个子项目需要另外一个版本号时，只需要在dependencies中声明一个版本号即可。子类就会使用子类声明的版本号，不继承于父类版本号。
+相对于dependencyManagement，所有生命在dependencies里的依赖都会自动引入，并默认被所有的子项目继承。
+dependencies即使在子项目中不写该依赖项，那么子项目仍然会从父项目中继承该依赖项（全部继承）
+dependencyManagement里只是声明依赖，并不实现引入，因此子项目需要显示的声明需要用的依赖。如果不在子项目中声明依赖，是不会从父项目中继承下来的；只有在子项目中写了该依赖项，并且没有指定具体版本，才会从父项目中继承该项，并且version和scope都读取自父pom;另外如果子项目中指定了版本号，那么会使用子项目中指定的jar版本。
+

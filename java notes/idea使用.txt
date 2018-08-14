@@ -1,0 +1,77 @@
+1.新建的maven项目不能新建package
+在选中的文件夹中 --> mark directory as --> sourcces root 即可、
+
+2.idea中调试
+
+3.IntelliJ IDEA解决maven引用多个项目
+https://www.cnblogs.com/zhangwufei/p/7002254.html
+
+1 首先，从SVN上把common、service、web三个项目下载到本地的某个目录中，例如下载到名为WorkSpace的文件夹下
+2打开IntelliJ IDEA编译器，点击菜单 File->Open...,选择刚刚的WorkSpace目录
+3. 打开后，发现IDEA并没有自动识别Maven项目，这时候，需要手动在IDEA右侧的Maven Projects栏中添加项目的pom.xml文件，这样IDEA就能识别了
+按住Ctrl多选pom.xml文件，然后点击OK按钮。
+
+4.IDEA树形结构
+打开IDEA工具后，发现package的目录格式为点连接样式的，看起来比较费劲
+点击project右边的设置（齿轮），发现第二项是选中状态
+将第二项设置的对号消除掉，package就变成了树状结构。
+
+5.IntelliJ IDEA常用快捷键汇总
+Ctrl+Shift+Enter	将输入的if、for、函数等等补上{}或者;使代码语句完整
+Ctrl+F	在当前文件中查找
+Ctrl+R	替换字符串
+Ctrl+Shift+F	在全局文件中查找字符串
+Ctrl+Shift+R	在全局中替换字符串
+Ctrl+N	查找类文件
+Ctrl+Shift+N	查找文件
+Next Highlighted Error	F2	定位至下一个错误处
+Previous Highlighted Error	Shift+F2	定位至前一个错误处
+
+Ctrl+O	重写基类的方法
+Ctrl+I	实现基类或接口中的方法
+Alt+Insert	产生构造方法、getter/setter等方法
+Ctrl+Alt+T	将选中的代码使用if、while、try/catch等包装
+Ctrl+Shift+Delete	去除相关的包装代码
+Alt+/	自动完成
+Alt+Enter	自动提示完成
+Expand	Ctrl+=	展开代码
+Collapse	Ctrl+-	收缩代码
+Ctrl+J	插入Live Template
+Ctrl+/	使用//进行注释
+Ctrl+Alt+O	优化import
+Ctrl+Alt+L	格式化代码
+Ctrl+Alt+I	自动缩进行
+Ctrl+Shift+向下箭头	将光标所在的代码块向下整体移动
+Shift+F6	重命名
+Ctrl+Shift+F6	更改类型
+
+常用的有fori/sout/psvm+Tab即可生成循环、System.out、main方法等boilerplate样板代码，用Ctrl+J可以查看所有模板
+
+例如要输入for(User user : users)只需输入user.for+Tab。再比如，要输入Date birthday = user.getBirthday();只需输入user.getBirthday().var+Tab即可
+
+切换窗口：Alt+Num，常用的有1-项目结构，3-搜索结果，4/5-运行调试。Ctrl+Tab切换标签页，Ctrl+E/Ctrl+Shift+E打开最近打开过的或编辑过的文件。
+
+这榜单阵容太豪华了，后几名都是如此有用，毫不示弱。
+Ø  Top #10切来切去：Ctrl+Tab
+Ø  Top #9选你所想：Ctrl+W
+Ø  Top #8代码生成：Template/Postfix +Tab
+Ø  Top #7发号施令：Ctrl+Shift+A
+Ø  Top #6无处藏身：Shift+Shift
+Ø  Top #5自动完成：Ctrl+Shift+Enter
+Ø  Top #4创造万物：Alt+Insert
+太难割舍，前三名并列吧！
+Ø  Top #1智能补全：Ctrl+Shift+Space
+Ø  Top #1自我修复：Alt+Enter
+Ø  Top #1重构一切：Ctrl+Shift+Alt+T
+
+
+
+Project created from Archetype in dir: C:\Users\Administrator\AppData\Local\Temp\archetypetmp\ssm
+
+idea怎么设置选中文件时，自动在左侧弹出文件所在位置及文件
+如上图点击齿轮设置然后勾选上Autoscroll from Sou搜索rce
+
+
+Ctrl shift 鼠标左键 -- > 进入方法的实现类
+
+

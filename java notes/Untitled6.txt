@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adi:ADI2 xmlns="http://www.cablelabs.com/VODSchema/default" xmlns:adi="http://www.cablelabs.com/VODSchema/adi" xmlns:vod="http://www.cablelabs.com/VODSchema/vod">
+<adi:OpenGroupAsset type="VODRelease" product="VOD">
+        <vod:VODRelease providerID="800033" providerType="3" assetID="9500130688" updateNum="1" groupAsset="Y" serialNo="201806121528790452127">
+                <adi:AssetLifetime startDateTime="2018-07-11" endDateTime="2018-07-11"/>
+        </vod:VODRelease>
+</adi:OpenGroupAsset>
+<adi:AddMetadataAsset groupProviderID="800033" groupAssetID="9500130688" type="Title" product="VOD">
+    <vod:Title providerID="800033" assetID="9500130688" OriginalAssetID ="9500130688"  updateNum="1" originalPlatformID="800033">
+       <adi:AssetLifetime startDateTime="2018-07-11" endDateTime="2018-07-11"/>
+       <vod:TitleFull>内容POMS同步测试</vod:TitleFull>
+       <vod:ShowType>Series</vod:ShowType>
+       <vod:SummaryMedium>高修付哈佛卡槽</vod:SummaryMedium>
+       <vod:SummaryShort></vod:SummaryShort>
+       <vod:Items>20</vod:Items>
+       <vod:RunTime></vod:RunTime>
+       <vod:CountryOfOrigin>澳门</vod:CountryOfOrigin>
+       <vod:IsAdvertise>0</vod:IsAdvertise>
+           <vod:Actor type="Actor"> 
+                <vod:LastNameFirst></vod:LastNameFirst> 
+       </vod:Actor> 
+           <vod:Actor type="Actress"> 
+                <vod:LastNameFirst></vod:LastNameFirst> 
+       </vod:Actor> 
+           <vod:Director> 
+                <vod:LastNameFirst></vod:LastNameFirst> 
+       </vod:Director>
+       <vod:Actor type="CoActor">
+        <vod:LastNameFirst />
+       </vod:Actor>
+       <vod:Actor type="CoActress">
+        <vod:LastNameFirst />
+      </vod:Actor>
+       <vod:Year></vod:Year>
+       <vod:Status>1</vod:Status>
+   </vod:Title>
+</adi:AddMetadataAsset>
+<adi:AddMetadataAsset groupProviderID="800033" groupAssetID="9500130688" type="CategoryPath" product="VOD">
+        <vod:CategoryPath providerID="800033" assetID="9500130688" OriginalAssetID ="9500130688" updateNum="1">
+            <adi:AssetLifetime startDateTime="2018-07-11" endDateTime="2018-07-11"/>
+            <vod:Category>电影</vod:Category>
+                <vod:Classification>电视剧</vod:Classification>
+        </vod:CategoryPath>
+</adi:AddMetadataAsset>
+<adi:AddMetadataAsset groupProviderID="800033" groupAssetID="9500130688" type="Copyright" product="VOD">
+        <vod:Copyright providerID="800033" assetID="9500130688" OriginalAssetID ="9500130688" updateNum="1">
+               <adi:AssetLifetime startDateTime="2018-07-11" endDateTime="2018-07-11"/>
+                <vod:LicenseType></vod:LicenseType>
+                <vod:OriginalLicenseCompany>咪咕视讯科技有限公司</vod:OriginalLicenseCompany>
+        </vod:Copyright>
+</adi:AddMetadataAsset>
+<adi:AddMetadataAsset groupProviderID="800033" groupAssetID="9500130690" type="Title" product="VOD">
+    <vod:Title providerID="800033" assetID="9500130690" OriginalAssetID ="9500130690"  updateNum="1" originalPlatformID="800033">
+       <adi:AssetLifetime startDateTime="2018-07-11" endDateTime="2018-07-11"/>
+       <vod:TitleFull>内容POMS测试子集</vod:TitleFull>
+       <vod:ShowType>Series</vod:ShowType>
+       <vod:SummaryMedium>错爱的旧爱殴打将阿婆</vod:SummaryMedium>
+       <vod:SummaryShort></vod:SummaryShort>
+       <vod:EpisodeID>12</vod:EpisodeID>
+       <vod:RunTime></vod:RunTime>
+       <vod:CountryOfOrigin>澳门</vod:CountryOfOrigin>
+       <vod:IsAdvertise>0</vod:IsAdvertise>
+           <vod:Actor type="Actor"> 
+                <vod:LastNameFirst></vod:LastNameFirst> 
+       </vod:Actor> 
+           <vod:Actor type="Actress"> 
+                <vod:LastNameFirst></vod:LastNameFirst> 
+       </vod:Actor> 
+           <vod:Director> 
+                <vod:LastNameFirst></vod:LastNameFirst> 
+       </vod:Director>
+       <vod:Actor type="CoActor">
+        <vod:LastNameFirst />
+       </vod:Actor>
+       <vod:Actor type="CoActress">
+        <vod:LastNameFirst />
+      </vod:Actor>
+       <vod:Year></vod:Year>
+       <vod:Status>1</vod:Status>
+   </vod:Title>
+</adi:AddMetadataAsset>
+<adi:OpenGroupAsset type="VODRelease" product="VOD">
+        <vod:VODRelease providerID="800033" providerType="3" assetID="9500130690" updateNum="1" groupAsset="Y" serialNo="201806111528723235058">
+                <adi:AssetLifetime startDateTime="2018-07-11" endDateTime="2018-07-11"/>
+        </vod:VODRelease>
+</adi:OpenGroupAsset>
+<adi:AddMetadataAsset groupProviderID="800033" groupAssetID="9500130690" type="CategoryPath" product="VOD">
+        <vod:CategoryPath providerID="800033" assetID="9500130690" OriginalAssetID ="9500130690" updateNum="1">
+            <adi:AssetLifetime startDateTime="2018-07-11" endDateTime="2018-07-11"/>
+            <vod:Category>电影</vod:Category>
+                <vod:Classification>电视剧</vod:Classification>
+        </vod:CategoryPath>
+</adi:AddMetadataAsset>
+<adi:AddMetadataAsset groupProviderID="800033" groupAssetID="9500130690" type="Copyright" product="VOD">
+        <vod:Copyright providerID="800033" assetID="9500130690" OriginalAssetID ="9500130690" updateNum="1">
+               <adi:AssetLifetime startDateTime="2018-07-11" endDateTime="2018-07-11"/>
+                <vod:LicenseType></vod:LicenseType>
+                <vod:OriginalLicenseCompany>咪咕视讯科技有限公司</vod:OriginalLicenseCompany>
+        </vod:Copyright>
+</adi:AddMetadataAsset>
+<adi:AcceptContentAsset type="Video" metadataOnly="N" fileName="9000108267_1219_590.ts" fileSize="832901664" mD5CheckSum="fa85e8700b5ff7365cfacf2869ae2e01">
+     <vod:Video providerID="800033" assetID="5000424735" OriginalAssetID ="5000424735" updateNum="1" fileName="9000108267_1219_590.ts" fileSize="832901664" mD5CheckSum="fa85e8700b5ff7365cfacf2869ae2e01" transferContentURL="/opt/mam/2.4.0/mam-admin/depository/asset/zhengshi/9000/108/267/9000108267/media/9000108267_1219_590.ts" >
+               <adi:AssetLifetime startDateTime="2018-07-11" endDateTime="2018-07-11"/>
+               <vod:HDFlag></vod:HDFlag>
+               <vod:Duration>540</vod:Duration>
+                   <vod:MimeType>46</vod:MimeType>
+               <vod:Bitrate>-1</vod:Bitrate>
+               <vod:FrameHeight></vod:FrameHeight>
+               <vod:FrameWidth></vod:FrameWidth> 
+               <vod:FrameRate>0</vod:FrameRate>
+               <vod:FileType>1</vod:FileType>
+               <vod:Usage>1</vod:Usage>
+               <vod:ServiceType>2</vod:ServiceType>
+     </vod:Video>
+</adi:AcceptContentAsset>    
+<adi:AcceptContentAsset type="Video" metadataOnly="N" fileName="9000108267_1220_595.ts" fileSize="285108768" mD5CheckSum="acea0646a6dd425a5b5fbd2c7f079132">
+     <vod:Video providerID="800033" assetID="5000424736" OriginalAssetID ="5000424736" updateNum="1" fileName="9000108267_1220_595.ts" fileSize="285108768" mD5CheckSum="acea0646a6dd425a5b5fbd2c7f079132" transferContentURL="/opt/mam/2.4.0/mam-admin/depository/asset/zhengshi/9000/108/267/9000108267/media/9000108267_1220_595.ts" >
+               <adi:AssetLifetime startDateTime="2018-07-11" endDateTime="2018-07-11"/>
+               <vod:HDFlag></vod:HDFlag>
+               <vod:Duration>540</vod:Duration>
+                   <vod:MimeType>46</vod:MimeType>
+               <vod:Bitrate>-1</vod:Bitrate>
+               <vod:FrameHeight></vod:FrameHeight>
+               <vod:FrameWidth></vod:FrameWidth> 
+               <vod:FrameRate>0</vod:FrameRate>
+               <vod:FileType>1</vod:FileType>
+               <vod:Usage>1</vod:Usage>
+               <vod:ServiceType>2</vod:ServiceType>
+     </vod:Video>
+</adi:AcceptContentAsset>    
+<adi:AcceptContentAsset type="Image" metadataOnly="N" fileName="laokele_H169_sc.jpg" fileSize="34848" >
+     <vod:Image providerID="800033" assetID="1242668" OriginalAssetID ="1242668" updateNum="1" fileName="laokele_H169_sc.jpg" fileSize="34848"  transferContentURL="ftp://u800090:df4dg53s@117.131.17.18:21/9500/130/690/laokele_H169_sc.jpg" imageEncodingProfile="jpg" >
+               <adi:AssetLifetime startDateTime="2018-07-11" endDateTime="2018-07-11"/>
+               <vod:ColorType></vod:ColorType>
+                        <vod:FileType>3</vod:FileType>
+               <vod:Usage>99</vod:Usage>
+               <vod:MimeType>25</vod:MimeType>
+                        <vod:ServiceType>2</vod:ServiceType>
+                        <vod:ImagePixels horizontalPixels="800" verticalPixels="450" />
+     </vod:Image>
+</adi:AcceptContentAsset>    
+<adi:AcceptContentAsset type="Image" metadataOnly="N" fileName="laokele_V34_sc.jpg" fileSize="35539" >
+     <vod:Image providerID="800033" assetID="1242669" OriginalAssetID ="1242669" updateNum="1" fileName="laokele_V34_sc.jpg" fileSize="35539"  transferContentURL="ftp://u800090:df4dg53s@117.131.17.18:21/9500/130/690/laokele_V34_sc.jpg" imageEncodingProfile="jpg" >
+               <adi:AssetLifetime startDateTime="2018-07-11" endDateTime="2018-07-11"/>
+               <vod:ColorType></vod:ColorType>
+                        <vod:FileType>3</vod:FileType>
+               <vod:Usage>99</vod:Usage>
+               <vod:MimeType>25</vod:MimeType>
+                        <vod:ServiceType>2</vod:ServiceType>
+                        <vod:ImagePixels horizontalPixels="570" verticalPixels="760" />
+     </vod:Image>
+</adi:AcceptContentAsset>    
+<adi:AcceptContentAsset type="Image" metadataOnly="N" fileName="laokele_H32_sc.jpg" fileSize="38144" >
+     <vod:Image providerID="800033" assetID="1242670" OriginalAssetID ="1242670" updateNum="1" fileName="laokele_H32_sc.jpg" fileSize="38144"  transferContentURL="ftp://u800090:df4dg53s@117.131.17.18:21/9500/130/690/laokele_H32_sc.jpg" imageEncodingProfile="jpg" >
+               <adi:AssetLifetime startDateTime="2018-07-11" endDateTime="2018-07-11"/>
+               <vod:ColorType></vod:ColorType>
+                        <vod:FileType>3</vod:FileType>
+               <vod:Usage>99</vod:Usage>
+               <vod:MimeType>25</vod:MimeType>
+                        <vod:ServiceType>2</vod:ServiceType>
+                        <vod:ImagePixels horizontalPixels="798" verticalPixels="532" />
+     </vod:Image>
+</adi:AcceptContentAsset>    
+<adi:AcceptContentAsset type="Image" metadataOnly="N" fileName="laokele_V23_sc.jpg" fileSize="36838" >
+     <vod:Image providerID="800033" assetID="1242671" OriginalAssetID ="1242671" updateNum="1" fileName="laokele_V23_sc.jpg" fileSize="36838"  transferContentURL="ftp://u800090:df4dg53s@117.131.17.18:21/9500/130/690/laokele_V23_sc.jpg" imageEncodingProfile="jpg" >
+               <adi:AssetLifetime startDateTime="2018-07-11" endDateTime="2018-07-11"/>
+               <vod:ColorType></vod:ColorType>
+                        <vod:FileType>3</vod:FileType>
+               <vod:Usage>99</vod:Usage>
+               <vod:MimeType>25</vod:MimeType>
+                        <vod:ServiceType>2</vod:ServiceType>
+                        <vod:ImagePixels horizontalPixels="506" verticalPixels="759" />
+     </vod:Image>
+</adi:AcceptContentAsset>    
+<adi:AcceptContentAsset type="Image" metadataOnly="N" fileName="laokele_H43_sc.jpg" fileSize="42061" >
+     <vod:Image providerID="800033" assetID="1242672" OriginalAssetID ="1242672" updateNum="1" fileName="laokele_H43_sc.jpg" fileSize="42061"  transferContentURL="ftp://u800090:df4dg53s@117.131.17.18:21/9500/130/690/laokele_H43_sc.jpg" imageEncodingProfile="jpg" >
+               <adi:AssetLifetime startDateTime="2018-07-11" endDateTime="2018-07-11"/>
+               <vod:ColorType></vod:ColorType>
+                        <vod:FileType>3</vod:FileType>
+               <vod:Usage>99</vod:Usage>
+               <vod:MimeType>25</vod:MimeType>
+                        <vod:ServiceType>2</vod:ServiceType>
+                        <vod:ImagePixels horizontalPixels="800" verticalPixels="600" />
+     </vod:Image>
+</adi:AcceptContentAsset>    
+<adi:AssociateContent type="Video"  groupProviderID="800033" groupAssetID="9500130690" providerID="800033" assetID="5000424735"/>
+<adi:AssociateContent type="Video"  groupProviderID="800033" groupAssetID="9500130690" providerID="800033" assetID="5000424736"/>
+<adi:AssociateContent type="Image"  groupProviderID="800033" groupAssetID="9500130690" providerID="800033" assetID="1242668"/>
+<adi:AssociateContent type="Image"  groupProviderID="800033" groupAssetID="9500130690" providerID="800033" assetID="1242669"/>
+<adi:AssociateContent type="Image"  groupProviderID="800033" groupAssetID="9500130690" providerID="800033" assetID="1242670"/>
+<adi:AssociateContent type="Image"  groupProviderID="800033" groupAssetID="9500130690" providerID="800033" assetID="1242671"/>
+<adi:AssociateContent type="Image"  groupProviderID="800033" groupAssetID="9500130690" providerID="800033" assetID="1242672"/>
+<adi:AssociateGroup groupProviderID="800033" providerID="800033" assetID="9500130690" sourceGroupAssetID="9500130690" targetGroupAssetID="9500130688" />
+</adi:ADI2>

@@ -1,0 +1,770 @@
+1.jQuery 事件 - ready() 方法
+定义和用法
+当 DOM（文档对象模型） 已经加载，并且页面（包括图像）已经完全呈现时，会发生 ready 事件。
+由于该事件在文档就绪后发生，因此把所有其他的 jQuery 事件和函数置于该事件中是非常好的做法。
+ready() 函数规定当 ready 事件发生时执行的代码。
+ready() 函数仅能用于当前文档，因此无需选择器。
+
+ready() 函数不应与 <body onload=""> 一起使用。
+
+允许使用以下三种语法：
+语法 1
+$(document).ready(function)
+语法 2
+$().ready(function)
+语法 3
+$(function)
+
+$(document).ready(function(){
+ 
+   // 开始写 jQuery 代码...
+ 
+});
+
+简洁写法（与以上写法效果相同）:
+$(function(){
+ 
+   // 开始写 jQuery 代码...
+ 
+});
+
+
+您也许已经注意到在我们的实例中的所有 jQuery 函数位于一个 document ready 函数中：
+这是为了防止文档在完全加载（就绪）之前运行 jQuery 代码，即在 DOM 加载完成后才可以对 DOM 进行操作。
+如果在文档没有完全加载之前就运行函数，操作可能失败。
+
+$(document).ready(function(){
+  $("p").click(function(){
+    $(this).hide();
+  });
+});
+
+.click()，点击函数
+.hide(),隐藏
+
+2.选择器
+JQuery
+获取DOM元素
+1.基本选择器
+$(".class") 类选择器
+$("#ID")id选择器
+$("div")元素选择器
+$("*")所用选择器
+$("div,#id,.class")合并选择器
+
+2.层次选择器
+$("div input")
+div 里的所用input元素
+
+3.属性选择器对象后加[],表示对应节点的属性
+$("div input [name = 'cxy']")
+
+var modifyTime= $("#manualForm input[name='manual_modifyTime']").val();
+
+基本过滤器 ：选择过滤
+div后的最后一个元素
+$("div：last")
+div后的第一个元素
+$("div：first")
+$(this)获取当前元素
+
+过滤器基本都是在:后加入对应的属性
+
+3.jQuery 事件
+在 jQuery 中，大多数 DOM 事件都有一个等效的 jQuery 方法。
+页面中指定一个点击事件：
+$("p").click();
+下一步是定义什么时间触发事件。您可以通过一个事件函数实现：
+$("p").click(function(){
+    // 动作触发后执行的代码!!
+});
+
+常用的 jQuery 事件方法
+
+$(document).ready()
+$(document).ready() 方法允许我们在文档完全加载完后执行函数。
+
+
+click()
+click() 方法是当按钮点击事件被触发时会调用一个函数。
+
+
+dblclick()
+当双击元素时，会发生 dblclick 事件。
+dblclick() 方法触发 dblclick 事件，或规定当发生 dblclick 事件时运行的函数：
+
+mouseenter()
+$("#p1").mouseenter(function(){
+    alert('您的鼠标移到了 id="p1" 的元素上!');
+});
+
+mouseleave()
+当鼠标指针离开元素时，会发生 mouseleave 事件。
+mouseleave() 方法触发 mouseleave 事件，或规定当发生 mouseleave 事件时运行的函数：
+实例
+$("#p1").mouseleave(function(){
+    alert("再见，您的鼠标离开了该段落。");
+});
+
+mousedown()
+当鼠标指针移动到元素上方，并按下鼠标按键时，会发生 mousedown 事件。
+mousedown() 方法触发 mousedown 事件，或规定当发生 mousedown 事件时运行的函数：
+实例
+$("#p1").mousedown(function(){
+    alert("鼠标在该段落上按下！");
+});
+
+mouseup()
+当在元素上松开鼠标按钮时，会发生 mouseup 事件。
+mouseup() 方法触发 mouseup 事件，或规定当发生 mouseup 事件时运行的函数：
+实例
+$("#p1").mouseup(function(){
+    alert("鼠标在段落上松开。");
+});
+
+
+hover()
+hover()方法用于模拟光标悬停事件。
+当鼠标移动到元素上时，会触发指定的第一个函数(mouseenter);当鼠标移出这个元素时，会触发指定的第二个函数(mouseleave)。
+实例
+$("#p1").hover(
+    function(){
+        alert("你进入了 p1!");
+    },
+    function(){
+        alert("拜拜! 现在你离开了 p1!");
+    }
+);
+
+focus()
+当元素获得焦点时，发生 focus 事件。
+当通过鼠标点击选中元素或通过 tab 键定位到元素时，该元素就会获得焦点。
+focus() 方法触发 focus 事件，或规定当发生 focus 事件时运行的函数：
+实例
+$("input").focus(function(){
+  $(this).css("background-color","#cccccc");
+});
+
+blur()
+当元素失去焦点时，发生 blur 事件。
+blur() 方法触发 blur 事件，或规定当发生 blur 事件时运行的函数：
+实例
+$("input").blur(function(){
+  $(this).css("background-color","#ffffff");
+});
+
+4.jQuery 效果
+jQuery hide() 和 show()
+通过 jQuery，您可以使用 hide() 和 show() 方法来隐藏和显示 HTML 元素：
+实例
+$("#hide").click(function(){
+  $("p").hide();
+});
+ 
+$("#show").click(function(){
+  $("p").show();
+});
+
+$(selector).hide(speed,callback);
+
+$(selector).show(speed,callback);
+可选的 speed 参数规定隐藏/显示的速度，可以取以下值："slow"、"fast" 或毫秒。
+可选的 callback 参数是隐藏或显示完成后所执行的函数名称。
+
+Query toggle()
+通过 jQuery，您可以使用 toggle() 方法来切换 hide() 和 show() 方法。
+显示被隐藏的元素，并隐藏已显示的元素：
+实例
+$("button").click(function(){
+  $("p").toggle();
+});
+
+$(selector).toggle(speed,callback);
+可选的 speed 参数规定隐藏/显示的速度，可以取以下值："slow"、"fast" 或毫秒。
+可选的 callback 参数是隐藏或显示完成后所执行的函数名称。
+
+jQuery Fading 方法
+通过 jQuery，您可以实现元素的淡入淡出效果。
+jQuery 拥有下面四种 fade 方法：
+fadeIn()
+fadeOut()
+fadeToggle()
+fadeTo()
+
+jQuery fadeIn() 方法
+jQuery fadeIn() 用于淡入已隐藏的元素。
+$("button").click(function(){
+  $("#div1").fadeIn();
+  $("#div2").fadeIn("slow");
+  $("#div3").fadeIn(3000);
+});
+
+jQuery fadeOut() 方法
+jQuery fadeOut() 方法用于淡出可见元素。
+
+$("button").click(function(){
+  $("#div1").fadeOut();
+  $("#div2").fadeOut("slow");
+  $("#div3").fadeOut(3000);
+});
+
+jQuery fadeToggle() 方法
+jQuery fadeToggle() 方法可以在 fadeIn() 与 fadeOut() 方法之间进行切换。
+如果元素已淡出，则 fadeToggle() 会向元素添加淡入效果。
+如果元素已淡入，则 fadeToggle() 会向元素添加淡出效果。
+语法:
+$(selector).fadeToggle(speed,callback);
+可选的 speed 参数规定效果的时长。它可以取以下值："slow"、"fast" 或毫秒。
+可选的 callback 参数是 fading 完成后所执行的函数名称。
+下面的例子演示了带有不同参数的 fadeToggle() 方法：
+实例
+$("button").click(function(){
+  $("#div1").fadeToggle();
+  $("#div2").fadeToggle("slow");
+  $("#div3").fadeToggle(3000);
+});
+
+jQuery fadeTo() 方法
+jQuery fadeTo() 方法允许渐变为给定的不透明度（值介于 0 与 1 之间）。
+语法:
+$(selector).fadeTo(speed,opacity,callback);
+必需的 speed 参数规定效果的时长。它可以取以下值："slow"、"fast" 或毫秒。
+fadeTo() 方法中必需的 opacity 参数将淡入淡出效果设置为给定的不透明度（值介于 0 与 1 之间）。
+可选的 callback 参数是该函数完成后所执行的函数名称。
+下面的例子演示了带有不同参数的 fadeTo() 方法：
+实例
+$("button").click(function(){
+  $("#div1").fadeTo("slow",0.15);
+  $("#div2").fadeTo("slow",0.4);
+  $("#div3").fadeTo("slow",0.7);
+});
+
+jQuery 滑动方法
+通过 jQuery，您可以在元素上创建滑动效果。
+jQuery 拥有以下滑动方法：
+slideDown()
+slideUp()
+slideToggle()
+jQuery slideDown() 方法
+jQuery slideDown() 方法用于向下滑动元素。
+语法:
+$(selector).slideDown(speed,callback);
+可选的 speed 参数规定效果的时长。它可以取以下值："slow"、"fast" 或毫秒。
+可选的 callback 参数是滑动完成后所执行的函数名称。
+下面的例子演示了 slideDown() 方法：
+实例
+$("#flip").click(function(){
+  $("#panel").slideDown();
+});
+
+
+
+jQuery slideUp() 方法
+jQuery slideUp() 方法用于向上滑动元素。
+语法:
+$(selector).slideUp(speed,callback);
+可选的 speed 参数规定效果的时长。它可以取以下值："slow"、"fast" 或毫秒。
+可选的 callback 参数是滑动完成后所执行的函数名称。
+下面的例子演示了 slideUp() 方法：
+实例
+$("#flip").click(function(){
+  $("#panel").slideUp();
+});
+
+
+jQuery slideToggle() 方法
+jQuery slideToggle() 方法可以在 slideDown() 与 slideUp() 方法之间进行切换。
+如果元素向下滑动，则 slideToggle() 可向上滑动它们。
+如果元素向上滑动，则 slideToggle() 可向下滑动它们。
+$(selector).slideToggle(speed,callback);
+可选的 speed 参数规定效果的时长。它可以取以下值："slow"、"fast" 或毫秒。
+可选的 callback 参数是滑动完成后所执行的函数名称。
+下面的例子演示了 slideToggle() 方法：
+实例
+$("#flip").click(function(){
+  $("#panel").slideToggle();
+});
+
+jQuery 动画 - animate() 方法
+jQuery animate() 方法用于创建自定义动画。
+语法：
+$(selector).animate({params},speed,callback);
+必需的 params 参数定义形成动画的 CSS 属性。
+可选的 speed 参数规定效果的时长。它可以取以下值："slow"、"fast" 或毫秒。
+可选的 callback 参数是动画完成后所执行的函数名称。
+下面的例子演示 animate() 方法的简单应用。它把 <div> 元素往右边移动了 250 像素：
+实例
+$("button").click(function(){
+  $("div").animate({left:'250px'});
+});
+
+默认情况下，所有 HTML 元素都有一个静态位置，且无法移动。
+如需对位置进行操作，要记得首先把元素的 CSS position 属性设置为 relative、fixed 或 absolute！
+
+可以用 animate() 方法来操作所有 CSS 属性吗？
+
+是的，几乎可以！不过，需要记住一件重要的事情：当使用 animate() 时，必须使用 Camel 标记法书写所有的属性名，比如，必须使用 paddingLeft 而不是 padding-left，使用 marginRight 而不是 margin-right，等等。
+
+jQuery animate() - 使用相对值
+也可以定义相对值（该值相对于元素的当前值）。需要在值的前面加上 += 或 -=：
+$("button").click(function(){
+  $("div").animate({
+    left:'250px',
+    height:'+=150px',
+    width:'+=150px'
+  });
+});
+
+每次点击都会在原有基础上长宽增加150px
+
+jQuery animate() - 使用队列功能
+默认地，jQuery 提供针对动画的队列功能。
+这意味着如果您在彼此之后编写多个 animate() 调用，jQuery 会创建包含这些方法调用的"内部"队列。然后逐一运行这些 animate 调用。
+
+$("button").click(function(){
+  var div=$("div");
+  div.animate({height:'300px',opacity:'0.4'},"slow");
+  div.animate({width:'300px',opacity:'0.8'},"slow");
+  div.animate({height:'100px',opacity:'0.4'},"slow");
+  div.animate({width:'100px',opacity:'0.8'},"slow");
+});
+
+
+$("span").click(function(){
+	var span = $("span");
+	span.animate({height:'300px',opacity:'0.4'},"slow");
+})；
+
+jQuery stop() 方法
+jQuery stop() 方法用于停止动画或效果，在它们完成之前。
+stop() 方法适用于所有 jQuery 效果函数，包括滑动、淡入淡出和自定义动画。
+语法:
+$(selector).stop(stopAll,goToEnd);
+可选的 stopAll 参数规定是否应该清除动画队列。默认是 false，即仅停止活动的动画，允许任何排入队列的动画向后执行。
+可选的 goToEnd 参数规定是否立即完成当前动画。默认是 false。
+因此，默认地，stop() 会清除在被选元素上指定的当前动画。
+下面的例子演示 stop() 方法，不带参数：
+实例
+$("#stop").click(function(){
+  $("#panel").stop();
+});
+
+jQuery Callback 方法
+Callback 函数在当前动画 100% 完成之后执行。
+
+jQuery 方法链接
+有一种名为链接（chaining）的技术，允许我们在相同的元素上运行多条 jQuery 命令，一条接着另一条
+如需链接一个动作，您只需简单地把该动作追加到之前的动作上。
+
+$("#p1").css("color","red").slideUp(2000).slideDown(2000);
+
+获得内容 - text()、html() 以及 val()
+三个简单实用的用于 DOM 操作的 jQuery 方法：
+text() - 设置或返回所选元素的文本内容
+html() - 设置或返回所选元素的内容（包括 HTML 标记）
+val() - 设置或返回表单字段的值
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js">
+</script>
+<script>
+$(document).ready(function(){
+  $("#btn1").click(function(){
+    alert("Text: " + $("#test").text());
+  });
+  $("#btn2").click(function(){
+    alert("HTML: " + $("#test").html());
+  });
+});
+</script>
+</head>
+
+<body>
+<p id="test">这是段落中的 <b>粗体</b> 文本。</p>
+<button id="btn1">显示文本</button>
+<button id="btn2">显示 HTML</button>
+</body>
+</html>
+
+btn1 text():会显示 :这是段落中的 粗体 文本。 只显示文本
+btn2 html():会连标签一起显示。
+
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head>
+<script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js">
+</script>
+<script>
+$(document).ready(function(){
+  $("button").click(function(){
+    alert("值为: " + $("#test").val());
+  });
+});
+</script>
+</head>
+
+<body>
+<p>名称: <input type="text" id="test" value="菜鸟教程"></p>
+<button>显示值</button>
+</body>
+</html>
+
+获取value的值，菜鸟教程
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js">
+</script>
+<script>
+$(document).ready(function(){
+  $("button").click(function(){
+    alert($("#runoob").attr("href"));
+  });
+});
+</script>
+</head>
+
+<body>
+<p><a href="http://www.runoob.com" id="runoob">菜鸟教程</a></p>
+<button>显示 href 属性的值</button>
+</body>
+</html>
+
+获取属性的值  http://www.runoob.com"
+
+text()、html() 以及 val() 的回调函数
+上面的三个 jQuery 方法：text()、html() 以及 val()，同样拥有回调函数。回调函数有两个参数：被选元素列表中当前元素的下标，以及原始（旧的）值。然后以函数新值返回您希望使用的字符串。
+
+$("#btn2").click(function(){
+    $("#test2").html(function(i,origText){
+        return "旧 html: " + origText + " 新 html: Hello <b>world!</b> (index: " + i + ")"; 
+    });
+});
+
+修改attribute的值
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js">
+</script>
+<script>
+$(document).ready(function(){
+  $("button").click(function(){
+    $("#runoob").attr("href","http://www.runoob.com/jquery");
+  });
+});
+</script>
+</head>
+
+<body>
+<p><a href="http://www.runoob.com" id="runoob">菜鸟教程</a></p>
+<button>修改 href 值</button>
+<p>点击按钮修改后，可以点击链接查看链接地址是否变化。</p>
+</body>
+</html>
+
+点击按钮修改后，会将链接的值改变
+
+jQuery - 添加元素
+添加新的 HTML 内容
+我们将学习用于添加新内容的四个 jQuery 方法：
+append() - 在被选元素的结尾插入内容
+prepend() - 在被选元素的开头插入内容
+after() - 在被选元素之后插入内容
+before() - 在被选元素之前插入内容
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+<meta charset="utf-8">
+<script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js">
+</script>
+<script>
+function appendText(){
+	var txt1="<p>文本。</p>";              // 使用 HTML 标签创建文本
+	var txt2=$("<p></p>").text("文本。");  // 使用 jQuery 创建文本
+	var txt3=document.createElement("p");
+	txt3.innerHTML="文本。";               // 使用 DOM 创建文本 text with DOM
+	$("body").append(txt1,txt2,txt3);        // 追加新元素
+}
+</script>
+</head>
+<body>
+
+<p>这是一个段落。</p>
+<button onclick="appendText()">追加文本</button>
+
+</body>
+</html>
+
+append/prepend 是在选择元素内部嵌入。
+after/before 是在元素外面追加。
+
+删除元素/内容
+如需删除元素和内容，一般可使用以下两个 jQuery 方法：
+remove() - 删除被选元素（及其子元素）
+empty() - 从被选元素中删除子元素
+
+过滤被删除的元素
+jQuery remove() 方法也可接受一个参数，允许您对被删元素进行过滤。
+该参数可以是任何 jQuery 选择器的语法。
+下面的例子删除 class="italic" 的所有 <p> 元素：
+实例
+$("p").remove(".italic");
+
+
+jQuery 操作 CSS
+jQuery 拥有若干进行 CSS 操作的方法。我们将学习下面这些：
+addClass() - 向被选元素添加一个或多个类
+removeClass() - 从被选元素删除一个或多个类
+toggleClass() - 对被选元素进行添加/删除类的切换操作
+css() - 设置或返回样式属性
+
+jQuery css() 方法
+css() 方法设置或返回被选元素的一个或多个样式属性。
+
+返回 CSS 属性
+如需返回指定的 CSS 属性的值，请使用如下语法：
+css("propertyname");
+下面的例子将返回首个匹配元素的 background-color 值：
+实例
+$("p").css("background-color");
+
+设置 CSS 属性
+如需设置指定的 CSS 属性，请使用如下语法：
+css("propertyname","value");
+下面的例子将为所有匹配元素设置 background-color 值：
+实例
+$("p").css("background-color","yellow");
+
+设置多个 CSS 属性
+如需设置多个 CSS 属性，请使用如下语法：
+css({"propertyname":"value","propertyname":"value",...});
+下面的例子将为所有匹配元素设置 background-color 和 font-size：
+实例
+$("p").css({"background-color":"yellow","font-size":"200%"});
+
+jQuery parent() 方法
+parent() 方法返回被选元素的直接父元素。
+该方法只会向上一级对 DOM 树进行遍历。
+
+jQuery parents() 方法
+parents() 方法返回被选元素的所有祖先元素，它一路向上直到文档的根元素 (<html>)。
+下面的例子返回所有 <span> 元素的所有祖先：
+
+jQuery parentsUntil() 方法
+parentsUntil() 方法返回介于两个给定元素之间的所有祖先元素。
+下面的例子返回介于 <span> 与 <div> 元素之间的所有祖先元素：
+
+jQuery children() 方法
+children() 方法返回被选元素的所有直接子元素。
+
+jQuery find() 方法
+find() 方法返回被选元素的后代元素，一路向下直到最后一个后代。
+
+jQuery siblings() 方法
+siblings() 方法返回被选元素的所有同胞元素。
+
+jQuery next() 方法
+next() 方法返回被选元素的下一个同胞元素。
+
+jQuery nextAll() 方法
+nextAll() 方法返回被选元素的所有跟随的同胞元素。
+
+jQuery nextUntil() 方法
+nextUntil() 方法返回介于两个给定参数之间的所有跟随的同胞元素。
+下面的例子返回介于 <h2> 与 <h6> 元素之间的所有同胞元素：
+
+jQuery first() 方法
+first() 方法返回被选元素的首个元素。
+
+jQuery last() 方法
+last() 方法返回被选元素的最后一个元素。
+
+jQuery eq() 方法
+eq() 方法返回被选元素中带有指定索引号的元素。
+
+filter() 方法允许您规定一个标准。不匹配这个标准的元素会被从集合中删除，匹配的元素会被返回。
+下面的例子返回带有类名 "url" 的所有 <p> 元素：
+实例
+$(document).ready(function(){
+  $("p").filter(".url");
+});
+
+jQuery not() 方法
+not() 方法返回不匹配标准的所有元素。
+提示：not() 方法与 filter() 相反。
+下面的例子返回不带有类名 "url" 的所有 <p> 元素：
+实例
+$(document).ready(function(){
+  $("p").not(".url");
+});
+
+jQuery load() 方法
+jQuery load() 方法是简单但强大的 AJAX 方法。
+load() 方法从服务器加载数据，并把返回的数据放入被选元素中。
+语法:
+$(selector).load(URL,data,callback);
+必需的 URL 参数规定您希望加载的 URL。
+可选的 data 参数规定与请求一同发送的查询字符串键/值对集合。
+可选的 callback 参数是 load() 方法完成后所执行的函数名称。
+
+jQuery $.get() 方法
+$.get() 方法通过 HTTP GET 请求从服务器上请求数据。
+
+
+jQuery $.post() 方法
+$.post() 方法通过 HTTP POST 请求向服务器提交数据。
+
+
+定义和用法
+jQuery.extend() 函数用于将一个或多个对象的内容合并到目标对象。
+注意：1. 如果只为$.extend()指定了一个参数，则意味着参数target被省略。此时，target就是jQuery对象本身。通过这种方式，我们可以为全局对象jQuery添加新的函数。
+2. 如果多个对象具有相同的属性，则后者会覆盖前者的属性值。
+
+语法
+$.extend( target , object1  , objectN  )
+指示是否深度合并
+
+$.extend( [deep ], target, object1 , objectN  )
+
+deep	可选。 Boolean类型 指示是否深度合并对象，默认为false。如果该值为true，且多个对象的某个同名属性也都是对象，则该"属性对象"的属性也将进行合并。
+target	Object类型 目标对象，其他对象的成员属性将被附加到该对象上。
+object1	可选。 Object类型 第一个被合并的对象。
+objectN	可选。 Object类型 第N个被合并的对象。
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+<script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
+</head>
+<body>
+ 
+<div id="log"></div>
+<script>
+$(function () { 
+	var object1 = {
+		apple: 0,
+		banana: { weight: 52, price: 100 },
+		cherry: 97
+	};
+	var object2 = {
+		banana: { price: 200 },
+		durian: 100
+	}; 
+	// 将 object2 递归合并到 object1中
+	$.extend( true, object1, object2 );
+	// 假设 JSON.stringify - 在 IE版本< 8中无效
+	$( "#log" ).append( JSON.stringify( object1 ) );
+})
+</script>
+ 
+</body>
+</html>
+
+{"apple":0,"banana":{"weight":52,"price":200},"cherry":97,"durian":100}
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+<script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
+</head>
+<body>
+ 
+<div id="log"></div>
+<script>
+$(function () { 
+	var defaults = { validate: false, limit: 5, name: "foo" };
+	var options = { validate: true, name: "bar" }; 
+	/*合并默认值和选项，不修改默认对象。*/
+	var settings = $.extend({}, defaults, options); 
+	var printObj = typeof JSON != "undefined" ? JSON.stringify : function(obj) {
+		var arr = [];
+		$.each(obj, function(key, val) {
+			var next = key + ": ";
+			next += $.isPlainObject(val) ? printObj(val) : val;
+			arr.push( next );
+		});
+		return "{ " +  arr.join(", ") + " }";
+	};
+	$("#log").append( "<div><b>defaults -- </b>" + printObj(defaults) + "</div>" );
+	$("#log").append( "<div><b>options -- </b>" + printObj(options) + "</div>" );
+	$("#log").append( "<div><b>settings -- </b>" + printObj(settings) + "</div>" );
+})
+</script>
+ 
+</body>
+</html>
+
+defaults -- {"validate":false,"limit":5,"name":"foo"}
+options -- {"validate":true,"name":"bar"}
+settings -- {"validate":true,"limit":5,"name":"bar"}
+
+
+ jQuery Colorbox是一款非常好的内容播放插件。它集弹出层、幻灯片播放功能于一身，不仅于此，它还支持其它的内容格式：例如html, flash, iframe等，这些内容的显示方式都是Ajax的。更难能可贵的是，在压缩后它只有10K的大小，使用这款插件不会给你的网页带来过多的负担，而且还能实现很棒的视觉效果，为用户体验增色不少。
+
+      易于使用也是Colorbox的众多优点之一，它的代码调用非常之简洁。
+
+
+jquery.ztree
+
+jQuery Jcrop 图像裁剪
+
+
+5.30
+jq.attr('cxy',dsds)；
+可以自定义属性，用来做标识，不同属性，做不同逻辑处理。
+
+
+6.21
+关于jquery的 $("form").serialize()和 new FormData表单序列化
+
+$("form").serialize()和 new FormData($('#uploadForm')[0])都是序列化表单，实现表单的异步提交，但是二者有区别
+
+首先，前者，只能序列化表单中的数据 ，比如文本框等input  select等的数据，但是对于文件，比如文件上传，无法实现，那么这时候，FormData就上场了，
+
+new FormData使用需要有一个注意点，
+
+注意点一：，对于jquery的要求是，好像是 版本1.8及其以上方可支持。
+
+另外该对象不仅仅可以序列化文件，一样可以用作表单数据的序列化，（就是说包含了serialize()的功能）
+
+//提交文件
+    function submitFile() {
+        $('.btn-publish').click(function () {
+            //var title = $('.txt-video-title').val();
+            var uploadFormData = new FormData($('#uploadForm')[0]);//序列化表单，$("form").serialize()只能序列化数据，不能序列化文件
+            $.ajax({
+                type: 'POST',
+                data: uploadFormData,
+                url: '/Artical/Publist',//TypeError: 'append' called on an object that does not implement interface FormData.
+                processData: false,
+                contentType: false,
+                async: false,
+                success: function (data) {
+                    if (typeof (data) == undefined) {
+                        alert("用户信息已丢失，请重新登录！"); window.parent().location.href = "/Account/Login";
+                    }
+                    if (data.ErrorMsg == "") {
+                        alert('美文发布成功！');
+                    } else { alert(data.ErrorMsg); }
+                }
+            });
+
+        });
+    }

@@ -1,0 +1,1404 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+
+1.什么是 Bootstrap？
+Bootstrap 是一个用于快速开发 Web 应用程序和网站的前端框架。Bootstrap 是基于 HTML、CSS、JAVASCRIPT 的。
+优点：
+所有的主流浏览器都支持 Bootstrap。Bootstrap 的响应式 CSS 能够自适应于台式机、平板电脑和手机。
+
+2.Bootstrap 包的内容
+基本结构：Bootstrap 提供了一个带有网格系统、链接样式、背景的基本结构。
+CSS：Bootstrap 自带以下特性：全局的 CSS 设置、定义基本的 HTML 元素样式、可扩展的 class，以及一个先进的网格系统。
+组件：Bootstrap 包含了十几个可重用的组件，用于创建图像、下拉菜单、导航、警告框、弹出框等等。
+JavaScript 插件：Bootstrap 包含了十几个自定义的 jQuery 插件。您可以直接包含所有的插件，也可以逐个包含这些插件。
+定制：您可以定制 Bootstrap 的组件、LESS 变量和 jQuery 插件来得到您自己的版本。
+
+3.
+link引用css ,<script>引用js.
+<!-- 新 Bootstrap 核心 CSS 文件 -->
+<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<!-- 可选的Bootstrap主题文件（一般不使用） -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"></script>
+ 
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+ 
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+4.移动设备优先
+移动设备优先是 Bootstrap 3 的最显著的变化。
+之前的 Bootstrap 版本中（直到 2.x），您需要手动引用另一个 CSS，才能让整个项目友好的支持移动设备。
+现在不一样了，Bootstrap 3 默认的 CSS 本身就对移动设备友好支持。
+
+Bootstrap 3 的设计目标是移动设备优先，然后才是桌面设备。这实际上是一个非常及时的转变，因为现在越来越多的用户使用移动设备。
+为了让 Bootstrap 开发的网站对移动设备友好，确保适当的绘制和触屏缩放，需要在网页的 head 之中添加 viewport meta 标签，如下所示：
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+width 属性控制设备的宽度。假设您的网站将被带有不同屏幕分辨率的设备浏览，那么将它设置为 device-width 可以确保它能正确呈现在不同设备上。
+
+initial-scale=1.0 确保网页加载时，以 1:1 的比例呈现，不会有任何的缩放。
+
+在移动设备浏览器上，通过为 viewport meta 标签添加 user-scalable=no 可以禁用其缩放（zooming）功能。
+
+通常情况下，maximum-scale=1.0 与 user-scalable=no 一起使用。
+
+这种方式我们并不推荐所有网站使用，还是要看您自己的情况而定！
+
+<meta name="viewport" content="width=device-width, 
+                                     initial-scale=1.0, 
+                                     maximum-scale=1.0, 
+                                     user-scalable=no">
+
+
+5.标签和样式
+响应式图像
+<img src="..." class="img-responsive" alt="响应式图像">
+
+
+全局显示、排版和链接
+
+基本的全局显示
+Bootstrap 3 使用 body {margin: 0;} 来移除 body 的边距。
+
+排版
+使用 @font-family-base、 @font-size-base 和 @line-height-base 属性作为排版样式。
+
+链接样式
+通过属性 @link-color 设置全局链接的颜色。
+
+避免跨浏览器的不一致
+容器（Container）
+<div class="container">
+  ...
+</div>
+
+Bootstrap 网格系统
+
+Bootstrap 提供了一套响应式、移动设备优先的流式网格系统，随着屏幕或视口（viewport）尺寸的增加，系统会自动分为最多12列。
+
+网页设计中的网格用于组织内容，让网站易于浏览，并降低用户端的负载。
+
+移动设备优先策略
+内容
+决定什么是最重要的。
+布局
+优先设计更小的宽度。
+基础的 CSS 是移动设备优先，媒体查询是针对于平板电脑、台式电脑。
+渐进增强
+随着屏幕大小的增加而添加元素。
+
+响应式网格系统随着屏幕或视口（viewport）尺寸的增加，系统会自动分为最多12列。
+
+Bootstrap 网格系统（Grid System）的工作原理
+网格系统通过一系列包含内容的行和列来创建页面布局。下面列出了 Bootstrap 网格系统是如何工作的：
+
+行必须放置在 .container class 内，以便获得适当的对齐（alignment）和内边距（padding）。
+使用行来创建列的水平组。
+内容应该放置在列内，且唯有列可以是行的直接子元素。
+
+基本的网格结构
+下面是 Bootstrap 网格的基本结构：
+<div class="container">
+   <div class="row">
+      <div class="col-*-*"></div>
+      <div class="col-*-*"></div>      
+   </div>
+   <div class="row">...</div>
+</div>
+<div class="container">....
+
+<div class="container">
+    <h1>Hello, world!</h1>
+ 
+    <div class="row">
+        <div class="col-md-6"  style="background-color: #dedef8; box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do 
+            </p>
+            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem 
+            </p>
+        </div>
+ 
+        <div class="col-md-6" style="background-color: #dedef8;box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
+            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem 
+            </p>
+ 
+            <p> Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, 
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="container">...</div> 元素被添加，确保居中和最大宽度。
+一旦添加了容器，接下来您需要考虑以行为单位。添加 <div class="row">...</div>，并在行内添加列 <div class="col-md-6"></div>。
+网格中的每一行是由 12 个单元组成的，您可以使用这些单元定义列的尺寸。在我们的实例中，有两个列，每个列由 6 个单元组成，即 6+6=12。
+您可以尝试其他更多的选项，比如 <div class="col-md-3"></div> 和 <div class="col-md-9"></div> 或 <div class="col-md-7"></div> 和 <div class="col-md-5"></div>。
+
+您可以，但要确保总和总是 12。
+
+偏移列
+为了在大屏幕显示器上使用偏移，请使用 .col-md-offset-* 类。这些类会把一个列的左外边距（margin）增加 * 列，其中 * 范围是从 1 到 11。
+
+嵌套列
+列排序
+Bootstrap 网格系统另一个完美的特性，就是您可以很容易地以一种顺序编写列，然后以另一种顺序显示列。
+
+您可以很轻易地改变带有 .col-md-push-* 和 .col-md-pull-* 类的内置网格列的顺序，其中 * 范围是从 1 到 11。
+
+在下面的实例中，我们有两列布局，左列很窄，作为侧边栏。我们将使用 .col-md-push-* 和 .col-md-pull-* 类来互换这两列的顺序。
+
+
+Bootstrap 排版
+Bootstrap 使用 Helvetica Neue、 Helvetica、 Arial 和 sans-serif 作为其默认的字体栈。
+
+使用 Bootstrap 的排版特性，您可以创建标题、段落、列表及其他内联元素。
+标题
+Bootstrap 中定义了所有的 HTML 标题（h1 到 h6）的样式。
+
+内联子标题
+如果需要向任何标题添加一个内联子标题，只需要简单地在元素两旁添加 <small>，或者添加 .small class
+
+引导主体副本
+为了给段落添加强调文本，则可以添加 class="lead"，这将得到更大更粗、行高更高的文本，如下面实例所示
+
+强调
+HTML 的默认强调标签 <small>（设置文本为父文本大小的 85%）、<strong>（设置文本为更粗的文本）、<em>（设置文本为斜体）。
+
+左对齐，居中，右对齐
+<p class="text-left">向左对齐文本</p>
+<p class="text-center">居中对齐文本</p>
+<p class="text-right">向右对齐文本</p>
+
+缩写
+HTML 元素提供了用于缩写的标记，比如 WWW 或 HTTP。Bootstrap 定义 <abbr> 元素的样式为显示在文本底部的一条虚线边框，
+当鼠标悬停在上面时会显示完整的文本（只要您为 <abbr> title 属性添加了文本）。为了得到一个更小字体的文本，请添加 .initialism 到 <abbr>。
+
+地址（Address）
+使用 <address> 标签，您可以在网页上显示联系信息。由于 <address> 默认为 display:block;，您需要使用 <br> 标签来为封闭的地址文本添加换行。
+
+引用（Blockquote）
+您可以在任意的 HTML 文本旁使用默认的 <blockquote>。其他选项包括，添加一个 <small> 标签来标识引用的来源，使用 class .pull-right 向右对齐引用。下面的实例演示了这些特性：
+
+
+<h4>有序列表</h4>
+<ol>
+  <li>Item 1</li>
+  <li>Item 2</li>
+  <li>Item 3</li>
+  <li>Item 4</li>
+</ol>
+
+<ul>
+  <li>Item 1</li>
+  <li>Item 2</li>
+  <li>Item 3</li>
+  <li>Item 4</li>
+</ul>
+
+<h4>未定义样式列表</h4>
+<ul class="list-unstyled">
+  <li>Item 1</li>
+  <li>Item 2</li>
+  <li>Item 3</li>
+  <li>Item 4</li>
+</ul>
+<h4>内联列表</h4>
+<ul class="list-inline">
+  <li>Item 1</li>
+  <li>Item 2</li>
+  <li>Item 3</li>
+  <li>Item 4</li>
+</ul>
+Item1 Item2 Item3 Item4
+
+<dl>
+  <dt>Description 1</dt>
+  <dd>Item 1</dd>
+  <dt>Description 2</dt>
+  <dd>Item 2</dd>
+</dl>
+<h4>水平的定义列表</h4>
+<dl class="dl-horizontal">
+  <dt>Description 1</dt>
+  <dd>Item 1</dd>
+  <dt>Description 2</dt>
+  <dd>Item 2</dd>
+</dl>
+
+.lead	使段落突出显示
+.small	设定小文本 (设置为父文本的 85% 大小)
+.text-left	设定文本左对齐	
+.text-center	设定文本居中对齐	
+.text-right	设定文本右对齐	
+.text-justify	设定文本对齐,段落中超出屏幕部分文字自动换行	
+.text-nowrap	段落中超出屏幕部分不换行	
+.text-lowercase	设定文本小写	
+.text-uppercase	设定文本大写	
+.text-capitalize	设定单词首字母大写	
+.initialism	显示在 <abbr> 元素中的文本以小号字体展示，且可以将小写字母转换为大写字母	
+.blockquote-reverse	设定引用右对齐	
+.list-unstyled	移除默认的列表样式，列表项中左对齐 ( <ul> 和 <ol> 中)。 这个类仅适用于直接子列表项 (如果需要移除嵌套的列表项，你需要在嵌套的列表中使用该样式)	
+.list-inline	将所有列表项放置同一行	
+.dl-horizontal	该类设置了浮动和偏移，应用于 <dl> 元素和 <dt> 元素中，具体实现可以查看实例	
+.pre-scrollable	使 <pre> 元素可滚动，代码块区域最大高度为340px,一旦超出这个高度,就会在Y轴出现滚动条
+
+Bootstrap 代码
+Bootstrap 允许您以两种方式显示代码：
+
+第一种是 <code> 标签。如果您想要内联显示代码，那么您应该使用 <code> 标签。
+第二种是 <pre> 标签。如果代码需要被显示为一个独立的块元素或者代码有多行，那么您应该使用 <pre> 标签。
+请确保当您使用 <pre> 和 <code> 标签时，开始和结束标签使用了 unicode 变体： &lt; 和 &gt;。
+<p><code>&lt;header&gt;</code> 作为内联元素被包围。</p>
+
+<p>如果需要把代码显示为一个独立的块元素，请使用 &lt;pre&gt; 标签：</p>
+<pre>
+    &lt;article&gt;
+        &lt;h1&gt;Article Heading&lt;/h1&gt;
+    &lt;/article&gt;
+</pre>
+
+<var>	变量赋值: x = ab + y	
+<kbd>	按键提示： CTRL + P	
+<pre>	多行代码	
+<pre class="pre-scrollable">	多行代码带有滚动条	
+<samp>	电脑程序输出: Sample output	
+<code>	同一行代码片段: span, div
+
+Bootstrap 表格
+Bootstrap 提供了一个清晰的创建表格的布局。下表列出了 Bootstrap 支持的一些表格元素：
+
+标签	描述
+<table>	为表格添加基础样式。
+<thead>	表格标题行的容器元素（<tr>），用来标识表格列。
+<tbody>	表格主体中的表格行的容器元素（<tr>）。
+<tr>	一组出现在单行上的表格单元格的容器元素（<td> 或 <th>）。
+<td>	默认的表格单元格。
+<th>	特殊的表格单元格，用来标识列或行（取决于范围和位置）。必须在 <thead> 内使用。
+<caption>	关于表格存储内容的描述或总结。
+
+表格类
+下表样式可用于表格中：
+
+类	描述	实例
+.table	为任意 <table> 添加基本样式 (只有横向分隔线)	
+.table-striped	在 <tbody> 内添加斑马线形式的条纹 ( IE8 不支持)	
+.table-bordered	为所有表格的单元格添加边框	
+.table-hover	在 <tbody> 内的任一行启用鼠标悬停状态	
+.table-condensed	让表格更加紧凑	
+
+<tr>, <th> 和 <td> 类
+active	对某一特定的行或单元格应用悬停颜色
+.success	表示一个成功的或积极的动作
+.warning	表示一个需要注意的警告
+.danger	表示一个危险的或潜在的负面动作
+
+表单布局
+Bootstrap 提供了下列类型的表单布局：
+
+垂直表单（默认）
+内联表单
+水平表单
+
+基本的表单结构是 Bootstrap 自带的，个别的表单控件自动接收一些全局样式
+向父 <form> 元素添加 role="form"。
+把标签和控件放在一个带有 class .form-group 的 <div> 中。这是获取最佳间距所必需的。
+向所有的文本元素 <input>、<textarea> 和 <select> 添加 class ="form-control" 。
+
+<form role="form">
+  <div class="form-group">
+    <label for="name">名称</label>
+    <input type="text" class="form-control" id="name" placeholder="请输入名称">
+  </div>
+  <div class="form-group">
+    <label for="inputfile">文件输入</label>
+    <input type="file" id="inputfile">
+    <p class="help-block">这里是块级帮助文本的实例。</p>
+  </div>
+  <div class="checkbox">
+    <label>
+      <input type="checkbox">请打勾
+    </label>
+  </div>
+  <button type="submit" class="btn btn-default">提交</button>
+</form>
+
+内联表单
+如果需要创建一个表单，它的所有元素是内联的，向左对齐的，标签是并排的，请向 <form> 标签添加 class .form-inline。
+
+支持的表单控件
+Bootstrap 支持最常见的表单控件，主要是 input、textarea、checkbox、radio 和 select。
+
+输入框（Input）
+最常见的表单文本字段是输入框 input。用户可以在其中输入大多数必要的表单数据。Bootstrap 提供了对所有原生的 HTML5 的 input 类型的支持，
+包括：text、password、datetime、datetime-local、date、month、time、week、number、email、url、search、tel 和 color。适当的 type 声明是必需的，这样才能让 input 获得完整的样式。
+
+文本框（Textarea）
+当您需要进行多行输入的时，则可以使用文本框 textarea。必要时可以改变 rows 属性（较少的行 = 较小的盒子，较多的行 = 较大的盒子）。
+<form role="form">
+  <div class="form-group">
+    <label for="name">文本框</label>
+    <textarea class="form-control" rows="3"></textarea>
+  </div>
+</form>
+
+复选框（Checkbox）和单选框（Radio）
+复选框和单选按钮用于让用户从一系列预设置的选项中进行选择。
+
+当创建表单时，如果您想让用户从列表中选择若干个选项时，请使用 checkbox。如果您限制用户只能选择一个选项，请使用 radio。
+对一系列复选框和单选框使用 .checkbox-inline 或 .radio-inline class，控制它们显示在同一行上
+<label for="name">默认的复选框和单选按钮的实例</label>
+<div class="checkbox">
+    <label><input type="checkbox" value="">选项 1</label>
+</div>
+<div class="checkbox">
+    <label><input type="checkbox" value="">选项 2</label>
+</div>
+<div class="radio">
+    <label>
+        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked> 选项 1
+    </label>
+</div>
+<div class="radio">
+    <label>
+        <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">选项 2 - 选择它将会取消选择选项 1
+    </label>
+</div>
+<label for="name">内联的复选框和单选按钮的实例</label>
+<div>
+    <label class="checkbox-inline">
+        <input type="checkbox" id="inlineCheckbox1" value="option1"> 选项 1
+    </label>
+    <label class="checkbox-inline">
+        <input type="checkbox" id="inlineCheckbox2" value="option2"> 选项 2
+    </label>
+    <label class="checkbox-inline">
+        <input type="checkbox" id="inlineCheckbox3" value="option3"> 选项 3
+    </label>
+    <label class="radio-inline">
+        <input type="radio" name="optionsRadiosinline" id="optionsRadios3" value="option1" checked> 选项 1
+    </label>
+    <label class="radio-inline">
+        <input type="radio" name="optionsRadiosinline" id="optionsRadios4"  value="option2"> 选项 2
+    </label>
+</div>
+
+选择框（Select）
+当您想让用户从多个选项中进行选择，但是默认情况下只能选择一个选项时，则使用选择框。
+
+使用 <select> 展示列表选项，通常是那些用户很熟悉的选择列表，比如州或者数字。
+使用 multiple="multiple" 允许用户选择多个选项。
+
+静态控件
+当您需要在一个水平表单内的表单标签后放置纯文本时，请在 <p> 上使用 class .form-control-static。
+
+表单控件状态
+除了 :focus 状态（即，用户点击 input 或使用 tab 键聚焦到 input 上），Bootstrap 还为禁用的输入框定义了样式，并提供了表单验证的 class。
+
+输入框焦点
+当输入框 input 接收到 :focus 时，输入框的轮廓会被移除，同时应用 box-shadow。
+
+禁用的输入框 input
+如果您想要禁用一个输入框 input，只需要简单地添加 disabled 属性，这不仅会禁用输入框，还会改变输入框的样式以及当鼠标的指针悬停在元素上时鼠标指针的样式。
+
+禁用的字段集 fieldset
+对 <fieldset> 添加 disabled 属性来禁用 <fieldset> 内的所有控件。
+
+您可以分别使用 class .input-lg 和 .col-lg-* 来设置表单的高度和宽度。
+
+为了添加一个占用整个宽度的内容块，请在 <input> 后使用 .help-block。
+
+
+
+
+Bootstrap 按钮
+何带有 class .btn 的元素都会继承圆角灰色按钮的默认外观。但是 Bootstrap 提供了一些选项来定义按钮的样式
+以下样式可用于<a>, <button>, 或 <input> 元素上：
+
+<button type="button" class="btn btn-success">成功</button>
+
+.btn	为按钮添加基本样式	
+.btn-default	默认/标准按钮	
+.btn-primary	原始按钮样式（未被操作）	
+.btn-success	表示成功的动作	
+.btn-info	该样式可用于要弹出信息的按钮	
+.btn-warning	表示需要谨慎操作的按钮	
+.btn-danger	表示一个危险动作的按钮操作	
+.btn-link	让按钮看起来像个链接 (仍然保留按钮行为)	
+.btn-lg	制作一个大按钮	
+.btn-sm	制作一个小按钮	
+.btn-xs	制作一个超小按钮	
+.btn-block	块级按钮(拉伸至父元素100%的宽度)	
+.active	按钮被点击	
+.disabled	禁用按钮
+
+<!-- 标准的按钮 -->
+<button type="button" class="btn btn-default">默认按钮</button>
+<!-- 提供额外的视觉效果，标识一组按钮中的原始动作 -->
+<button type="button" class="btn btn-primary">原始按钮</button>
+<!-- 表示一个成功的或积极的动作 -->
+<button type="button" class="btn btn-success">成功按钮</button>
+<!-- 信息警告消息的上下文按钮 -->
+<button type="button" class="btn btn-info">信息按钮</button>
+<!-- 表示应谨慎采取的动作 -->
+<button type="button" class="btn btn-warning">警告按钮</button>
+<!-- 表示一个危险的或潜在的负面动作 -->
+<button type="button" class="btn btn-danger">危险按钮</button>
+<!-- 并不强调是一个按钮，看起来像一个链接，但同时保持按钮的行为 -->
+<button type="button" class="btn btn-link">链接按钮</button>
+
+按钮大小
+下表列出了获得各种大小按钮的 class：
+.btn-lg	这会让按钮看起来比较大。
+.btn-sm	这会让按钮看起来比较小。
+.btn-xs	这会让按钮看起来特别小。
+.btn-block	这会创建块级的按钮，会横跨父元素的全部宽度。
+
+按钮状态
+Bootstrap 提供了激活、禁用等按钮状态的 class
+
+按钮元素	添加 .active class 来显示它是激活的。
+锚元素	添加 .active class 到 <a> 按钮来显示它是激活的。
+
+禁用状态
+当您禁用一个按钮时，它的颜色会变淡 50%，并失去渐变。
+
+下表列出了让按钮元素和锚元素呈禁用状态的 class：
+
+按钮元素	添加 disabled 属性 到 <button> 按钮。
+锚元素	添加 disabled class 到 <a> 按钮。
+
+<p>
+  <button type="button" class="btn btn-default btn-lg">默认按钮</button>
+  <button type="button" class="btn btn-default btn-lg" disabled="disabled">禁用按钮</button>
+</p>
+
+<p>
+  <a href="#" class="btn btn-default btn-lg" role="button">链接</a>
+  <a href="#" class="btn btn-default btn-lg disabled" role="button">禁用链接</a>
+</p>
+
+<a class="btn btn-default" href="#" role="button">链接</a>
+<button class="btn btn-default" type="submit">按钮</button>
+<input class="btn btn-default" type="button" value="输入">
+<input class="btn btn-default" type="submit" value="提交">
+
+Bootstrap 图片
+
+本章中，我们将学习 Bootstrap 对图片的支持。Bootstrap 提供了三个可对图片应用简单样式的 class：
+
+.img-rounded：添加 border-radius:6px 来获得图片圆角。
+.img-circle：添加 border-radius:50% 来让整个图片变成圆形。
+.img-thumbnail：添加一些内边距（padding）和一个灰色的边框。
+
+<img> 类
+img-rounded	为图片添加圆角 (IE8 不支持)	
+.img-circle	将图片变为圆形 (IE8 不支持)	
+.img-thumbnail	缩略图功能	
+.img-responsive	图片响应式 (将很好地扩展到父元素)
+
+响应式图片
+通过在 <img> 标签添加 .img-responsive 类来让图片支持响应式设计。 图片将很好地扩展到父元素。
+
+<img src="cinqueterre.jpg" class="img-responsive" alt="Cinque Terre">
+
+Bootstrap 辅助类
+以下不同的类展示了不同的文本颜色。如果文本是个链接鼠标移动到文本上会变暗
+.text-muted	"text-muted" 类的文本样式	
+.text-primary	"text-primary" 类的文本样式	
+.text-success	"text-success" 类的文本样式	
+.text-info	"text-info" 类的文本样式	
+.text-warning	"text-warning" 类的文本样式	
+.text-danger	"text-danger" 类的文本样式	
+
+背景
+下不同的类展示了不同的背景颜色。 如果文本是个链接鼠标移动到文本上会变暗
+.bg-primary	表格单元格使用了 "bg-primary" 类	
+.bg-success	表格单元格使用了 "bg-success" 类	
+.bg-info	表格单元格使用了 "bg-info" 类	
+.bg-warning	表格单元格使用了 "bg-warning" 类	
+.bg-danger	表格单元格使用了 "bg-danger" 类	
+
+.pull-left	元素浮动到左边	
+.pull-right	元素浮动到右边	
+.center-block	设置元素为 display:block 并居中显示	
+.clearfix	清除浮动	
+.show	强制元素显示	
+.hidden	强制元素隐藏	
+.sr-only	除了屏幕阅读器外，其他设备上隐藏元素	
+.sr-only-focusable	与 .sr-only 类结合使用，在元素获取焦点时显示(如：键盘操作的用户)	
+.text-hide	将页面元素所包含的文本内容替换为背景图	
+.close	显示关闭按钮	
+.caret	显示下拉式功能
+
+关闭图标
+使用通用的关闭图标来关闭模态框和警告框。使用 class close 得到关闭图标
+
+<p>关闭图标实例
+  <button type="button" class="close" aria-hidden="true">
+    &times;
+  </button>
+</p>
+
+插入符
+使用插入符表示下拉功能和方向。使用带有 class caret 的 <span> 元素得到该功能。
+<p>插入符实例
+  <span class="caret"></span>
+</p>
+
+响应式实用工具
+
+
+
+6.bootstrap布局组件
+http://www.runoob.com/bootstrap/bootstrap-glyphicons.html
+字体图标
+字体图标是在 Web 项目中使用的图标字体
+
+获取字体图标
+我们已经在 环境安装 章节下载了 Bootstrap 3.x 版本，并理解了它的目录结构。在 fonts 文件夹内可以找到字体图标，它包含了下列这些文件：
+
+glyphicons-halflings-regular.eot
+glyphicons-halflings-regular.svg
+glyphicons-halflings-regular.ttf
+glyphicons-halflings-regular.woff
+相关的 CSS 规则写在 dist 文件夹内的 css 文件夹内的 bootstrap.css 和 bootstrap-min.css 文件上。
+
+字体图标列表
+http://www.runoob.com/try/demo_source/bootstrap3-glyph-icons.htm
+
+CSS 规则解释
+下面的 CSS 规则构成 glyphicon class。
+下面的 CSS 规则构成 glyphicon class。
+@font-face {
+  font-family: 'Glyphicons Halflings';
+  src: url('../fonts/glyphicons-halflings-regular.eot');
+  src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+}
+ 
+.glyphicon {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: 'Glyphicons Halflings';
+  -webkit-font-smoothing: antialiased;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+所以 font-face 规则实际上是在找到 glyphicons 地方声明 font-family 和位置。
+
+.glyphicon class 声明一个从顶部偏移 1px 的相对位置，呈现为 inline-block，声明字体，规定 font-style 和 font-weight 为 normal，设置行高为 1。除此之外，使用 -webkit-font-smoothing: antialiased 和 -moz-osx-font-smoothing: grayscale; 获得跨浏览器的一致性。
+
+然后，这里的
+
+.glyphicon:empty {
+  width: 1em;
+}
+是空的 glyphicon。
+
+这里有 200 个 class，每个 class 针对一个图标。
+
+这些 class 的常见格式如下：
+
+.glyphicon-keyword:before {
+  content: "hexvalue";
+
+  比如，使用的 user 图标，它的 class 如下：
+
+.glyphicon-user:before {
+  content: "\e008";
+}
+
+用法
+如需使用图标，只需要简单地使用下面的代码即可。请在图标和文本之间保留适当的空间。
+<span class="glyphicon glyphicon-search"></span>
+
+将文字图形放到button中，使button文字展示不同的形态
+<p>
+	<button type="button" class="btn btn-default">
+		<span class="glyphicon glyphicon-sort-by-attributes"></span>
+	</button>
+	<button type="button" class="btn btn-default">
+		<span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+	</button>
+	<button type="button" class="btn btn-default">
+		<span class="glyphicon glyphicon-sort-by-order"></span>
+	</button>
+	<button type="button" class="btn btn-default">
+		<span class="glyphicon glyphicon-sort-by-order-alt"></span>
+	</button>
+</p>
+<button type="button" class="btn btn-default btn-lg">
+	<span class="glyphicon glyphicon-user"></span> User
+</button>
+<button type="button" class="btn btn-default btn-sm">
+	<span class="glyphicon glyphicon-user"></span> User
+</button>
+<button type="button" class="btn btn-default btn-xs">
+	<span class="glyphicon glyphicon-user"></span> User
+</button>
+
+带有字体图标的导航栏
+文字图形和a标签使用
+<a href="#"><span class="glyphicon glyphicon-home">Home</span></a>
+
+定制字体图标
+我们已经看到如何使用字体图标，接下来我们看看如何定制字体图标。
+
+我们将以上面的实例开始，并通过改变字体尺寸、颜色和应用文本阴影来进行定制图标。
+<button type="button" class="btn btn-primary btn-lg">
+  <span class="glyphicon glyphicon-user"></span> User
+</button>
+
+定制字体尺寸
+通过增加或减少button的字体尺寸，您可以让图标看起来更大或更小。
+<button type="button" class="btn btn-primary btn-lg" style="font-size: 60px">
+  <span class="glyphicon glyphicon-user"></span> User
+</button>
+
+定制字体颜色
+<button type="button" class="btn btn-primary btn-lg" style="color: rgb(212, 106, 64);">
+  <span class="glyphicon glyphicon-user"></span> User
+</button>
+
+应用文本阴影
+<button type="button" class="btn btn-primary btn-lg" style="text-shadow: black 5px 3px 3px;">
+  <span class="glyphicon glyphicon-user"></span> User
+</button>
+
+在线定制图标
+http://www.runoob.com/try/demo_source/bootstrap-glyph-customization.htm
+
+
+Bootstrap 下拉菜单（Dropdowns）
+
+下拉菜单是可切换的，是以列表格式显示链接的上下文菜单。这可以通过与 下拉菜单（Dropdown） JavaScript 插件 的互动来实现。
+
+如需使用下拉菜单，只需要在 class .dropdown 内加上下拉菜单即可。
+
+<div class="dropdown">
+    <button type="button" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">主题
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+        <li role="presentation">
+            <a role="menuitem" tabindex="-1" href="#">Java</a>
+        </li>
+        <li role="presentation">
+            <a role="menuitem" tabindex="-1" href="#">数据挖掘</a>
+        </li>
+        <li role="presentation">
+            <a role="menuitem" tabindex="-1" href="#">数据通信/网络</a>
+        </li>
+        <li role="presentation" class="divider"></li>
+        <li role="presentation">
+            <a role="menuitem" tabindex="-1" href="#">分离的链接</a>
+        </li>
+    </ul>
+</div>
+
+对齐
+通过向 .dropdown-menu 添加 class .pull-right 来向右对齐下拉菜单。
+<ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1">
+
+您可以使用 class dropdown-header 向下拉菜单的标签区域添加标题
+ <li role="presentation" class="dropdown-header">下拉菜单标题</li>
+ <li role="presentation" class="dropdown-header">下拉菜单标题</li>
+
+ .dropdown	指定下拉菜单，下拉菜单都包裹在 .dropdown 里	
+.dropdown-menu	创建下拉菜单	
+.dropdown-menu-right	下拉菜单右对齐	
+.dropdown-header	下拉菜单中添加标题	
+.dropup	指定向上弹出的下拉菜单	
+.disabled	下拉菜单中的禁用项	
+.divider	下拉菜单中的分割线
+
+
+Bootstrap 按钮组
+按钮组允许多个按钮被堆叠在同一行上。当你想要把按钮对齐在一起时，这就显得非常有用。
+
+btn-group	该 class 用于形成基本的按钮组。在 .btn-group 中放置一系列带有 class .btn 的按钮。	
+<div class="btn-group">
+  <button type="button" class="btn btn-default">Button1</button>
+   <button type="button" class="btn btn-default">Button2</button>
+</div>
+
+Bootstrap 按钮下拉菜单
+
+ Bootstrap class 向按钮添加下拉菜单。如需向按钮添加下拉菜单，只需要简单地在在一个 .btn-group 中放置按钮和下拉菜单即可。您也可以使用 <span class="caret"></span> 来指示按钮作为下拉菜单。
+
+ 分割的按钮下拉菜单
+分割的按钮下拉菜单使用与下拉菜单按钮大致相同的样式，但是对下拉菜单添加了原始的功能。
+
+<div class="btn-group">
+	<button type="button" class="btn btn-default">默认</button>
+	<button type="button" class="btn btn-default dropdown-toggle" 
+			data-toggle="dropdown">
+		<span class="caret"></span>
+		<span class="sr-only">切换下拉菜单</span>
+	</button>
+	<ul class="dropdown-menu" role="menu">
+		<li><a href="#">功能</a></li>
+		<li><a href="#">另一个功能</a></li>
+		<li><a href="#">其他</a></li>
+		<li class="divider"></li>
+		<li><a href="#">分离的链接</a></li>
+	</ul>
+</div>
+
+按钮下拉菜单的大小
+您可以使用带有各种大小按钮的下拉菜单：.btn-large、.btn-sm 或 .btn-xs。
+ <button type="button" class="btn btn-default dropdown-toggle btn-lg" data-toggle="dropdown">默认
+
+ 按钮上拉菜单
+菜单也可以往上拉伸的，只需要简单地向父 .btn-group 容器添加 .dropup 即可。
+<div class="btn-group dropup">
+
+Bootstrap 输入框组
+ Bootstrap 支持的另一个特性，输入框组。
+ 使用输入框组，您可以很容易地向基于文本的输入框添加作为前缀和后缀的文本或按钮。
+ 通过向输入域添加前缀和后缀的内容，您可以向用户输入添加公共的元素。
+ 您可以添加美元符号，或者在 Twitter 用户名前添加 @，或者应用程序接口所需要的其他公共的元素。
+
+ 向 .form-control 添加前缀或后缀元素的步骤如下：
+
+把前缀或后缀元素放在一个带有 class .input-group 的 <div> 中。
+接着，在相同的 <div> 内，在 class 为 .input-group-addon 的 <span> 内放置额外的内容。
+把该 <span> 放置在 <input> 元素的前面或者后面。
+
+<div style="padding: 100px 100px 10px;">
+    <form class="bs-example bs-example-form" role="form">
+        <div class="input-group">
+            <span class="input-group-addon">@</span>
+            <input type="text" class="form-control" placeholder="twitterhandle">
+        </div>
+        <br>
+        <div class="input-group">
+            <input type="text" class="form-control">
+            <span class="input-group-addon">.00</span>
+        </div>
+        <br>
+        <div class="input-group">
+            <span class="input-group-addon">$</span>
+            <input type="text" class="form-control">
+            <span class="input-group-addon">.00</span>
+        </div>
+    </form>
+</div>
+
+输入框组的大小
+您可以通过向 .input-group 添加相对表单大小的 class（比如 .input-group-lg、input-group-sm）来改变输入框组的大小。输入框中的内容会自动调整大小。
+
+复选框和单选插件
+您可以把复选框和单选插件作为输入框组的前缀或者后缀元素。
+
+<div class="input-group">
+                    <span class="input-group-addon">
+                        <input type="checkbox"></span>
+                    <input type="text" class="form-control">
+                </div><!-- /input-group -->
+
+div class="input-group">
+                    <span class="input-group-addon">
+                        <input type="radio"></span>
+                    <input type="text" class="form-control">
+                </div><!-- /input-group -->
+
+按钮插件
+您也可以把按钮作为输入框组的前缀或者后缀元素，这个时候您就不是添加 .input-group-addon class，您需要使用 class .input-group-btn 来包裹按钮。
+<div class="input-group">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">Go!</button>
+                    </span>
+                    <input type="text" class="form-control">
+                </div><!-- /input-group -->
+
+带有下拉菜单的按钮
+在输入框组中添加带有下拉菜单的按钮，只需要简单地在一个 .input-group-btn class 中包裹按钮和下拉菜单即可，
+div class="input-group-btn">
+                        <button type="button" class="btn btn-default 
+                        dropdown-toggle" data-toggle="dropdown">下拉菜单
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#">功能</a>
+                            </li>
+                            <li>
+                                <a href="#">另一个功能</a>
+                            </li>
+                            <li>
+                                <a href="#">其他</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="#">分离的链接</a>
+                            </li>
+                        </ul>
+                    </div><!-- /btn-group -->
+
+分割的下拉菜单按钮
+在输入框组中添加带有下拉菜单的分割按钮，使用与下拉菜单按钮大致相同的样式，但是对下拉菜单添加了主要的功能，
+
+Bootstrap 导航元素
+Bootstrap 提供的用于定义导航元素的一些选项。它们使用相同的标记和基类 .nav。Bootstrap 也提供了一个用于共享标记和状态的帮助器类。改变修饰的 class，可以在不同的样式间进行切换。
+
+表格导航或标签
+创建一个标签式的导航菜单：
+
+以一个带有 class .nav 的无序列表开始。
+添加 class .nav-tabs。
+<p>标签式的导航菜单</p>
+
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#">Home</a></li>
+  <li><a href="#">SVN</a></li>
+  <li><a href="#">iOS</a></li>
+  <li><a href="#">VB.Net</a></li>
+  <li><a href="#">Java</a></li>
+  <li><a href="#">PHP</a></li>
+</ul>
+
+如果需要把标签改成胶囊的样式，只需要使用 class .nav-pills 代替 .nav-tabs 即可
+<p>基本的胶囊式导航菜单</p>
+<ul class="nav nav-pills">
+  <li class="active"><a href="#">Home</a></li>
+  <li><a href="#">SVN</a></li>
+  <li><a href="#">iOS</a></li>
+  <li><a href="#">VB.Net</a></li>
+  <li><a href="#">Java</a></li>
+  <li><a href="#">PHP</a></li>
+</ul>
+
+垂直的胶囊式导航菜单
+您可以在使用 class .nav、.nav-pills 的同时使用 class .nav-stacked，让胶囊垂直堆叠。
+<p>垂直的胶囊式导航菜单</p>
+<ul class="nav nav-pills nav-stacked">
+  <li class="active"><a href="#">Home</a></li>
+  <li><a href="#">SVN</a></li>
+  <li><a href="#">iOS</a></li>
+  <li><a href="#">VB.Net</a></li>
+  <li><a href="#">Java</a></li>
+  <li><a href="#">PHP</a></li>
+</ul>
+
+两端对齐的导航
+您可以在屏幕宽度大于 768px 时，通过在分别使用 .nav、.nav-tabs 或 .nav、.nav-pills 的同时使用 class .nav-justified，让标签式或胶囊式导航菜单与父元素等宽。在更小的屏幕上，导航链接会堆叠。
+
+禁用链接
+对每个 .nav class，如果添加了 .disabled class，则会创建一个灰色的链接，同时禁用了该链接的 :hover 状态
+
+ <li class="disabled"><a href="#">iOS（禁用链接）</a></li>
+ 下拉菜单
+导航菜单与下拉菜单使用相似的语法。默认情况下，列表项的锚与一些数据属性协同合作来触发带有 .dropdown-menu class 的无序列表。
+
+
+带有下拉菜单的标签
+向标签添加下拉菜单的步骤如下：
+
+以一个带有 class .nav 的无序列表开始。
+添加 class .nav-tabs。
+添加带有 .dropdown-menu class 的无序列表。
+
+
+
+<p>带有下拉菜单的标签</p>
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#">Home</a></li>
+    <li><a href="#">SVN</a></li>
+    <li><a href="#">iOS</a></li>
+    <li><a href="#">VB.Net</a></li>
+    <li class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        Java <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu">
+        <li><a href="#">Swing</a></li>
+        <li><a href="#">jMeter</a></li>
+        <li><a href="#">EJB</a></li>
+        <li class="divider"></li>
+        <li><a href="#">分离的链接</a></li>
+      </ul>
+    </li>
+    <li><a href="#">PHP</a></li>
+  </ul>
+
+  Bootstrap 导航栏
+  导航栏是一个很好的功能，是 Bootstrap 网站的一个突出特点。导航栏在您的应用或网站中作为导航页头的响应式基础组件。
+  导航栏在移动设备的视图中是折叠的，随着可用视口宽度的增加，导航栏也会水平展开。在 Bootstrap 导航栏的核心中，导航栏包括了站点名称和基本的导航定义样式。
+建一个默认的导航栏的步骤如下：
+
+向 <nav> 标签添加 class .navbar、.navbar-default。
+向上面的元素添加 role="navigation"，有助于增加可访问性。
+向 <div> 元素添加一个标题 class .navbar-header，内部包含了带有 class navbar-brand 的 <a> 元素。这会让文本看起来更大一号。
+为了向导航栏添加链接，只需要简单地添加带有 class .nav、.navbar-nav 的无序列表即可。
+
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#">菜鸟教程</a>
+    </div>
+    <div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="#">iOS</a></li>
+            <li><a href="#">SVN</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    Java
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">jmeter</a></li>
+                    <li><a href="#">EJB</a></li>
+                    <li><a href="#">Jasper Report</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">分离的链接</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">另一个分离的链接</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    </div>
+</nav>
+
+Bootstrap 面包屑导航（Breadcrumbs）
+面包屑导航（Breadcrumbs）是一种基于网站层次信息的显示方式。以博客为例，面包屑导航可以显示发布日期、类别或标签。它们表示当前页面在导航层次结构内的位置。
+
+Bootstrap 中的面包屑导航（Breadcrumbs）是一个简单的带有 .breadcrumb class 的无序列表。分隔符会通过 CSS（bootstrap.min.css）中下面所示的 class 自动被添加：
+
+.breadcrumb > li + li:before {
+    color: #CCCCCC;
+    content: "/ ";
+    padding: 0 5px;
+}
+下面的实例演示了面包屑导航：
+
+实例
+<ol class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">2013</a></li>
+    <li class="active">十一月</li>
+</ol>
+
+
+Bootstrap 分页
+本章将讲解 Bootstrap 支持的分页特性。分页（Pagination），是一种无序列表，Bootstrap 像处理其他界面元素一样处理分页
+分页（Pagination）
+
+.pagination	添加该 class 来在页面上显示分页。	
+<ul class="pagination">
+	<li><a href="#">&laquo;</a></li>
+	<li><a href="#">1</a></li>
+	<li><a href="#">2</a></li>
+	<li><a href="#">3</a></li>
+	<li><a href="#">4</a></li>
+	<li><a href="#">5</a></li>
+	<li><a href="#">&raquo;</a></li>
+</ul>
+
+分页的状态
+下面的实例演示了上表中所讨论的 class .disabled、.active 的用法：
+<ul class="pagination">
+    <li><a href="#">&laquo;</a></li>
+    <li class="active"><a href="#">1</a></li>
+    <li class="disabled"><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#">4</a></li>
+    <li><a href="#">5</a></li>
+    <li><a href="#">&raquo;</a></li>
+</ul>
+
+active激活
+disable禁用
+
+分页的大小
+下面的实例演示了上表中所讨论的 class .pagination-lg pagination-sm 等等。
+
+翻页（Pager）
+如果您想要创建一个简单的分页链接为用户提供导航，可通过翻页来实现。与分页链接一样，翻页也是无序列表。默认情况下，链接是居中显示。下表列出了 Bootstrap 处理翻页的 class。
+
+.pager	添加该 class 来获得翻页链接。
+
+.previous, .next	使用 class .previous 把链接向左对齐，使用 .next 把链接向右对齐。
+
+.disabled	添加该 class 来获得一个颜色变淡的外观。	
+
+<ul class="pager">
+	<li><a href="#">Previous</a></li>
+	<li><a href="#">Next</a></li>
+</ul>
+
+.previous, .next
+<ul class="pager">
+    <li class="previous"><a href="#">&larr; Older</a></li>
+    <li class="next"><a href="#">Newer &rarr;</a></li>
+</ul>
+
+
+翻页的状态
+下面的 class .disabled 的用法：链接失效
+.pager	一个简单的分页链接，链接居中对齐。	
+.previous	.pager 中上一页的按钮样式，左对齐	
+.next	.pager 中下一页的按钮样式，右对齐	
+.disabled	禁用链接	
+.pagination	分页链接	
+.pagination-lg	更大尺寸的分页链接	
+.pagination-sm	更小尺寸的分页链接	
+.disabled	禁用链接	
+.active	当前访问页面链接样式
+
+Bootstrap 标签
+本章将讲解 Bootstrap 标签。标签可用于计数、提示或页面上其他的标记显示。使用 class .label 来显示标签，
+h1>Example Heading <span class="label label-default">Label</span></h1>
+您可以使用修饰的 class label-default、label-primary、label-success、label-info、label-warning、label-danger 来改变标签的外观
+
+Bootstrap 徽章（Badges）
+
+徽章（Badges）主要用于突出显示新的或未读的项。如需使用徽章，只需要把 <span class="badge"> 添加到链接、Bootstrap 导航等这些元素上即可。
+
+您可以在激活状态的胶囊式导航和列表导航中放置徽章。通过使用 <span class="badge"> 来激活链接
+<h4>胶囊式导航中的激活状态</h4>
+<ul class="nav nav-pills">
+    <li class="active">
+        <a href="#">首页
+            <span class="badge">42</span>
+        </a>
+    </li>
+    <li>
+        <a href="#">简介</a>
+    </li>
+    <li>
+        <a href="#">消息
+            <span class="badge">3</span>
+        </a>
+    </li>
+</ul>
+
+Bootstrap 超大屏幕（Jumbotron）
+本章将讲解 Bootstrap 支持的另一个特性，超大屏幕（Jumbotron）
+div class="container">
+   <div class="jumbotron">
+        <h1>欢迎登陆页面！</h1>
+        <p>这是一个超大屏幕（Jumbotron）的实例。</p>
+        <p><a class="btn btn-primary btn-lg" role="button">
+        学习更多</a>
+      </p>
+   </div>
+</div>
+
+为了获得占用全部宽度且不带圆角的超大屏幕，请在所有的 .container class 外使用 .jumbotron class
+<div class="jumbotron">
+    <div class="container">
+        <h1>欢迎登陆页面！</h1>
+        <p>这是一个超大屏幕（Jumbotron）的实例。</p>
+        <p><a class="btn btn-primary btn-lg" role="button">
+         学习更多</a>
+        </p>
+    </div>
+</div
+
+Bootstrap 页面标题（Page Header）
+页面标题（Page Header）是个不错的功能，它会在网页标题四周添加适当的间距。
+当一个网页中有多个标题且每个标题之间需要添加一定的间距时，页面标题这个功能就显得特别有用。如需使用页面标题（Page Header），请把您的标题放置在带有 class .page-header 的 <div> 中：
+
+<div class="page-header">
+    <h1>页面标题实例
+        <small>子标题</small>
+    </h1>
+</div>
+
+Bootstrap 缩略图
+使用 Bootstrap 创建缩略图的步骤如下：
+
+在图像周围添加带有 class .thumbnail 的 <a> 标签。
+这会添加四个像素的内边距（padding）和一个灰色的边框。
+当鼠标悬停在图像上时，会动画显示出图像的轮廓。
+
+添加自定义的内容
+现在我们有了一个基本的缩略图，我们可以向缩略图添加各种 HTML 内容，比如标题、段落或按钮。具体步骤如下：
+
+把带有 class .thumbnail 的 <a> 标签改为 <div>。
+在该 <div> 内，您可以添加任何您想要添加的东西。由于这是一个 <div>，我们可以使用默认的基于 span 的命名规则来调整大小。
+如果您想要给多个图像进行分组，请把它们放置在一个无序列表中，且每个列表项向左浮动。
+div class="thumbnail">
+            <img src="/wp-content/uploads/2014/06/kittens.jpg" 
+             alt="通用的占位符缩略图">
+            <div class="caption">
+                <h3>缩略图标签</h3>
+                <p>一些示例文本。一些示例文本。</p>
+                <p>
+                    <a href="#" class="btn btn-primary" role="button">
+                        按钮
+                    </a> 
+                    <a href="#" class="btn btn-default" role="button">
+                        按钮
+                    </a>
+                </p>
+            </div>
+         </div>
+
+Bootstrap 警告（Alerts）
+您可以通过创建一个 <div>，并向其添加一个 .alert class 和四个上下文 class（即 .alert-success、.alert-info、.alert-warning、.alert-danger）之一，来添加一个基本的警告框。
+<div class="alert alert-success">成功！很好地完成了提交。</div>
+<div class="alert alert-info">信息！请注意这个信息。</div>
+<div class="alert alert-warning">警告！请不要提交。</div>
+<div class="alert alert-danger">错误！请进行一些更改。</div>
+
+可取消的警告（Dismissal Alerts）
+通过创建一个 <div>，并向其添加一个 .alert class 和四个上下文 class（即 .alert-success、.alert-info、.alert-warning、.alert-danger）之一，来添加一个基本的警告框。
+同时向上面的 <div> class 添加可选的 .alert-dismissable。
+添加一个关闭按钮。
+
+<div class="alert alert-success alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert"
+                    aria-hidden="true">
+                &times;
+            </button>
+            成功！很好地完成了提交。
+        </div>
+
+
+警告（Alerts）中的链接
+
+在警告（Alerts）中创建链接的步骤如下：
+
+通过创建一个 <div>，并向其添加一个 .alert class 和四个上下文 class（即 .alert-success、.alert-info、.alert-warning、.alert-danger）之一，来添加一个基本的警告框。
+使用 .alert-link 实体类来快速提供带有匹配颜色的链接。
+
+<div class="alert alert-success">
+    <a href="#" class="alert-link">成功！很好地完成了提交。</a>
+</div>
+
+Bootstrap 进度条
+Bootstrap 进度条使用 CSS3 过渡和动画来获得该效果
+
+默认的进度条
+创建一个基本的进度条的步骤如下：
+
+添加一个带有 class .progress 的 <div>。
+接着，在上面的 <div> 内，添加一个带有 class .progress-bar 的空的 <div>。
+添加一个带有百分比表示的宽度的 style 属性，例如 style="width: 60%"; 表示进度条在 60% 的位置
+
+<div class="progress">
+    <div class="progress-bar" role="progressbar" aria-valuenow="60" 
+        aria-valuemin="0" aria-valuemax="100" style="width: 40%;">
+        <span class="sr-only">40% 完成</span>
+    </div>
+</div>
+
+交替的进度条
+创建不同样式的进度条的步骤如下：
+
+添加一个带有 class .progress 的 <div>。
+接着，在上面的 <div> 内，添加一个带有 class .progress-bar 和 class progress-bar-* 的空的 <div>。其中，* 可以是 success、info、warning、danger。
+添加一个带有百分比表示的宽度的 style 属性，例如 style="60%"; 表示进度条在 60% 的位置。
+
+<div class="progress">
+    <div class="progress-bar progress-bar-success" role="progressbar"
+         aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+         style="width: 90%;">
+        <span class="sr-only">90% 完成（成功）</span>
+    </div>
+</div>
+
+条纹的进度条
+创建一个条纹的进度条的步骤如下：
+
+添加一个带有 class .progress 和 .progress-striped 的 <div>。
+接着，在上面的 <div> 内，添加一个带有 class .progress-bar 和 class progress-bar-* 的空的 <div>。其中，* 可以是 success、info、warning、danger。
+添加一个带有百分比表示的宽度的 style 属性，例如 style="60%"; 表示进度条在 60% 的位置。
+
+<div class="progress progress-striped">
+    <div class="progress-bar progress-bar-success" role="progressbar"
+         aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+         style="width: 90%;">
+        <span class="sr-only">90% 完成（成功）</span>
+    </div>
+</div>
+
+动画的进度条
+创建一个动画的进度条的步骤如下：
+
+添加一个带有 class .progress 和 .progress-striped 的 <div>。同时添加 class .active。
+接着，在上面的 <div> 内，添加一个带有 class .progress-bar 的空的 <div>。
+添加一个带有百分比表示的宽度的 style 属性，例如 style="60%"; 表示进度条在 60% 的位置。
+这将会使条纹具有从右向左的运动感。
+<div class="progress progress-striped active">
+    <div class="progress-bar progress-bar-success" role="progressbar"
+         aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+         style="width: 40%;">
+        <span class="sr-only">40% 完成</span>
+    </div>
+</div>
+
+堆叠的进度条
+您甚至可以堆叠多个进度条。把多个进度条放在相同的 .progress 中即可实现堆叠
+<div class="progress">
+    <div class="progress-bar progress-bar-success" role="progressbar"
+         aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+         style="width: 40%;">
+        <span class="sr-only">40% 完成</span>
+    </div>
+    <div class="progress-bar progress-bar-info" role="progressbar"
+         aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+         style="width: 30%;">
+        <span class="sr-only">30% 完成（信息）</span>
+    </div>
+    <div class="progress-bar progress-bar-warning" role="progressbar"
+         aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+         style="width: 20%;">
+        <span class="sr-only">20% 完成（警告）</span>
+    </div>
+</div>
+
+Bootstrap 多媒体对象（Media Object）
+这些抽象的对象样式用于创建各种类型的组件（比如：博客评论），我们可以在组件中使用图文混排，图像可以左对齐或者右对齐。媒体对象可以用更少的代码来实现媒体对象与文字的混排。
+
+media：该 class 允许将媒体对象里的多媒体（图像、视频、音频）浮动到内容区块的左边或者右边。
+.media-list：如果你需要一个列表，各项内容是无序列表的一部分，可以使用该 class。
+<div class="media">
+    <a class="media-left" href="#">
+        <img class="media-object" src="/wp-content/uploads/2014/06/64.jpg"
+             alt="媒体对象">
+    </a>
+    <div class="media-body">
+        <h4 class="media-heading">媒体标题</h4>
+        这是一些示例文本。这是一些示例文本。
+        这是一些示例文本。这是一些示例文本。
+        这是一些示例文本。这是一些示例文本。
+        这是一些示例文本。这是一些示例文本。
+        这是一些示例文本。这是一些示例文本。
+    </div>
+</div>
+
+media
+media-right
+media-body
+media-left
+media-header
+
+Bootstrap 列表组
+列表组件用于以列表形式呈现复杂的和自定义的内容
+向元素 <ul> 添加 class .list-group。
+向 <li> 添加 class .list-group-item。
+
+<ul class="list-group">
+    <li class="list-group-item">免费域名注册</li>
+    <li class="list-group-item">免费 Window 空间托管</li>
+    <li class="list-group-item">图像的数量</li>
+    <li class="list-group-item">24*7 支持</li>
+    <li class="list-group-item">每年更新成本</li>
+</ul>
+
+Bootstrap 面板（Panels）
+。面板组件用于把 DOM 组件插入到一个盒子中。创建一个基本的面板，只需要向 <div> 元素添加 class .panel 和 class .panel-default 即可
+
+div class="panel panel-default">
+    <div class="panel-body">
+        这是一个基本的面板
+    </div>
+</div>
+
+使用 .panel-heading class 可以很简单地向面板添加标题容器。
+使用带有 .panel-title class 的 <h1>-<h6> 来添加预定义样式的标
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        不带 title 的面板标题
+    </div>
+    <div class="panel-body">
+        面板内容
+    </div>
+</div>
+
+面板脚注
+我们可以在面板中添加脚注，只需要把按钮或者副文本放在带有 class .panel-footer 的 <div> 
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        这是一个基本的面板
+    </div>
+    <div class="panel-footer">面板脚注</div>
+</div>
+
+Bootstrap Well
+
+Well 是一种会引起内容凹陷显示或插图效果的容器 <div>。为了创建 Well，只需要简单地把内容放在带有 class .well 的 <div> 中即可。下面的实例演示了一个默认的 Well：
+
+<div class="well">您好，我在 Well 中！</div>
+
+您可以使用可选类 well-lg 或 well-sm 来改变 Well 的尺寸大小
+
+
+Bootstrap 插件概览
+
+布局组件 章节中所讨论到的组件仅仅是个开始
+
+Bootstrap 自带 12 种 jQuery 插件，扩展了功能，可以给站点添加更多的互动。
+引用 Bootstrap 插件的方式有两种
+
+单独引用：使用 Bootstrap 的个别的 *.js 文件。一些插件和 CSS 组件依赖于其他插件。如果您单独引用插件，请先确保弄清这些插件之间的依赖关系。
+编译（同时）引用：使用 bootstrap.js 或压缩版的 bootstrap.min.js。
+所有的插件依赖于 jQuery。所以必须在插件文件之前引用 jQuery
+
+data 属性
+你可以仅仅通过 data 属性 API 就能使用所有的 Bootstrap 插件，无需写一行 JavaScript 代码。这是 Bootstrap 中的一等 API，也应该是你的首选方式
+
+话又说回来，在某些情况下可能需要将此功能关闭。因此，我们还提供了关闭 data 属性 API 的方法，即解除以 data-api 为命名空间并绑定在文档上的事件。就像下面这样：
+$(document).off('.data-api')
+
+如需关闭一个特定的插件，只需要在 data-api 命名空间前加上该插件的名称作为命名空间即可，如下所示：
+$(document).off('.alert.data-api')
+
+编程方式的 API
+我们为所有 Bootstrap 插件提供了纯 JavaScript 方式的 API。所有公开的 API 都是支持单独或链式调用方式，并且返回其所操作的元素集合（注：和jQuery的调用形式一致）。例如：
+
+$(".btn.danger").button("toggle").addClass("fat")
+
+
+所有的方法都可以接受一个可选的选项对象作为参数，或者一个代表特定方法的字符串，或者不带任何参数（这种情况下，将会初始化插件为默认行为），如下所示：
+
+// 初始化为默认行为
+$("#myModal").modal()    
+ // 初始化为不支持键盘               
+$("#myModal").modal({ keyboard: false })  
+// 初始化并立即调用 show
+$("#myModal").modal('show')                
+
+
+
+模态框（Modal）是覆盖在父窗体上的子窗体
+<h2>创建模态框（Modal）</h2>
+<!-- 按钮触发模态框 -->
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">开始演示模态框</button>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">模态框（Modal）标题</h4>
+            </div>
+            <div class="modal-body">在这里添加一些文本</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">提交更改</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+5.22
+修改模态框的宽度很简单,修改width属性就可以了
+
+但是要注意的一点是,修改的不是modal这个div
+
+而是modal-dialog这个div,代码如下
+
+[html] view plain copy
+<div class="modal-dialog" style="width:1100px">  

@@ -1,0 +1,242 @@
+1.媒资账户密码
+administrator
+Oms@2010
+
+git caoxingyun cxydy0816
+
+共享文件
+192.168.1.22
+
+2.配置文件
+applicationContext-mam-asset.xml
+dao,service
+
+hibernate.mam.cfg.xml
+Model 映射
+
+struts-asset.xml
+action 
+
+3.数据库
+jdbc.url.mam=jdbc:oracle:thin:@192.168.1.38:1521:omsdb
+@192.168.1.38:1521/omsdb
+jdbc.username.mam=OMS_SOURCE
+jdbc.password.mam=OMS_SOURCE
+
+
+4.任务
+
+5.测试工具
+postman
+
+4A账号已成功申请，用户名 wd_caoxingyun ，密码 cxydy0816！
+
+117.131.17.3 10022
+4A账号
+
+SAG>2
+login as : ansible
+possword : V#wdtke!33
+ssh ansible@10.200.66.49
+
+测试环境IP，ssh ansible@10.200.66.49
+测试环境
+日志位置：/tomcat_mam/logs
+tail -f catalina.2018-05-07.out
+
+ctrl + c  退出
+
+
+连接到oracle
+ssh登陆远程主机
+
+ssh ansiable@10.200.66.47
+password:
+
+sudo su - 
+su - oracle
+
+sqlplus MEIZI/MEIZI
+
+:
+\\192.168.1.22\it2\zjs
+:
+ftp账号
+117.131.17.18
+admin/3edc#EDC
+
+
+
+部署项目
+项目部署到测试环境中
+将mam-admin打包
+
+对照服务器上，删除对应文件(5ge page  c store temp . .)，然后web-INf lib 中只保留 mam-core
+
+在10.200.66.49上
+
+给权限
+sudo su -
+
+iconfig
+
+cd /opt/mam/tmp
+
+ls
+
+rm -rf *（删除所有）
+cp /nas/nas_log/meizi/upload/lyf/AssertReverseNoticeServlet.class .
+unzip mam-admin-0528.zip
+cd ..
+sh mam-deploy.sh
+ 
+
+rm -rf *
+cp /nas/nas_log/meizi/upload/mam-admin.zip .
+unzip mam-admin.zip
+ 
+文件是放在：cp /nas/nas_log/meizi/upload/lyf/mam-admin-0605cxy.zip ./
+
+shell脚本
+#! /bin/bash
+cd /opt/mam/2.4.0/mam-admin/WEB-INF/classes
+rm struts*
+rm ApplicationResources_zh_CN.properties
+rm applicationContext-mam-init.xml
+cp /opt/mam/tmp/WEB-INF/classes/struts*  . 
+cp /opt/mam/tmp/WEB-INF/classes/ApplicationResources_zh_CN.properties   . 
+cp /opt/mam/tmp/WEB-INF/classes/applicationContext-mam-init.xml   .
+cd com
+rm -rf *
+cp -r  /opt/mam/tmp/WEB-INF/classes/com/*  .
+cd /opt/mam/2.4.0/mam-admin/WEB-INF/lib/
+rm mam-core-1.0.0.jar
+cp /opt/mam/tmp/WEB-INF/lib/mam-core-1.0.0.jar .
+cd /opt/mam/2.4.0/mam-admin
+rm -rf ace common pages docs ueditor
+cp -r  /opt/mam/tmp/ace  /opt/mam/tmp/common  /opt/mam/tmp/pages /opt/mam/tmp/docs /opt/mam/tmp/ueditor .
+
+sleep 1 
+cd /usr/local/tomcat_mam/webapps
+ps -ef | grep tomcat_mam > PIDmam1
+tr -s " " < PIDmam1 > PIDmam2
+cat PIDmam2 | grep jdk > PIDmam1
+pids=`cut -d " " -f 2 PIDmam1`
+if [ -n $pids ];then
+   kill -9 "$pids"
+fi
+rm PIDmam1 PIDmam2
+cd /usr/local/tomcat_mam/bin
+rm -rf ../work/Catalina/localhost/*
+./startup.sh
+echo "Please wait until the program is starting " 
+for((i=0;i<5;i++))
+do
+ sleep 1
+ echo -n "."
+done
+echo ""
+echo "The program starts successfully"
+exit 0
+
+
+
+反注CIP，IPTV的ftp上传路径。
+ftp://u800091:2wsx1qaz@10.200.66.50:21
+
+内网：ftp://u800091:2wsx1qaz@10.200.66.50:21
+公网：ftp://u800094:2wsx1qaz@117.131.17.18:21
+
+@赵艳 @曹兴运 图片文件ftpu800091密码：2wsx1qaz
+内网10.200.66.50，公网117.131.17.18
+
+
+postman 
+post请求
+
+发送 xml/json
+
+设置hander
+Content-Type
+
+application/xml
+application/json
+
+在body中发送请求
+
+
+
+http://10.150.240.118:8888/cip/icmsContentInject?systemId=sptymz	CIP反注接口
+
+
+http://183.192.162.165:8888/cip/icmsContentInject?systemId=tymzfollow
+
+
+
+IPTV反注接口
+IPTV_REINJECTION_URL
+IPTV_REINJECTION_URL_NEW
+http://10.150.200.219:4329/MZContentSyncReq
+
+
+
+上传cip
+http://183.192.162.165:8888/cip/cdiDeliveryTask
+
+反注
+ http://117.131.17.18:80/mam-admin/assertReverseNotice
+
+反注回执
+ http://180.168.71.6:18080/voms-cloud/view/HttpMgtvMedia_getMgtvMedia-json.html
+
+上报魔百合内容id
+内网：http://10.200.66.49:28080/mam-admin/contentToCipCallBack
+公网：117.131.17.18/mam-admin/contentToCipCallBack
+
+UPLOAD_PLAYURL_TO_CIP
+上报PlayURL
+通知cip上传PlayURL
+http://183.192.162.165:8888/cip/cdiDeliveryTask
+
+UPLOAD_PLAYURL_TO_IPTV
+IPTV
+http://10.150.200.219:4329/MZContentNotifyReq
+
+
+
+ftp:
+内网：10.200.66.50 21
+外网：117.131.17.18
+u800090:df4dg53s
+
+ftp://u800090:df4dg53s@117.131.17.18:21/9500/130/735/6_V23_sc.jpg
+
+wget --ftp-user=u800091 --ftp-password=2wsx1qaz "ftp://10.200.66.50:21/9500/129/173/FILENAME_BZ_sc_H32_sc.jpg"
+
+注入短视频10.200.69.30 80
+注入现网长视频：10.200.69.29 80
+
+
+wget --ftp-user=u800091 --ftp-password=3edc#EDC "ftp://10.200.66.50:21/9500/129/173/FILENAME_BZ_sc_H32_sc.jpg"
+
+117.131.17.18
+admin/3edc#EDC
+冠勇ftp：
+u800090/df4dg53s
+天脉ftp：
+u800091/3edc#EDC
+华栖云
+ftp 账号u800092密码1qazXSW2
+IPTV账号u800093密码7ujm^YHN
+
+
+
+源路径
+/opt/mam/2.4.0/mam-admin/store/asset/zhengshi/9000/108/349/9000108349/display/6_V23_sc.jpg
+
+拷贝到
+
+ftp对应路径
+/nas/nas_log/meizi/upload/800033/800090/9500/130/735/6_V23_sc.jpg
+
+ftp://u800090:df4dg53s@117.131.17.18:21/9500/130/735/6_V23_sc.jpg

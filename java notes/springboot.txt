@@ -1,0 +1,1482 @@
+1.spring 面临的问题.
+1）组件扫描减少了配置量，Java配置让它看上去简洁
+不少，但Spring还是需要不少配置。这些配置都代表了开发时的损耗
+2）项目的依赖管理也是件吃力不讨好的事情。决定项目里要用哪些库就已经够让人
+头痛的了，你还要知道这些库的哪个版本和其他库不会有冲突，这难题实在太棘手。
+依赖管理也是一种损耗，添加依赖不是写应用程序代码。一旦选错了依赖的版本，随
+之而来的不兼容问题毫无疑问会是生产力杀手。
+Spring Boot让这一切成为了过去。
+假如构建一个SSM应用程序，需要配置各种配置文件，需要在WEB.xml中配置spring监听器，springmvc的servlet等等，如果每次都要配置，为什么不公共起来呢，springboot应运而生。
+
+2.Spring Boot的命令行界面（Command Line Interface，CLI）
+
+包含必要依赖的Maven或者Gradle构建文件
+
+一个完整的基于Groovy的Spring应用程序
+
+@RestController 
+class HelloController { 
+	@RequestMapping("/")
+	def hello() { 
+		return "Hello World" 
+	} 
+} 
+
+
+@RestController
+class HelloSpringBoot{
+	@RequesMapping("/")
+	public String  hello(){
+		return "hello world!"
+	}
+}
+
+@Controller和@RestController的区别？
+知识点：@RestController注解相当于@ResponseBody ＋ @Controller合在一起的作用。
+
+1.使用@Controller 注解，在对应的方法上，视图解析器可以解析return 的jsp,html页面，并且跳转到相应页面
+若返回json、xml等内容到页面，则需要加@ResponseBody注解.
+2.@RestController注解，相当于@Controller+@ResponseBody两个注解的结合，返回json数据不需要在方法前面加@ResponseBody注解了，但使用@RestController这个注解，就不能返回jsp,html页面，视图解析器无法解析jsp,html页面。
+
+@RequestBody
+该注解常用来处理Content-Type: 不是application/x-www-form-urlencoded编码的内容，例如application/json, application/xml等。
+
+
+
+
+Groovy是一种基于JVM（Java虚拟机）的敏捷开发语言，它结合了Python、Ruby和Smalltalk的许多强大的特性，Groovy 代码能够与 Java 代码很好地结合，也能用于扩展现有代码。由于其运行在 JVM 上的特性，Groovy 可以使用其他 Java 语言编写的库。
+
+
+
+这里没有配置，没有web.xml，没有构建说明，甚至没有应用服务器
+Spring Boot会搞定执行应用程序所需的各种后勤工作
+Spring Boot的命令行界面（Command Line Interface，CLI）
+在命令行里运行HelloController：
+
+$ spring run HelloController.groovy
+Spring Boot CLI可以运行未经编译的代码
+之所以选择用Groovy来写这个控制器示例，是因为Groovy语言的简洁与Spring Boot的简洁有
+异曲同工之妙。但Spring Boot并不强制要求使用Groovy。
+
+SpringBootCLI是一个命令行工具，可用于快速搭建基于Spring的原型。它支持运行Groovy脚本，这也就意味着你可以使用类似Java的语法，但不用写很多的模板代码。
+安装
+下载安装包
+http://repo.spring.io/release/org/springframework/boot/spring-boot-cli/1.3.0.RELEASE/spring-boot-cli-1.3.0.RELEASE-bin.zip 
+配置环境变量path
+/bin
+
+cmd
+spring --version 确认是否安装成功。
+
+windows 命令行切换目录
+
+1. 切换到C盘根目录
+
+打开终端cmd后，输入cd C:\（一定要加上后面的反斜扛）
+
+
+
+2.切换到C盘子目录
+
+打开终端cmd后，输入cd C:\dir1（切换到C盘下目录dir1）
+
+
+
+3.切换到其他盘根目录
+
+打开终端cmd后，输入D:（不需要加cd，一定不要加反斜扛）
+
+
+
+4.切换到其他盘子目录
+
+打开终端cmd后，先切换到根目录，再使用cd命令切换到子目录
+
+CLI的自动补全代码，Windows下不可以使用
+Linux中，可以使用. ~/.sdkman/springboot/current/shell-completion/bash/spring命令开启。
+
+3.Spring Boot四个核心
+a.自动配置：针对很多Spring应用程序常见的应用功能，Spring Boot能自动提供相关配置。
+
+b.起步依赖：告诉Spring Boot需要什么功能，它就能引入需要的库。起步依赖其实就是特殊的Maven依
+赖和Gradle依赖，利用了传递依赖解析，把常用库聚合在一起，组成了几个为特定功能而定制
+的依赖。
+
+打算利用Spring Boot的起步依赖，你只需添加Spring Boot的Web起步依赖
+（org.springframework.boot:spring-boot-starter-web
+
+它会根据依赖
+传递把其他所需依赖引入项目里，你都不用考虑它们
+因为应用是个Web应用程序，所以加入了Web起步依赖
+，如果应用程序要用到JPA持久化，那么就可以加入jpa起步依赖。如果需要安全功能，
+那就加入security起步依赖。简而言之，你不再需要考虑支持某种功能要用什么库了，引入相关起
+步依赖就行。
+
+Spring Boot的起步依赖还把你从“需要这些库的哪些版本”这个问题里解放了出来。
+起步依赖引入的库的版本都是经过测试的，因此你可以完全放心，它们之间不会出现不兼容的
+情况。
+
+c.命令行界面：这是Spring Boot的可选特性，借此你只需写代码就能完成完整的应用程序，
+无需传统项目构建。
+
+说得简单一点，CLI能检测到你使用了哪些类，它知道要向Classpath中添加哪些起步依赖才
+能让它运转起来。一旦那些依赖出现在Classpath中，一系列自动配置就会接踵而来，确保启用
+DispatcherServlet和Spring MVC，这样控制器就能响应HTTP请求了。
+
+d.Actuator：让你能够深入运行中的Spring Boot应用程序，一探究竟。
+每一个特性都在通过自己的方式简化Spring应用程序的开发。本书会探寻如何将它们发挥到
+极致，但就目前而言，先简单看看它们都提供了哪些功能吧。
+
+Actuator
+则要提供在运行时检视应用程序内部情况的能力。安装了Actuator就能窥探应用程序的内部情况
+了，包括如下细节：
+ Spring应用程序上下文里配置的Bean 
+
+ Spring Boot的自动配置做的决策
+ 应用程序取到的环境变量、系统属性、配置属性和命令行参数
+ 应用程序里线程的当前状态
+ 应用程序最近处理过的HTTP请求的追踪情况
+ 各种和内存用量、垃圾回收、Web请求以及数据源用量相关的指标
+Actuator通过Web端点和shell界面向外界提供信息。如果要借助shell界面，你可以打开SSH
+（Secure Shell），登入运行中的应用程序，发送指令查看它的情况。
+
+4.springboot是什么
+Spring Boot不是应用服务器。
+Spring Boot
+在应用程序里嵌入了一个Servlet容器（Tomcat、Jetty或Undertow），以此实现这一功能。但这是
+内嵌的Servlet容器提供的功能，不是Spring Boot实现的。
+
+Spring Boot没有引入任何形式的代码生成
+利用了Spring 4的条件化配置特性，
+以及Maven和Gradle提供的传递依赖解析，以此实现Spring应用程序上下文里的自动配置。
+
+从本质上来说，Spring Boot就是Spring，它做了那些没有它你自己也会去做的Spring 
+Bean配置。谢
+
+从根本上来说，Spring Boot的项目只是普通的Spring项目，只是它们正好用到了Spring Boot
+的起步依赖和自动配置而已
+
+
+5.项目创建，目录结构
+	1. 使用Spring Initializr的Web界面 http://start.spring.io 在线生成
+	2.在Spring Tool Suite里创建Spring Boot项目。
+	Spring Tool Suite是Eclipse IDE的一个发行版，增加了诸多能辅助Spring开发的特性。你可以从http://spring.io/tools/sts
+下载Spring Tool Suite。
+	3.idea 构建
+	4. Spring Boot CLI里使用Initializr 命令构建
+	$ spring init
+假设你想要构建一个Web应用程序，其中使用JPA实现数据持久化，使用Spring Security进行
+安全加固，可以用--dependencies或-d来指定那些初始依赖：
+$ spring init -dweb,jpa,security 
+这条命令会下载一个demo.zip文件，包含与之前一样的项目结构，但在pom.xml里增加了
+Spring Boot的Web、jpa和security起步依赖。请注意，在-d和依赖之间不能加空格，否则就变成
+了下载一个ZIP文件，文件名是web,jpa,security。
+现在，假设你想用Gradle来构建项目。没问题，用--build参数将Gradle指定为构建类型：
+$ spring init -dweb,jpa,security --build gradle 
+默认情况下，无论是Maven还是Gradle的构建说明都会产生一个可执行JAR文件。但如果你
+想要一个WAR文件，那么可以通过--packaging或者-p参数进行说明： 
+$ spring init -dweb,jpa,security --build gradle -p war 
+
+目录结构
+resources
+	static
+	templates
+	application.properties
+
+常规的maven结构
+在Spring Boot应用程序中，就连空目录都有自己的意义。static目录放置的是Web应用程序的
+静态内容（JavaScript、样式表、图片，等等）。
+
+用于呈现模型数据的模板
+会放在templates目录里。
+
+6.引导项目
+
+@SpringBootApplication 
+public class ReadingListApplication { 
+	public static void main(String[] args) { 
+	SpringApplication.run(ReadingListApplication.class, args); 
+} 
+} 
+
+@SpringBootApplication开启了Spring的组件扫描和Spring Boot的自动配置功能。实际
+上，@SpringBootApplication将三个有用的注解组合在了一起。
+ Spring的@Configuration：标明该类使用Spring基于Java的配置。虽然本书不会写太多
+配置，但我们会更倾向于使用基于Java而不是XML的配置。
+ Spring的@ComponentScan：启用组件扫描，这样你写的Web控制器类和其他组件才能被
+自动发现并注册为Spring应用程序上下文里的Bean。本章稍后会写一个简单的Spring MVC
+控制器，使用@Controller进行注解，这样组件扫描才能找到它。
+ Spring Boot的@EnableAutoConfiguration： 这个不 起眼的小注 解也可以称 为
+@Abracadabra，就是这一行配置开启了Spring Boot自动配置的魔力，让你不用再写成
+篇的配置了。
+
+ReadingListApplication是一个启动引导类
+
+运行程序方式
+1.其中包含传统的WAR文件部署
+2、这里的main()方法让你可以在命令行里把该应
+用程 序当作一个 可执行JAR文件 来运行。
+
+要构建并运行应用程
+序，最简单的方法就是用Gradle的bootRun任务：
+$ gradle bootRun 
+
+bootRun任务来自Spring Boot的Gradle插件
+你也可以
+用Gradle构建项目，然后在命令行里用java来运行它：
+$ gradle build 
+... 
+$ java -jar build/libs/readinglist-0.0.1-SNAPSHOT.jar
+
+
+测试类
+@SpringApplicationConfiguration加载Spring应用程序上下文
+
+import readinglist.ReadingListApplication; 
+
+@RunWith(SpringJUnit4ClassRunner.class) 
+@SpringApplicationConfiguration( classes = ReadingListApplication.class) 
+@WebAppConfiguration 
+public class ReadingListApplicationTests { 
+	@Test 
+	public void contextLoads() { 
+	} 
+} 
+
+contextLoads()
+测试加载的上下文
+
+7.配置应用程序属性
+Application.properties
+这个文件完全是可选的
+server.port=8000 加上这一行，嵌入式Tomcat的监听端口就变成了8000，而不是默认的8080。
+application.properties文件可以很方便地帮你细粒度地调整Spring Boot的自动配置
+
+8.运行 构建插件
+Spring Boot的Maven插件与之类似，提供了
+一个spring-boot:run目标，如果你使用Maven，它能实现相同的功能。
+
+构建插件的主要功能是把项目打包成一个可执行的超级JAR（uber-JAR），包括把应用程序的
+所有依赖打入JAR文件内，并为JAR添加一个描述文件，其中的内容能让你用java -jar来运行
+应用程序。
+
+将spring-boot-starter-parent作为上一级，
+这样一来就能利用Maven的依赖管理功能，继承很多常用库的依赖版本，在你声明依赖时就不用
+再去指定版本号了。
+
+9.Spring Boot起步依赖
+Spring Boot通过提供众多起步依赖降低项目依赖的复杂度。起步依赖本质上是一个Maven项
+目对象模型（Project Object Model，POM），定义了对其他库的传递依赖，这些东西加在一起即
+支持某项功能。很多起步依赖的命名都暗示了它们提供的某种或某类功能。
+
+我们并不需要指定版本号，起步依赖本身的版本是由正在使用的Spring Boot的版本来决定
+的，而起步依赖则会决定它们引入的传递依赖的版本。
+
+你在项目的构建说明文件里增加的这个依赖，会覆
+盖传递依赖引入的另一个依赖。
+
+在Maven里，可以用<exclusions>元素来排除传递依赖。下面这个引入Spring Boot的
+build.gradle的<dependency>增加了<exclusions>元素去除Jackson
+
+10.使用自动配置
+简而言之，Spring Boot的自动配置是一个运行时（更准确地说，是应用程序启动时）的过程，
+考虑了众多因素，才决定Spring配置应该用哪个，不该用哪个
+
+Spring Boot的自动配置要考虑的。
+ Spring的JdbcTemplate是不是在Classpath里？如果是，并且有DataSource的Bean，则
+自动配置一个JdbcTemplate的Bean。
+ Thymeleaf是不是在Classpath里？如果是，则配置Thymeleaf的模板解析器、视图解析器以
+及模板引擎。
+ Spring Security是不是在Classpath里？如果是，则进行一个非常基本的Web安全设置。
+每当应用程序启动的时候，Spring Boot的自动配置都要做将近200个这样的决定，涵盖安全、
+集成、持久化、Web开发等诸多方面。所有这些自动配置就是为了尽量不让你自己写配置。
+
+11.编程，注解
+Javabean
+@Entity注解表明它是一个JPA实体，id属性加了@Id和@GeneratedValue注解，说明这个字段
+是实体的唯一标识，并且这个字段的值是自动生成的。 
+
+定义仓库接口
+接下来，我们就要定义用于把Book对象持久化到数据库的仓库了。①因为用了Spring Data JPA，
+所以我们要做的就是简单地定义一个接口，扩展一下Spring Data JPA的JpaRepository接口
+
+package readinglist; 
+import java.util.List; 
+import org.springframework.data.jpa.repository.JpaRepository; 
+public interface ReadingListRepository extends JpaRepository<Book, Long> { 
+List<Book> findByReader(String reader); 
+} 
+
+通过扩展JpaRepository，ReadingListRepository直接继承了18个执行常用持久化操作
+的方法。
+
+JpaRepository是个泛型接口，有两个参数：仓库操作的领域对象类型，及其ID属性的
+类型。
+
+如果你好奇谁来实现这个ReadingListRepository及其继承的18个方法，请不用担心，
+Spring Data提供了很神奇的魔法，只需定义仓库接口，在应用程序启动后，该接口在运行时会自
+动实现。
+
+12.自动装配原理
+在向应用程序加入Spring Boot时，有个名为spring-boot-autoconfigure的JAR文件，其中包含了
+很多配置类。
+
+每个配置类都在应用程序的Classpath里，都有机会为应用程序的配置添砖加瓦。
+所有这些配置如此与众不同，原因在于它们利用了Spring的条件化配置，这是Spring 4.0引入
+的新特性。条件化配置允许配置存在于应用程序中，但在满足某些特定条件之前都忽略这个配置。
+在Spring里可以很方便地编写你自己的条件，你所要做的就是实现Condition接口，覆盖它
+的matches()方法。举例来说，下面这个简单的条件类只有在Classpath里存在JdbcTemplate时
+才会生效：
+package readinglist; 
+import org.springframework.context.annotation.Condition; 
+import org.springframework.context.annotation.ConditionContext; 
+import org.springframework.core.type.AnnotatedTypeMetadata; 
+public class JdbcTemplateCondition implements Condition { 
+@Override 
+public boolean matches(ConditionContext context, 
+AnnotatedTypeMetadata metadata) { 
+try { 
+context.getClassLoader().loadClass( 
+"org.springframework.jdbc.core.JdbcTemplate"); 
+return true; 
+} catch (Exception e) { 
+return false; 
+} 
+} 
+} 
+当你用Java来声明Bean的时候，可以使用这个自定义条件类：
+@Conditional(JdbcTemplateCondition.class) 
+public MyService myService() { 
+... 
+} 
+
+只有当JdbcTemplateCondition类的条件成立时才会创建MyService这个
+Bean。
+
+也就是说MyServiceBean创建的条件是Classpath里有JdbcTemplate。否则，这个Bean
+的声明就会被忽略掉。
+
+Spring Boot定义了很多更有趣的条件，并把它们运用到了配
+置类上，这些配置类构成了Spring Boot的自动配置。Spring Boot运用条件化配置的方法是，定义
+多个特殊的条件化注解，并将它们用到配置类上。
+
+自动配置中使用的条件化注解
+条件化注解	配置生效条件
+@ConditionalOnBean  配置了某个特定Bean 
+@ConditionalOnMissingBean  没有配置特定的Bean 
+@ConditionalOnClass  Classpath里有指定的类
+@ConditionalOnMissingClass  Classpath里缺少指定的类
+@ConditionalOnExpression  给定的Spring Expression Language（SpEL）表达式计算结果为true
+@ConditionalOnJava  Java的版本匹配特定值或者一个范围值
+@ConditionalOnJndi  参数中给定的JNDI位置必须存在一个，如果没有给参数，则要有JNDI 
+InitialContext
+@ConditionalOnProperty  指定的配置属性要有一个明确的值
+@ConditionalOnResource  Classpath里有指定的资源
+@ConditionalOnWebApplication  这是一个Web应用程序
+@ConditionalOnNotWebApplication  这不是一个Web应用程序
+
+2.3需要好好看一下
+补充  java项目中Classpath路径到底指的是哪里？
+
+1、src不是classpath, WEB-INF/classes,lib才是classpath，WEB-INF/ 是资源目录, 客户端不能直接访问。
+
+2、WEB-INF/classes目录存放src目录java文件编译之后的class文件，xml、properties等资源配置文件，这是一个定位资源的入口。
+
+3、引用classpath路径下的文件，只需在文件名前加classpath:
+
+<param-value>classpath:applicationContext-*.xml</param-value> 
+<!-- 引用其子目录下的文件,如 -->
+<param-value>classpath:context/conf/controller.xml</param-value>
+4、lib和classes同属classpath，两者的访问优先级为: lib>classes。
+
+5、classpath 和 classpath* 区别：
+classpath：只会到你的class路径中查找找文件;
+classpath*：不仅包含class路径，还包括jar文件中(class路径)进行查找。
+
+13.覆盖Spring Boot自动配置
+Security起步依赖
+<dependency> 
+<groupId>org.springframework.boot</groupId> 
+<artifactId>spring-boot-starter-security</artifactId> 
+</dependency>
+
+Security起步依赖在应用程序的Classpath里添加了Spring Secuirty（和其他一些东西）。Classpath里
+有Spring Security后，自动配置就能介入其中创建一个基本的Spring Security配置。
+
+写出Spring Secuirty配置，覆盖自动配置的安全设置
+创建自定义的安全配置
+
+@Configuration 
+@EnableWebSecurity 
+public class SecurityConfig extends WebSecurityConfigurerAdapter { 
+@Autowired 
+private ReaderRepository readerRepository; 
+@Override 
+protected void configure(HttpSecurity http) throws Exception { 
+http 
+.authorizeRequests() 
+.antMatchers("/").access("hasRole('READER')")  要求登录者有READER角色
+.antMatchers("/**").permitAll() 
+.and() 
+.formLogin() 
+.loginPage("/login")   设置登录表单的路径
+.failureUrl("/login?error=true"); 
+} 
+
+@Override 
+protected void configure( 
+AuthenticationManagerBuilder auth) throws Exception { 
+auth 
+.userDetailsService(new UserDetailsService() { 
+@Override 
+public UserDetails loadUserByUsername(String username)   
+throws UsernameNotFoundException {   定义自定义
+UserDetailsService
+return readerRepository.findOne(username); 
+} 
+}); 
+} 
+} 
+
+通过这个自定义的安全配置类，我们让Spring Boot跳过了安全自动配置，转而使用我们
+的安全配置。
+
+再重申一次，想要覆盖Spring Boot的自动配置，你所要做的仅仅是编写一个显式的配置。
+Spring Boot会发现你的配置，随后降低自动配置的优先级，以你的配置为准。
+
+import org.springframework.security.core.userdetails.UserDetails;
+定义Reader的JPA实体 实现UserDetails
+@Entity 
+public class Reader implements UserDetails
+private static final long serialVersionUID = 1L; 
+@Id 
+private String username; 
+private String fullname; 
+private String password; 
+public String getUsername() { 
+return username; 
+} 
+public void setUsername(String username) { 
+this.username = username; 
+} 
+public String getFullname() { 
+return fullname; 
+} 
+public void setFullname(String fullname) { 
+this.fullname = fullname; 
+} 
+public String getPassword() { 
+return password; 
+} 
+public void setPassword(String password) { 
+this.password = password; 
+} 
+// UserDetails methods 
+@Override 
+public Collection<? extends GrantedAuthority> getAuthorities() { 
+return Arrays.asList(new SimpleGrantedAuthority("READER")); 
+} 
+
+@Override 
+public boolean isAccountNonExpired() { 
+return true; 
+} 
+@Override 
+public boolean isAccountNonLocked() { 
+return true; 
+} 
+@Override 
+public boolean isCredentialsNonExpired() { 
+return true; 
+} 
+@Override 
+public boolean isEnabled() { 
+return true; 
+} 
+} 
+
+
+Reader实现了UserDetails接口以及其中的方法，这样Reader就能代表
+Spring Security里的用户了
+
+getAuthorities()方法被覆盖过了，始终会为用户授予READER
+权限。
+
+
+想要覆盖Spring Boot的自动配置，你所要做的仅仅是编写一个显式的配置。
+Spring Boot会发现你的配置，随后降低自动配置的优先级，以你的配置为准。
+
+14.JPA
+JPA是Java Persistence API的简称，中文名Java持久层API，是JDK 5.0注解或XML描述对象－关系表的映射关系，并将运行期的实体对象持久化到数据库中。
+
+API
+用来操作实体对象，执行CRUD操作，框架在后台替代我们完成所有的事情，开发者从繁琐的JDBC和SQL代码中解脱出来。
+
+查询语言
+这是持久化操作中很重要的一个方面，通过面向对象而非面向数据库的查询语言查询数据，避免程序的SQL语句紧密耦合。
+
+JPA框架中支持大数据集、事务、并发等容器级事务，这使得 JPA 超越了简单持久化框架的局限，在企业应用发挥更大的作用。
+
+JPA的查询语言是面向对象而非面向数据库的，它以面向对象的自然语法构造查询语句，可以看成是Hibernate HQL的等价物。
+
+JPA 的目标之一是制定一个可以由很多供应商实现的API，并且开发人员可以编码来实现该API，而不是使用私有供应商特有的API。因此开发人员只需使用供应商特有的API来获得JPA规范没有解决但应用程序中需要的功能。尽可能地使用JPA API，但是当需要供应商公开但是规范中没有提供的功能时，则使用供应商特有的API。
+
+spring-data-jpa的简单介绍
+SpringData : Spring 的一个子项目。用于简化数据库访问，支持NoSQL 和 关系数据存储。其主要目标是使数据库的访问变得方便快捷。
+
+SpringData 项目所支持 NoSQL 存储：
+
+ MongoDB （文档数据库）
+ Neo4j（图形数据库）
+ Redis（键/值存储）
+ Hbase（列族数据库）
+SpringData 项目所支持的关系数据存储技术：
+
+JDBC
+JPA
+
+
+JPA Spring Data ： 致力于减少数据访问层 (DAO) 的开发量， 开发者唯一要做的就只是声明持久层的接口，其他都交给 Spring Data JPA 来帮你完成！
+
+框架怎么可能代替开发者实现业务逻辑呢？比如：当有一个 UserDao.findUserById() 这样一个方法声明，大致应该能判断出这是根据给定条件的 ID 查询出满足条件的 User 对象。Spring Data JPA 做的便是规范方法的名字，根据符合规范的名字来确定方法需要实现什么样的逻辑。
+
+
+Spring Data JPA 进行持久层(即Dao)开发一般分三个步骤：
+
+声明持久层的接口，该接口继承 Repository（或Repository的子接口，其中定义了一些常用的增删改查，以及分页相关的方法）。
+在接口中声明需要的业务方法。Spring Data 将根据给定的策略生成实现代码。
+在 Spring 配置文件中增加一行声明，让 Spring 为声明的接口创建代理对象。配置了 <jpa:repositories> 后，Spring 初始化容器时将会扫描 base-package 指定的包目录及其子目录，为继承 Repository 或其子接口的接口创建代理对象，并将代理对象注册为 Spring Bean，业务层便可以通过 Spring 自动封装的特性来直接使用该对象。
+
+jpa java持久化API
+
+spring data jpa  
+http://www.cnblogs.com/zeng1994/p/7575606.html
+dao层可以直接实现spring data 提供的 jpaRespository ,该接口封装了基本操作，直接实现，就不用再写dao层的实现类了。
+SpringData方法定义规范 可以直接根据方法名生成 sql 
+@Query注解
+ 通过上面的学习，我们在dao层接口按照规则来定义方法就可以不用写方法的实现也能操作数据库。但是如果一个条件查询有多个条件时，写出来的方法名字就太长了，所以我们就想着不按规则来定义方法名。我们可以使用@Query这个注解来实现这个功能，在定义的方法上加上@Query这个注解，将查询语句声明在注解中，也可以查询到数据库的数据。
+使用Query结合jpql语句实现自定义查询
+在PersonDao接口中声明方法，放上面加上Query注解，注解里面写jpql语句。
+@Query("from Person where id < ?1 or name like ?2")
+List<Person> testPerson(Integer id, String name);
+
+hibernate jpa 实现 hibernate 支持jpa, 继承 hibernatesupport，使用hql 。
+
+spring + mybatis
+https://blog.csdn.net/mingtian625/article/details/47684271
+1.mybatis注解方式是怎样通过没有实现类的dao接口进行数据库操作
+2.spring+mybatis注解方式是怎样在没有实现类的dao接口的情况下结合的
+对于第一部分可以说是返回了mybatis的dao接口的jdk代理对象，通过mapperproxy这个类似于拦截器一样的类跳转执行sql的，可以说是原生dao接口的一层代理对象；
+
+所以，咱们在spring中使用
+@autowired
+private UserMapper userMapper;
+来注入对象的时候，其实是经历了 cglib --> mapperfactorybean  --> sqlsessiontemplate  --> mapperproxy  -->  原生dao接口  的包装过程，才获取的
+所以咱们在使用spring来调用没有实现类的mybatis的dao接口的时候，并不是像看起来那么简单，而是经过多层代理包装的一个代理对象，对方法的执行也跳转到mybatis框架中的mappermethod中了。
+
+15.springboot securety
+
+@ConditionalOnWebApplication说明这必须是个Web应用程序
+
+Spring Boot的自动配置和@ConditionalOnMissingBean让你能显式地覆盖那些可以
+自动配置的Bean
+
+16.通过属性文件外置配置
+Spring Boot应用程序有多种设置途径。Spring Boot能从多种属性源获得属性
+
+(1) 命令行参数
+(2) java:comp/env里的JNDI属性
+(3) JVM系统属性
+(4) 操作系统环境变量 
+(5) 随机生成的带random.*前缀的属性（在设置其他属性时，可以引用它们，比如${random. 
+long}）
+(6) 应用程序以外的application.properties或者appliaction.yml文件
+(7) 打包在应用程序内的application.properties或者appliaction.yml文件
+(8) 通过@PropertySource标注的属性源
+(9) 默认属性
+
+这个列表按照优先级排序，也就是说，任何在高优先级属性源里设置的属性都会覆盖低优先
+级的相同属性。
+
+你希望每次运行时都禁用缓存
+创建一个application.yml
+Thymeleaf
+spring: 
+	thymeleaf: 
+		cache: false
+
+此处使用Thymeleaf作为应用程序的视图，Spring Boot支持的其他模板也能关闭模板缓存，
+设置这些属性就好了：
+ spring.freemarker.cache（Freemarker）
+ spring.groovy.template.cache（Groovy模板）
+ spring.velocity.cache（Velocity）
+
+修改端口
+server: 
+port: 8000
+
+默认情况下，Spring Boot会用Logback（http://logback.qos.ch）来记录日志，并用INFO级别输
+出到控制台。
+
+一般来说，你不需要切换日志实现；Logback能很好地满足你的需要。但是，如果决定使
+用Log4j或者Log4j2，那么你只需要修改依赖，引入对应该日志实现的起步依赖，同时排除掉
+Logback。
+以Maven为例，应排除掉根起步依赖传递引入的默认日志起步依赖，这样就能排除
+Logback了：
+<dependency> 
+<groupId>org.springframework.boot</groupId> 
+<artifactId>spring-boot-starter</artifactId> 
+<exclusions> 
+<exclusion> 
+<groupId>org.springframework.boot</groupId> 
+<artifactId>spring-boot-starter-logging</artifactId> 
+</exclusion> 
+</exclusions> 
+</dependency> 
+在Gradle里，在configurations下排除该起步依赖是最简单的办法：
+configurations { 
+all*.exclude group:'org.springframework.boot', 
+module:'spring-boot-starter-logging' 
+} 
+排除默认日志的起步依赖后，就可以引入你想用的日志实现的起步依赖了。在Maven里可
+以这样添加Log4j：
+<dependency> 
+<groupId>org.springframework.boot</groupId> 
+<artifactId>spring-boot-starter-log4j</artifactId> 
+</dependency> 
+在Gradle里可以这样添加Log4j：
+compile("org.springframework.boot:spring-boot-starter-log4j") 
+
+要完全掌握日志配置，可以在Classpath的根目录（src/main/resources）里创建logback.xml文
+件
+logback.xml
+<configuration> 
+<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender"> 
+<encoder> 
+<pattern> 
+%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n 
+</pattern> 
+</encoder> 
+</appender> 
+<logger name="root" level="INFO"/> 
+<root level="INFO"> 
+<appender-ref ref="STDOUT" /> 
+</root> 
+</configuration> 
+
+使用了
+Spring Boot的配置属性后，你可以在不创建logback.xml文件的情况下修改那些配置。
+
+要设置日志级别，你可以创建以logging.level开头的属性，后面是要日志名称。如果根
+日志级别要设置为WARN，但Spring Security的日志要用DEBUG级别，可以在application.yml里加入
+以下内容：
+logging: 
+level: 
+root: WARN 
+org: 
+springframework: 
+security: DEBUG 
+现在，假设你想把日志写到位于/var/logs/目录里的BookWorm.log文件里。使用logging. 
+path和loggin.file属性就行了：
+logging: 
+path: /var/logs/ 
+file: BookWorm.log 
+level: 
+root: WARN 
+org: 
+springframework: 
+security: DEBUG 
+
+假设应用程序有/var/logs/的写权限，日志就能被写入/var/logs/BookWorm.log。默认情况下，
+日志文件的大小达到10MB时会切分一次。
+与之类似，这些属性也能在application.properties里设置：
+logging.path=/var/logs/ 
+logging.file=BookWorm.log 
+logging.level.root=WARN 
+logging.level.root.org.springframework.security=DEBUG 
+如果你还是想要完全掌控日志配置，但是又不想用logback.xml作为Logback配置的名字，可
+以通过logging.config属性指定自定义的名字：
+logging: 
+config: 
+classpath:logging-config.xml 
+
+ 配置数据源
+ 如果你 用的是MySQL数据库，你的
+application.yml文件看起来可能是这样的：
+spring: 
+datasource: 
+url: jdbc:mysql://localhost/readinglist 
+username: dbuser 
+password: dbpass 
+
+通常你都无需指定JDBC驱动，Spring Boot会根据数据库URL识别出需要的驱动，但如果识
+别出问题了，你还可以设置spring.datasource.driver-class-name属性：
+spring: 
+datasource: 
+url: jdbc:mysql://localhost/readinglist 
+username: dbuser 
+password: dbpass 
+driver-class-name: com.mysql.jdbc.Driver
+
+可以自己配置DataSourceBean，使用你喜欢
+的各种连接池。
+你也可以设置spring.datasource.jndi-name属性，从JNDI里查找DataSource：
+spring: 
+datasource: 
+jndi-name: java:/comp/env/jdbc/readingListDS 
+
+有时候有这样子的情景，我们想把配置文件的信息，读取并自动封装成实体类，这样子，我们在代码里面使用就轻松方便多了，这时候，我们就可以使用@ConfigurationProperties，它可以把同类的配置信息自动封装成实体类
+
+我们可以在application.properties里设置该属性：
+amazon.associateId=habuma-20 
+或者在application.yml里设置：
+amazon: 
+associateId: habuma-20 
+
+然后在要是用的类上加@ConfigurationProperties注解
+并且指定前缀amazon，提供get，set，方法，这样就可以直接将配置的信息传达属性中。
+@ConfigurationProperties(prefix="amazon") 
+public class ReadingListController { 
+	set...
+	get...
+	model.addAttribute("amazonID", associateId);
+}
+
+Spring Boot的属性解析器非常智能，它会自动把驼峰规则的属性和使用
+连字符或下划线的同名属性关联起来。换句话说，amazon.associateId这个属性和
+amazon.associate_id以及amazon.associate-id都是等价的。用你习惯的命名规则就好。
+
+Spring 3.1开始支持基于Profile的配置
+Profile是一种条件化配置，基于运行时激活的Profile，会
+使用或者忽略不同的Bean或配置类。
+
+@Profile("production") 
+@Configuration 
+@EnableWebSecurity 
+public class SecurityConfig extends WebSecurityConfigurerAdapter { 
+... 
+} 
+
+这里用的@Profile注解要求运行时激活production Profile
+设置spring.profiles.active属性就能激活Profile
+
+application.yml里添加spring.profiles.active属性：
+spring: 
+profiles: 
+active: production 
+
+对于生产环境和测试环境使用不同的配置文件
+ 使用特定于Profile的属性文件
+如果你正在使用application.properties，可以创建额外的属性文件，遵循application-{profile}. 
+properties这种命名格式，这样就能提供特定于Profile的属性了。
+
+开发环境的配置可以放在名为application-development.properties的文件
+里，配置包含日志级别和输出到控制台：
+logging.level.root=DEBUG 
+
+对于生产环境，application-production.properties会将日志级别设置为WARN或更高级别，并将
+日志写入日志文件： 
+logging.path=/var/logs/ 
+logging.file=BookWorm.log 
+logging.level.root=WARN 
+
+与此同时，那些并不特定于哪个Profile或者保持默认值（以防万一有哪个特定于Profile的配
+置不指定这个值）的属性，可以继续放在application.properties里：
+amazon.associateId=habuma-20 
+logging.level.root=INFO 
+
+与此同时，那些并不特定于哪个Profile或者保持默认值（以防万一有哪个特定于Profile的配
+置不指定这个值）的属性，可以继续放在application.properties里：
+amazon.associateId=habuma-20 
+logging.level.root=INFO 
+
+但既然用了YAML，你就可以把所有Profile的配置属性都放在一个application.yml文件里。举
+例来说，我们可以像下面这样声明日志配置：
+logging: 
+level: 
+root: INFO 
+--- 
+spring: 
+profiles: development 
+logging: 
+level: 
+root: DEBUG 
+--- 
+spring: 
+profiles: production 
+logging: 
+path: /tmp/ 
+file: BookWorm.log 
+level: 
+root: WARN 
+
+这个application.yml文件分为三个部分，使用一组三个连字符（---）作为分隔符。
+第二段和第三段分别为spring.profiles指定了一个值，这个值表示该部分配置应该应用在哪
+个Profile里 。 
+
+第一段并未指定spring.profiles，因此这里的属性对全部Profile都生效，或
+者对那些未设置该属性的激活Profile生效。
+
+定制错误页
+Spring Boot自动配置的默认错误处理器会查找名为error的视图，如果找不到就用默认的白标
+错误视图
+<html> 
+<head> 
+<title>Oops!</title> 
+<link rel="stylesheet" th:href="@{/style.css}"></link> 
+</head> 
+<html> 
+<div class="errorPage"> 
+<span class="oops">Oops!</span><br/> 
+<img th:src="@{/MissingPage.png}"></img> 
+<p>There seems to be a problem with the page you requested 
+(<span th:text="${path}"></span>).</p>
+<p th:text="${'Details: ' + message}"></p> 
+</div> 
+</html> 
+</html> 
+自定义的错误模板应该命名为error.html
+把该文件放在src/main/resources/ 
+templates中，运行时它就在Classpath的根目录里
+
+
+模板里还引用了一张名为MissingPage.png的图片。
+但请一定将它放在src/main/resources/static或src/main/resources/ 
+public里，这样应用程序运行时才能找到它。
+
+7.13
+1.问题1,spring什么时候实例化bean，只有使用该对象的时候才调用吗？
+springbeanfactory会在启动时实例化所用的bean。
+然后只有等到用该对象的时候才会去引用，所以要使用对象，必须要类中声明，并引用。
+
+(将使用的对象声明为类的属性，即表明要调用，然后纪要实例化 == 等同于加载配置文件，然后getBean，获得实例化的bean)
+
+spring 懒加载机制，使用的是代理对象。
+等到用到的时候才会去调用这个对象。
+
+
+spring默认创建对象是在启动spring的时候
+
+这里还有另外一种情况，就是在我们调用这个对象的时候，才新建对象。我们要在配置文件中，对应类的属性里面添加一个属性： lazy-init 
+该属性的默认值为default。相当于false。
+
+spring创建对象的时机的意义：
+当我们使用ssh整合的时候，tomcat启动时就创建配置文件中的所有bean对象的，如果有某些类或者配置文件的书写有误，这时候，spring容器就会报错，那么自然spring容器也就启动不起来了。这种情况可以避免，我们到了后面真正要调用该类的时候才报错。当然这种做法，会把一些类过早的加载到内存中。 
+当我们选择在调用某个类的时候，spring容器才帮我们创建这个类，首先我们可以解决第一种情况出现的问题，节省了内存但是这时候，类和配置文件中许多隐藏的错误，在调用的时候才发现，这时候添加了查错的压力。
+
+
+
+2.问题2
+Struts2的action为何不在xml中配置调用的service的引用或者加注解。
+这些由于Struts2和spring的整合，交给了Struts2去处理了。
+
+3.spring注解和xml配置。
+注解service，controller，dao。相当于在xml中配置bean。
+然后再bean中的引用，用注解引用service，dao，等，相当于在xml中bean中加入ref的引用。
+Charlotte-Luck
+
+4.启动spring boot方式 ，
+1.idea中直接run启动
+2.mvn spring-boot:run 
+3.mvn install 部署项目。
+在target中 有打包的jar文件，如spring-boot.jar
+用java的- jar 命令来启动。
+java -jar spring-boot.jar
+
+5.常用属性application.properties ,application.yml
+server:
+	port: 8082
+	context: /path
+
+使用配置文件中自定义的属性
+注解 @Value @ConfigurationProoerties @compoent
+cupsize: B
+	在类中用@Value注解获取配置文件的值。
+	@Value("${cupsize}")
+	private string cupsize;
+配置文件中不需要关注类型，只需要在自己定义接收的时候自己定义。
+
+配置文件中再使用配置。
+cipsizes: "cupsize: ${cupsize}"
+@ConfigurationProperties要和@component一起使用，不然不能够自动注入。
+
+开发环境和生成环境配置不同问题。
+1.yml分文件 默认文件中为application.yml
+配置spring:
+	profiles:
+		active: dev/pro
+然后配置 application-dev.yml文件，说明以该配置文件启动项目。
+application-dev.yml 配置pro，则pro文件生效
+
+2.同一个文件中配置
+需要用---分割配置，然后指定profiles
+logging: 
+	level: 
+	root: INFO 
+--- 
+spring: 
+	profiles: development 
+	logging: 
+	level: 
+	root: DEBUG 
+--- 
+spring: 
+	profiles: production  
+	logging: 
+	path: /tmp/ 
+	file: BookWorm.log 
+	level: 
+	root: WARN 
+6.RequestMapping 可以指定不同路径请求同一个方法。
+@RequestMapping(value = {"/hello","/hi"})
+@ResponseBody 返回json。xml到前端
+@RestController 是@responseBody 和@Controller的组合
+
+@PathVarible 获取url中的参数
+@RequestParam 获取请求参数
+@GetMapping 组合注解 get请求
+@PostMapping post 请求
+- @GetMapping是一个组合注解，是@RequestMapping(method = 
+RequestMethod.GET)的缩写。该注解将HTTP Get 映射到 特定的处理方法上。 
+- 同理PostMapping也是一个组合注解，是@RequestMapping(method = 
+RequestMethod.POST)的缩写。
+
+
+@PathVarible
+@RequestMapping(value = "/hello/{id}", method = RequestMethod.GET)
+public string say(@PathVarible("id") Integer id ){
+	Integer id = id;(20)
+}
+如果请求路径为 http://localhost:8080/hello/20,那么ID就等于20，{id}可以随意放在path的哪个位置。
+
+@RequestParam 获取post，get方式的请求参数
+@RequestParam 可以设定默认值
+@RequestParam(value = "id" ,defaultvalue = "0" ，requested = "false")
+
+@RequestMapping(value = "/hello/{id}", method = RequestMethod.GET) 可以用组合注解@GetMapping(value = "/hello/{id}") 替代，相当于get请求
+
+
+7.spring data jpa
+spring data jpa 是遵循jpa规范的，整合了hibernate的一些方法，作为一个jpa api可以直接继承并使用。
+hibernate 很好的实现了 jpa。
+jdbc -- hibernate -- springdata jpa
+需要在yml中配置DataSource
+spring：
+	datasources:
+		driver-class-name:
+		url:
+		user:
+		pass:
+spring:
+	jpa:
+		hibernate: （配置hibernate的一些基本配置）
+			ddl-auto：create(先删除，在创建)，updata(更新) validate(验证类和表结构是否一致，不一致直接报错)
+
+
+restfull 规范
+一个路径可实现增删改查
+Girl 实体类 jpa
+@Entity
+publuc class Girl{
+	@Id
+	private Integer id;
+	private String cupSize;
+	private Integer age;
+	set...
+	get...
+}
+Dao
+public interface girlDao extends jpaRepository{
+}
+
+查询所有
+@GetMapping(/girls)
+public List<Girl> findGirl(){
+	return girlDao.findAll(); //查询所用
+}
+
+新增
+@PostMapping(/girls)
+public Girl addGirl(@RequestParam("cupSize") String cupSize,@ RequestParm("age")Integer age){
+	Girl gril = new Gril();
+	girl.setCupSize(cupSize);
+	girl.setAge(age);
+	return girlDao.save(girl); //保存
+}
+
+根据ID查询
+@PostMapping(/girls/{id})
+public Girl addGirl(@PathVarible(value = "id") Integer id){
+	return girlDao.findOne(id); //根据ID查询
+}
+
+
+根据ID修改
+@PutMapping(/girls/{id}) 
+public Girl addGirl(@PathVarible(value = "id") Integer id,
+@RequestParam("cupSize") String cupSize,@ RequestParm("age")Integer age){
+	Girl gril = girlDao.findOne(id);
+	girl.setCupSize(cupSize);
+	girl.setAge(age);
+	return girlDao.save(girl); //根据ID更新
+}
+
+
+根据ID删除
+@DeleteMapping(/girls/{id})
+public Girl addGirl(@PathVarible(value = "id") Integer id){
+	
+	return girlDao.delete(id); //根据ID删除
+
+使用put和delete方法时，不能用form-data。
+用x-www-form-urlencode 
+
+事务
+同时操作多条数据，需要保持数据的一致性。需要加事务。
+注解方式
+@Transactionl
+
+7.13 
+spring boot web 进阶
+
+spring @valid 验证.
+在要验证的类中加入spring valid规则。
+例如
+age上加最小值18，信息，不能小于18岁
+@Min(value = "18" ,Message = "不能小于18岁")
+private Integer age;
+
+在controller中 
+@Valid 注解要验证的类
+public String addGril(@Valid Girl gril,@BindingResult result){
+	if(result.hasError){
+		...
+	}
+}
+
+spring boot 使用 aop
+1.添加依赖
+spring boot-  starter - aop
+2.建立处理文件
+@Aspect 
+@Component
+public class HttpAspect{
+	Logger logger = LoggerFacroty.getLogger(HttpAspect.calss)
+	@Before("execution(pulic * com.cxy.controller.girlController.*(**))") ** 表示无论多少参数
+	public void log(){
+		//获取request对象
+		ServletRequestAttributes  att = (ServletRequestAttributes)RequestContext.getRequestAttributes();
+		HttpServletRequest request = att.getReuerst();
+		log.info("url={}"+request.getUrl);
+		...
+	}
+}
+
+@AfterReturning(returning = "object",pointcut = "excute..()")
+public void afterReturn(Object object){
+	logger.info(object.tostring()) 获取返回信息
+}
+
+7.16
+spring boot 
+@Controller 返回视图时，需要提供对应的jar包，例如thymeleaf。
+这时spring boot的自动装配会自动 创建解析视图的 bean。以供解析视图使用。
+spring boot的自动装配原理就是先扫描classpath中是否配置了bean，如果配置了则自动装配。
+
+对于传统的spring MVC 返回视图，也是需要视图解析器的，由于不自动装配，先引入jar包，需要在xml文件中配置jar包中对应的视图解析器的bean。
+
+7.17
+学习spring boot web 进阶
+
+@ControllerAdvise
+@ExceptionHandle
+@ResponseStatus
+注解的用法
+
+异常的捕获
+如果直接将异常抛出，返回到前端的数据不是我们想要的信息，为了将
+信息定义为想要的json格式，则需要捕获异常并处理。
+
+逻辑思想，可以将异常，一步步往上抛，然后在异常处理器中捕获统一处理。
+
+@ControllerAdvice
+controller 增强器，可以用于定义@ExceptionHandler、@InitBinder、@ModelAttribute，并应用到所有@RequestMapping中。
+
+@ControllerAdvice
+public class MyControllerAdvice {
+
+    /**
+     * 应用到所有@RequestMapping注解方法，在其执行之前初始化数据绑定器
+     * @param binder
+     */
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {}
+
+    /**
+     * 把值绑定到Model中，使全局@RequestMapping可以获取到该值
+     * @param model
+     */
+    @ModelAttribute
+    public void addAttributes(Model model) {
+        model.addAttribute("author", "Magical Sam");
+    }
+
+    /**
+     * 全局异常捕捉处理
+     * @param ex
+     * @return
+     */
+    @ResponseBody
+    @ExceptionHandler(value = Exception.class)
+    public Map errorHandler(Exception ex) {
+        Map map = new HashMap();
+        map.put("code", 100);
+        map.put("msg", ex.getMessage());
+        return map;
+    }
+
+}
+
+启动应用后，被 @ExceptionHandler、@InitBinder、@ModelAttribute 注解的方法，都会作用在 被 @RequestMapping 注解的方法上。
+
+@ModelAttribute：在Model上设置的值，对于所有被 @RequestMapping 注解的方法中，都可以通过 ModelMap 获取。
+
+@RequestMapping("/home")
+public String home(ModelMap modelMap) {
+    System.out.println(modelMap.get("author"));
+}
+
+//或者 通过@ModelAttribute获取
+
+@RequestMapping("/home")
+public String home(@ModelAttribute("author") String author) {
+    System.out.println(author);
+}
+
+@ExceptionHandler 拦截了异常，我们可以通过该注解实现自定义异常处理。其中，@ExceptionHandler 配置的 value 指定需要拦截的异常类型，上面拦截了 Exception.class 这种异常。
+
+@ControllerAdvice
+public class MyControllerAdvice {
+
+    /**
+     * 全局异常捕捉处理
+     * @param ex
+     * @return
+     */
+    @ResponseBody
+    @ExceptionHandler(value = Exception.class)
+    public Map errorHandler(Exception ex) {
+        Map map = new HashMap();
+        map.put("code", 100);
+        map.put("msg", ex.getMessage());
+        return map;
+    }
+    
+    /**
+     * 拦截捕捉自定义异常 MyException.class
+     * @param ex
+     * @return
+     */
+    @ResponseBody
+    @ExceptionHandler(value = MyException.class)
+    public Map myErrorHandler(MyException ex) {
+        Map map = new HashMap();
+        map.put("code", ex.getCode());
+        map.put("msg", ex.getMsg());
+        return map;
+    }
+
+}
+
+ 如果不需要返回json数据，而要渲染某个页面模板返回给浏览器，那么MyControllerAdvice中可以这么实现
+ @ExceptionHandler(value = MyException.class)
+public ModelAndView myErrorHandler(MyException ex) {
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("error");
+    modelAndView.addObject("code", ex.getCode());
+    modelAndView.addObject("msg", ex.getMsg());
+    return modelAndView;
+}
+
+如果单使用@ExceptionHandler，只能在当前Controller中处理异常。但当配合@ControllerAdvice一起使用的时候，就可以摆脱那个限制了。
+
+
+@ResponseStatus(value=HttpStatus.BAD_GATEWAY)
+在自定义异常中使用。直接返回状态码
+
+package com.somnus.exception;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus(value=HttpStatus.BAD_GATEWAY)
+public class HttpStatusException extends RuntimeException {
+
+    private static final long serialVersionUID = 1L;
+
+    public HttpStatusException() {
+        super();        
+    }
+
+    public HttpStatusException(String message, Throwable cause) {
+        super(message, cause);      
+    }
+
+    public HttpStatusException(String message) {
+        super(message);     
+    }
+
+    public HttpStatusException(Throwable cause) {
+        super(cause);
+    }
+
+}
+
+@Controller
+@RequestMapping(value = "status")
+public class ResponseStatusController {
+
+    @RequestMapping(value = "e/{id}", method = { RequestMethod.GET })
+    @ResponseBody
+    public String status(@PathVariable(value = "id") Integer id){
+        if(id % 2 != 0){
+            throw new HttpStatusException();
+        }
+        return id.toString();
+    }
+}
+
+另外这里不得不提一点需要注意的，不要轻易把@ResponseStatus修饰目标方法，因为无论它执行方法过程中有没有异常产生，用户都会得到异常的界面，而目标方法正常执行。
+
+@Controller
+@RequestMapping(value = "status")
+public class ResponseStatusController {
+
+    /**
+     * ResponseStatus修饰目标方法，无论它执行方法过程中有没有异常产生，用户都会得到异常的界面。而目标方法正常执行
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "e2/{id}", method = { RequestMethod.GET })
+    @ResponseStatus(value=HttpStatus.BAD_GATEWAY)
+    @ResponseBody
+    public String status2(@PathVariable(value = "id") Integer id){
+        System.out.println(10 / id);
+        return id.toString();
+    }
+
+}
+
+如果我们要给jdk自带的异常提供一个响应码呢，我们又不可能去改源码，这时候@ResponseStatus就得配和@ExceptionHandler一起使用了，如下：
+
+@Controller
+@RequestMapping(value = "exception")
+public class ExceptionHandlerController {
+
+    @ExceptionHandler({ NullPointerException.class })
+    @ResponseStatus(value=HttpStatus.NOT_FOUND)
+    public void handleNullPointerException(Exception e) {
+        e.printStackTrace();
+    }
+
+    @RequestMapping(value = "e3/{id}", method = { RequestMethod.GET })
+    @ResponseBody
+    public String testExceptionHandle3(@PathVariable(value = "id") Integer id) {
+        List<String> list = 4 % id == 0 ? null : Arrays.asList(new String[]{"a","b","c","d"});
+        return list.get(id);
+    }
+}
+
+当一个Controller中有多个@ExceptionHandler注解出现时，那么异常被哪个方法捕捉呢？这就存在一个优先级的问题，@ExceptionHandler的优先级是：在异常的体系结构中，哪个异常与目标方法抛出的异常血缘关系越紧密，就会被哪个捕捉到
+
+@ExceptionHandler这个只会是在当前的Controller里面起作用，如果想在所有的Controller里面统一处理异常的话，可以用@ControllerAdvice来创建一个专门处理的类。
+
+自定义异常 要继承 RuntimeException。
+默认的Exception只接收msg。
+定义了统一处理异常类后，只需要在controller中将异常抛出就行了。
+
+自定义异常处理，需要往上抛。
+
+如若在方法中throw new Exception();
+在方法声明中一定要抛出异常类型 throws Exception。
+
+如果没有抛出异常，当系统遇到异常时，会自动抛出。
+
+对于异常返回信息为code和msg这种，可以用枚举，在枚举中定义好返回信息。
+枚举就相当于创建了几个常用的对象，不同的对象有不同含义。提供构造方法。
+枚举都是用构造方法创建的，一般不需要set方法。 
+统一维护是少不了的。
+
+最终返回给前端还是有一个result的实体类包含code，msg
+
+思想。
+也就是先建一个枚举，定义好code和msg，在自定义异常中，主要是要有自己的code，msg，所以可以以枚举为参数，传入构造函数。
+最终获得异常后，还是要返回json到前台，所以定义一个result 实体类 里面存放code和msg 转为json，传过去。
+
+
+spring boot 进阶 内容
+valid 表单验证
+AOP 切面处理，执行方法前，统计请求路径等信息。
+异常处理
+单元测试
+
+测试服务类
+idea 中建测试类  直接选中方法右键 goto --> test 
+
+然后自己编写即可。
+egg
+@RunWith(SpringRunner.class)//使用底层的Junit测试类
+@SpringBootTest//springboot的测试类，开启整个项目
+public class GirlServiceTest {
+
+    private Logger logger = LoggerFactory.getLogger(GirlServiceTest.class);
+    @Autowired
+    private GirlService girlService;
+
+    @Test
+    public void findOneTest() throws Exception {
+        Girl girl = girlService.findOne(1);
+        logger.info("girl:"+girl);
+    }
+
+}
+
+测试controller
+要恰当地测试一个Web应用程序，你需要投入一些实际的HTTP请求，确认它能正确地处理
+那些请求。
+
+Spring Boot开发者有两个可选的方案能实现这类测试
+
+Spring Mock MVC：能在一个近似真实的模拟Servlet容器里测试控制器，而不用实际启动
+应用服务器。
+
+Web集成测试：在嵌入式Servlet容器（比如Tomcat或Jetty）里启动应用程序，在真正的应
+用服务器里执行测试。
+
+Mock Mvc 测试
+spring MVC 和 spring boot 测试controller差别不大，一个需要加载配置文件，一个自动加载。
+
+http get 直接将参数拼接在url中，安全性低。
+http post 请求的 四种格式
+multipart/form-data
+适合上传文件，如果上传文件一定要在表单中指明enctype 等于 multipart/form-data。
+
+application/x-www-form-urlencoded
+
+这应该是最常见的 POST 提交数据的方式了。浏览器的原生 表单，如果不设置 enctype 属性，那么最终就会以 application/x-www-form-urlencoded方式提交数据。
+
+请求类似于下面这样
+POST http://www.example.com HTTP/1.1
+Content-Type: application/x-www-form-urlencoded;charset=utf-8
+
+title=test&sub%5B%5D=1&sub%5B%5D=2&sub%5B%5D=3
+
+Content-Type 被指定为 application/x-www-form-urlencoded；其次，提交的数据按照 key1=val1&key2=val2 的方式进行编码，key 和 val 都进行了 URL 转码。大部分服务端语言都对这种方式有很好的支持。例如 PHP 中，$_POST['title'] 可以获取到 title 的值，$_POST['sub'] 可以得到 sub 数组。
+
+我们用 Ajax 提交数据时，也是使用这种方式。例如 JQuery 和 QWrap 的 Ajax，Content-Type 默认值都是「application/x-www-form-urlencoded;charset=utf-8」。 
+
+raw 可以是任意的文本格式
+
+json/xml/text。。。都行。
+
+binary 是大型文件格式
+
+
+spring valid 
+当为某一个类 valid 校验时，每次添加都会再次校验，看是否符合规范。
+
+当用@ExceptionHandle 捕获异常时，如果不把msg设为 e.getMessage() ，将不会看到自动报错的异常信息。
+
+在使用mvn 进行打包的时候回自动执行test，并打印出结果。
+
+可以用命令跳过
+mvn clean package -Dmaven.test.skip=true;
+
+
+7.18
+1.springboot 在IDEA中实现热部署
+快捷键Ctrl + F9 即 --> 启动设置旁边的 build project 按钮。
+这种方式只对修改页面有效。
+
+2.@ResponseStatus 
+1)不捕获异常，在自定义异常类上面使用@ResponseStatus ，在程序抛出自定义异常时，会传当前设置的状态码到 前台。
+2)捕获异常，配合@ExceptionHandler使用，在处理方法上加ResponseStatus，会传当前设置的状态码到前台。
+3)捕获异常，统一异常处理类中，当有@ResponseStatus 注解的异常时，需要过滤掉，直接返回异常。
+过滤条件 null != AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class)
+如果我们要给jdk自带的异常提供一个响应码呢，我们又不可能去改源码，这时候@ResponseStatus就得配和@ExceptionHandler一起使用了
+4)不要轻易把@ResponseStatus修饰目标方法，因为无论它执行方法过程中有没有异常产生，用户都会得到异常的界面，而目标方法正常执行。
+
+
+3.模板引擎
+不建议用jsp，这样不能很好地实现前后端分离
+
+4.如果不小心引入其他jar包，
+可能在项目启动的时候报错，原因是自动配置的时候在
+classpath中找不到对应的bean。
+
+7.19
+springboot 的静态资源问题
+当我们访问地址 http://localhost:8080/fengjing.jpg 的时候，显示哪张图片？
+优先级顺序为：这些目录到在src/maim/resources/ 下 META/resources > resources > static > public
+
+通过配置文件配置
+上面是使用代码来定义静态资源的映射，其实Spring Boot也为我们提供了可以直接在 application.properties（或.yml）中配置的方法。 
+配置方法如下：
+
+来定义静态资源的映射，其实Spring Boot也为我们提供了可以直接在 application.properties（或.yml）中配置的方法。 
+配置方法如下：
+
+# 默认值为 /**
+spring.mvc.static-path-pattern=
+# 默认值为 classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/ 
+spring.resources.static-locations=这里设置要指向的路径，多个使用英文逗号隔开，
+使用 spring.mvc.static-path-pattern 可以重新定义pattern，如修改为 /myres/** ，则访问static 等目录下的fengjing.jpg文件应该为 http://localhost:8080/myres/fengjing.jpg ，修改之前为 http://localhost:8080/fengjing.jpg 
+使用 spring.resources.static-locations 可以重新定义 pattern 所指向的路径，支持 classpath: 和 file: 
+
+th:src和@{}这都是什么鬼。其实这是Thymeleaf的语法。@{}是引入外部资源用的。
+
+在使用spring security时，若用Thymeleaf模板
+指定 login.html为登录界面
+login.html 中登录时，提交表单时 action 用 th:acton = "@{/login}".
+退出也要使用
+@{/logout}
+这是 thymeleaf 和spring security 组合使用的写法。
+
+7.20
+问题1
+thymeleaf 
+<!--没有结束符的HTML5标签解析出错的解决办法 -->
+		<!-- 配置spring.thymeleaf.mode =LEGACYHTML5 -->
+			<!--LEGACYHTML5需要搭配一个额外的库NekoHTML才可用 -->
+		<groupId>net.sourceforge.nekohtml</groupId>
+		<artifactId>nekohtml</artifactId>
+		<version>1.9.22</version>
+
+问题2
+spring Security 使用时禁止了frame
+httpSecurity.headers().frameOptions().sameOrigin();//解决前端使用layui。tab嵌套iframe,在加入security之前并无异常
+//springmvc 在整合spring security时，浏览器发送请求
+//Refused to display 'url' in a frame because it set 'X-Frame-Options' to 'deny'.
+
+问题3
+无法加载frame
+layUI在js中设置的路径，需要修改。
+然后springboot 在templates中放HTML，需要通过controller访问。
+放在static下，则可以直接访问了。
+而springboot默认static文件夹之外的页面需要通过controller访问（好像是websecurity权限控制）。
+
+
+LayUI
+index.html 
+后台管理系统
+左边导航栏，预留一个div
+然后在加载整个项目的时候，js自加载按钮信息，填充左边菜单栏
+菜单栏的标题和连接，都可以写在一个js数据中，然后获取填充。
+
+
+
+String dateStr = CipUtil.getDateStrFromDate(currentDate, CipUtil.DATE_FORMATER);
+
+dateStr+currentDate.getTime()
+
+log.info("反注过IPTV,再反注给CIP带上魔百合ID");

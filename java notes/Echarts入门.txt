@@ -1,0 +1,66 @@
+Echarts入门
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+</head>
+<body>
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main" style="height:400px"></div>
+<!-- ECharts单文件引入 -->
+<script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
+<script type="text/javascript">
+    // 路径配置
+    require.config({
+        paths: {
+            echarts: 'http://echarts.baidu.com/build/dist'
+        }
+    });
+
+    // 使用
+    require(
+        [
+            'echarts',
+            'echarts/chart/bar' // 使用柱状图就加载bar模块，按需加载
+        ],
+        function (ec) {
+            // 基于准备好的dom，初始化echarts图表
+            var myChart = ec.init(document.getElementById('main'));
+
+            var option = {
+                tooltip: {
+                    show: true
+                },
+                legend: {
+                    data:['销量']
+                },
+                xAxis : [
+                    {
+                        type : 'category',
+                        data : ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+                    }
+                ],
+                yAxis : [
+                    {
+                        type : 'value'
+                    }
+                ],
+                series : [
+                    {
+                        "name":"销量",
+                        "type":"bar",
+                        "data":[5, 20, 40, 10, 10, 20]
+                    }
+                ]
+            };
+            
+            myChart.setOption(option);
+        }
+    );
+</script>
+</body>
+<style></style>
+<script></script>
+在这里要进行说明：（1）require.config是用来设置echarts的配置文件，因为我们用的是在线的echarts.js，所以按照这种方式配置就可以。如果你用的是下载下来的js，那么就要重新配置好路径。（2）关于第二个require，这里是用来设置要表。除了第一个‘echarts’必要引用外，还要引用所需要显示的图。例如，我们这个表用到的是柱状图，所以要引用bar，那么如果我们要引用折线图，那么就要引用line了，依次类推，具体可以看官方文档。
